@@ -5,8 +5,10 @@ using UnityEngine;
 public class CharacterClass : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
+    [SerializeField] protected LayerMask enemyLayer;
 
     [Header("Attacks")]
+    [SerializeField] protected float attackDamage;
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float habilityCooldown;
 
@@ -45,10 +47,14 @@ public class CharacterClass : MonoBehaviour
     protected bool blockMovement;
     // Switch to control if the player can rotate or not
     protected bool blockRotation;
+    // Switch to control if the player con use skills or not
+    protected bool blockSkills;
+
 
     private void Start()
     {
-        activeSkill1 = false;
+        animator = GetComponent<Animator>();
+        //activeSkill1 = false;
     }
 
     virtual protected void Attack()
@@ -56,6 +62,7 @@ public class CharacterClass : MonoBehaviour
 
     }
 
+    #region Skills
     virtual protected IEnumerator Skill1()
     {
         yield return null;
@@ -70,18 +77,19 @@ public class CharacterClass : MonoBehaviour
     {
         yield return null;
     }
+    #endregion
 
     virtual protected IEnumerator Dodge(float dodgeDuration)
     {
         yield return null;
     }
 
+    #region Inputs
     public void AttackInput(bool input)
     {
         attack = input;
     }
 
-    #region Skills
     public void Skill1Active()
     {
         skillInput1 = true;
@@ -114,12 +122,12 @@ public class CharacterClass : MonoBehaviour
     {
         skillInput3 = false;
     }
-    #endregion
 
     public void DodgeInput(float dodgeDuration)
     {
         StartCoroutine(Dodge(dodgeDuration));
     }
+    #endregion
 
     #region Properties
     public bool BlockingMovement()
@@ -130,6 +138,11 @@ public class CharacterClass : MonoBehaviour
     public bool BlockingRotation()
     {
         return blockRotation;
+    }
+
+    public float AttackDamage()
+    {
+        return attackDamage;
     }
     #endregion
 }

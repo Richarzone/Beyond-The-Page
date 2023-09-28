@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 
-//[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     // References
@@ -20,13 +19,14 @@ public class PlayerController : MonoBehaviour
     private InputAction skill2Action = new InputAction();
     private InputAction skill3Action = new InputAction();
     private InputAction dodgeAction = new InputAction();
+    private InputAction character1Action = new InputAction();
+    private InputAction character2Action = new InputAction();
+    private InputAction character3Action = new InputAction();
+    private InputAction character4Action = new InputAction();
     private Vector2 movement;
     private Vector2 aim;
     private bool attack;
     private bool classMenuSwitch;
-    private bool skill1;
-    private bool skill2;
-    private bool skill3;
     private bool dodge;
 
     [Header("Player Settings")]
@@ -42,8 +42,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] protected float dodgeCooldown;
     private bool isDodging;
 
-    [Header("UI")]
-    [SerializeField] private GameObject classMenu;
+    /*[Header("UI")]
+    [SerializeField] private GameObject classMenu;*/
 
     private Vector3 targetPosition;
 
@@ -81,7 +81,19 @@ public class PlayerController : MonoBehaviour
         dodgeAction = playerInput.actions["Dodge"];
         dodgeAction.started += UseDodge;
 
-        classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
+        character1Action = playerInput.actions["Character 1"];
+        character1Action.started += context => ChageClass(context, 0);
+
+        character2Action = playerInput.actions["Character 2"];
+        character2Action.started += context => ChageClass(context, 1);
+
+        character3Action = playerInput.actions["Character 3"];
+        character3Action.started += context => ChageClass(context, 2);
+
+        character4Action = playerInput.actions["Character 4"];
+        character4Action.started += context => ChageClass(context, 3);
+
+        //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
     }
 
     private void OnEnable()
@@ -110,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        classMenu.SetActive(false);
+        //classMenu.SetActive(false);
 
         foreach (GameObject characterClass in characterClasses)
         {
@@ -133,23 +145,6 @@ public class PlayerController : MonoBehaviour
         if (!currentCharacterClass.BlockingRotation())
         {
             Rotation();
-        }
-
-        if (classMenuSwitch)
-        {
-            classMenu.SetActive(true);
-            
-            if (attack)
-            {
-                ChageClass();
-                classMenu.SetActive(false);
-                StartCoroutine(CharacterChangeCooldown());
-                return;
-            }
-        }
-        else
-        {
-            classMenu.SetActive(false);
         }
 
         currentCharacterClass.AttackInput(attack);
@@ -255,23 +250,31 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Change Class
-    private void ChageClass()
+    private void ChageClass(InputAction.CallbackContext context, int character)
     {
-        currentClass = classMenu.GetComponent<RadialMenu>().GetButton();
+        currentClass = character;
 
         currentCharacterClass.gameObject.SetActive(false);
         currentCharacterClass = characterClasses[currentClass].GetComponent<CharacterClass>();
         currentCharacterClass.gameObject.SetActive(true);
+
+        StartCoroutine(CharacterChangeCooldown());
     }
 
     private IEnumerator CharacterChangeCooldown()
     {
         classMenuSwitch = false;
-        changeClassAction.Disable();
-        
+        character1Action.Disable();
+        character2Action.Disable();
+        character3Action.Disable();
+        character4Action.Disable();
+
         yield return new WaitForSeconds(characterChangeCooldown);
 
-        changeClassAction.Enable();
+        character1Action.Enable();
+        character2Action.Enable();
+        character3Action.Enable();
+        character4Action.Enable();
     }
     #endregion
 }

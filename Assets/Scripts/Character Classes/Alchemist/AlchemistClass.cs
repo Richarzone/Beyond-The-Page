@@ -18,9 +18,11 @@ public class AlchemistClass : CharacterClass
     [SerializeField] private GameObject molotovPrefab;
     [SerializeField] private float molotovVelocity;
     [SerializeField] private float molotovRange;
+    [SerializeField] private float molotovAOE;
     [SerializeField] private GameObject stunPrefab;
     [SerializeField] private float stunVelocity;
     [SerializeField] private float stunRange;
+    [SerializeField] private float stunAOE;
     [SerializeField] private GameObject concoctionPrefab;
 
     [Header("UI")]
@@ -104,6 +106,7 @@ public class AlchemistClass : CharacterClass
     private void AimSkill1()
     {
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(molotovRange, molotovRange, molotovRange);
+        abilityCanvas.transform.localScale = new Vector3(molotovAOE, molotovAOE, molotovAOE);
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
 
@@ -131,6 +134,7 @@ public class AlchemistClass : CharacterClass
     private void AimSkill2()
     {
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
+        abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
 
@@ -181,7 +185,7 @@ public class AlchemistClass : CharacterClass
     {
         lockSkill3 = true;
         //activeSkill3 = false;
-        Instantiate(concoctionPrefab, transform);
+        Instantiate(concoctionPrefab, vfxPivot.transform);
 
         yield return new WaitForSeconds(habilityCooldown);
 

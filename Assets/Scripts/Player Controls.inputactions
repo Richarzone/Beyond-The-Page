@@ -112,6 +112,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Victory",
+                    "type": "Button",
+                    "id": "91b21b80-3af7-433a-8e4e-c50165ce555a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Game Over",
+                    "type": "Button",
+                    "id": "c1330dd1-7e46-4c5e-a4f6-e67dfea94bae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -288,6 +306,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Character 4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b4f4542-9c5b-4fc9-81fc-9f62ddf5c4a6",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Victory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dd2fa99d-20f5-4ee7-a85d-f18f17e9b251",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Game Over",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

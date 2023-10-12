@@ -101,6 +101,9 @@ MonoBehaviour:
   lifeTime: 3
   hasImpactVFX: 1
   impactVFX: {fileID: 7670252166518671331, guid: eee73da64d4b6c543933a0daa7d1a70c, type: 3}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!136 &4021235789227330401
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -123,7 +126,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6667204804044315698}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1

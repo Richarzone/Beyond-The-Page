@@ -198,6 +198,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51731191}
   m_CullTransparentMesh: 1
+--- !u!1 &91888285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91888288}
+  - component: {fileID: 91888287}
+  m_Layer: 0
+  m_Name: Script
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &91888287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91888285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fbcea7276afe24db161a9f1f4e48a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneManager: {fileID: 0}
+  startScreen: {fileID: 513333212}
+  characterSelectScreen: {fileID: 759257112}
+  MultiplayerButton: {fileID: 0}
+  SingleplayerButton: {fileID: 852293608}
+  OptionsButton: {fileID: 0}
+  ExitButton: {fileID: 263359815}
+  playButton: {fileID: 198095520}
+  backButton: {fileID: 1514620992}
+  felixButton: {fileID: 1211209597}
+  sophieButton: {fileID: 402573388}
+  felixPruebaSprite: {fileID: 21300000, guid: 628e3a526fb877b4c95aa0d3b091273d, type: 3}
+  sophiePruebaSprite: {fileID: 21300000, guid: 280adbed72cb7f04b8aaad28642342b5, type: 3}
+  felixSelected: 0
+  sophieSelected: 0
+--- !u!4 &91888288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91888285}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2178.8135, y: 1105.2465, z: 47.25067}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &198095518
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &198095519
 RectTransform:
   m_ObjectHideFlags: 0
@@ -260,8 +318,8 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.078431375}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.3137255}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -279,7 +337,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 198095521}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91888287}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: PressPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &198095521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +718,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: a4b54313a0c17374e97e84bdcc92956a, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 280adbed72cb7f04b8aaad28642342b5, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: a4b54313a0c17374e97e84bdcc92956a, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: a4b54313a0c17374e97e84bdcc92956a, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -661,7 +731,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 402573391}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91888287}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: SophieButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &402573391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -850,7 +932,7 @@ GameObject:
   - component: {fileID: 671036537}
   - component: {fileID: 671036536}
   m_Layer: 5
-  m_Name: NewGame Button
+  m_Name: Multiplayer Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -918,7 +1000,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 671036537}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91888287}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: PressMultiplayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &671036537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,7 +1033,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6663833e0074c734e9a593459614e662, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0385fdec013e9bc48835d0f546461c06, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1009,7 +1103,7 @@ GameObject:
   - component: {fileID: 852293609}
   - component: {fileID: 852293608}
   m_Layer: 5
-  m_Name: Load Button
+  m_Name: Singleplayer Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1077,7 +1171,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 852293609}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91888287}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: PressSinglePlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &852293609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 935c05c1e97329a4bbe27a8c9744caa1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e91df98a54e908b48a6189cd0424444e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1626,7 +1732,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: af2885ad4677d7c4da1e660cdead4b94, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 628e3a526fb877b4c95aa0d3b091273d, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: af2885ad4677d7c4da1e660cdead4b94, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: af2885ad4677d7c4da1e660cdead4b94, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -1639,7 +1745,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1211209600}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91888287}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: FelixButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1211209600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1834,7 +1952,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1514620993}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91888287}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: PressBack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1514620993
 MonoBehaviour:
   m_ObjectHideFlags: 0

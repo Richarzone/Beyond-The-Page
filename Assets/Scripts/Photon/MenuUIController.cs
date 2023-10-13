@@ -6,6 +6,8 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
+using UnityEngine.SceneManagement;
+
 public class MenuUIController : MonoBehaviourPunCallbacks
 {
     public GameObject mainWindow;
@@ -14,6 +16,7 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     [Header("Main Menu")]
     public Button createRoomBtn;
     public Button joinRoomBtn;
+    [SerializeField]  public Button backBtn;
 
     [Header("Lobby")]
     public Button startGameBtn;
@@ -79,9 +82,16 @@ public class MenuUIController : MonoBehaviourPunCallbacks
         mainWindow.SetActive (true);
     }
 
+    public void PressBack()
+    {
+        SceneManager.LoadScene("Main Menu");
+        Debug.Log("Back");
+    }
+
     public void StartGame()
     {
         NetworkManager.instance.photonView.RPC("LoadScene", RpcTarget.All, "Game View");
+        
     }
 
 

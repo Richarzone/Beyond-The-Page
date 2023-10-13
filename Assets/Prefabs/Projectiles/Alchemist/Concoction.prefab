@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 805851153021300623}
   - component: {fileID: 8671285297652630049}
   - component: {fileID: 6115789656065407817}
-  - component: {fileID: 1627699482362382919}
+  - component: {fileID: -6129956751262123189}
   - component: {fileID: 213312539}
   m_Layer: 0
   m_Name: Concoction
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1627699482362382919
+--- !u!114 &-6129956751262123189
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6827594436944430102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e12bb134feb1ab46ae7c836351b92a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 23e7d2761429f82469c4816e1372331b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &213312539

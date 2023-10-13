@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] protected bool hasImpactVFX;
     [SerializeField] protected ParticleSystem impactVFX;
     [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected bool ignoreEnemyLayer;
 
     protected float baseDamage;
     protected float calculatedDamge;

@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private InputAction character2Action = new InputAction();
     private InputAction character3Action = new InputAction();
     private InputAction character4Action = new InputAction();
+
+    private InputAction victoryAction = new InputAction();
+    private InputAction gameOverAction = new InputAction();
+
     private Vector2 movement;
     private Vector2 aim;
     private bool attack;
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] protected float dodgeCooldown;
     private bool isDodging;
 
+    [SerializeField] private SceneLoaderManager sceneManager;
     /*[Header("UI")]
     [SerializeField] private GameObject classMenu;*/
 
@@ -93,6 +98,12 @@ public class PlayerController : MonoBehaviour
         character4Action = playerInput.actions["Character 4"];
         character4Action.started += context => ChageClass(context, 3);
 
+        /*victoryAction = playerInput.actions["Victory"];
+        victoryAction.started += Victory;
+
+        gameOverAction = playerInput.actions["Game Over"];
+        gameOverAction.started += GameOver;*/
+
         //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
     }
 
@@ -142,7 +153,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Rotate the player to look a the mouse position
-        if (!currentCharacterClass.BlockingRotation())
+        if (!currentCharacterClass.BlockRotation)
         {
             Rotation();
         }
@@ -163,7 +174,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (currentCharacterClass.BlockingMovement())
+        if (currentCharacterClass.BlockMovement)
         {
             rb.velocity = Vector3.zero;
             return;
@@ -252,18 +263,20 @@ public class PlayerController : MonoBehaviour
     #region Change Class
     private void ChageClass(InputAction.CallbackContext context, int character)
     {
-        currentClass = character;
+        if (!currentCharacterClass.BlockClassChange)
+        {
+            currentClass = character;
 
-        currentCharacterClass.gameObject.SetActive(false);
-        currentCharacterClass = characterClasses[currentClass].GetComponent<CharacterClass>();
-        currentCharacterClass.gameObject.SetActive(true);
+            currentCharacterClass.gameObject.SetActive(false);
+            currentCharacterClass = characterClasses[currentClass].GetComponent<CharacterClass>();
+            currentCharacterClass.gameObject.SetActive(true);
 
-        StartCoroutine(CharacterChangeCooldown());
+            StartCoroutine(CharacterChangeCooldown());
+        }
     }
 
     private IEnumerator CharacterChangeCooldown()
     {
-        classMenuSwitch = false;
         character1Action.Disable();
         character2Action.Disable();
         character3Action.Disable();
@@ -277,4 +290,14 @@ public class PlayerController : MonoBehaviour
         character4Action.Enable();
     }
     #endregion
+    
+    /*private void Victory(InputAction.CallbackContext context)
+    {
+        sceneManager.LoadVictoryScene();
+    }
+
+    private void GameOver(InputAction.CallbackContext context)
+    {
+        sceneManager.LoadGameOverScene();
+    }*/
 }

@@ -23,11 +23,26 @@ public class SceneLoaderManager : MonoBehaviour
         StartCoroutine(SceneTransition(0));
     }
 
+    public void LoadGameScene()
+    {
+        StartCoroutine(SceneTransition(1));
+    }
+
+    public void LoadVictoryScene()
+    {
+        StartCoroutine(SceneTransition(SceneManager.sceneCountInBuildSettings - 2));
+    }
+
+    public void LoadGameOverScene()
+    {
+        StartCoroutine(SceneTransition(SceneManager.sceneCountInBuildSettings - 1));
+    }
+
     private IEnumerator SceneTransition(int sceneIndex)
     {
         transitionAnimator.SetTrigger("Start");
 
-        yield return new WaitForSeconds(clipLenght);
+        yield return new WaitForSeconds(clipLenght + 1f);
 
         SceneManager.LoadScene(sceneIndex);
     }

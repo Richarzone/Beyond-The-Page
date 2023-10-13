@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Concoction : MonoBehaviour
+public class ConcoctionBuff : MonoBehaviour
 {
-    public void ApplayBuff()
+    public void ApplyBuff()
     {
         Destroy(gameObject);
     }

@@ -15,8 +15,6 @@ public class RollingThunder : AbilityClass
 
     [Header("UI")]
     [SerializeField] private Canvas abilityCanvas;
-    [SerializeField] private Image abilityRangeIndicator;
-    [SerializeField] private float abilityRange;
 
     private Vector3 targetPosition;
     private Vector3 habilityTargetPosition;
@@ -39,18 +37,18 @@ public class RollingThunder : AbilityClass
     {
         lockSkill = true;
 
+        abilityCanvas.enabled = true;
+
         Cursor.visible = false;
         
         while (skillInput)
         {
             GetMousePosition();
 
-            Vector3 hitPositionDirection = (targetPosition - transform.position).normalized;
-            float distance = Vector3.Distance(targetPosition, transform.position);
-            distance = Mathf.Min(distance, thunderRange / 2f);
-            Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
+            Quaternion canvasRotation = Quaternion.LookRotation(targetPosition - transform.position);
+            canvasRotation.eulerAngles = new Vector3(0f, canvasRotation.eulerAngles.y, 0f);
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 0.01f, newHitPosition.z);
+            abilityCanvas.transform.rotation = Quaternion.Lerp(canvasRotation, abilityCanvas.transform.rotation, 0f);
 
             yield return null;
         }
@@ -59,7 +57,6 @@ public class RollingThunder : AbilityClass
         InstantiateProjectile(thunderPrefab, firePivot, thunderVelocity, direction, thunderDamage);
 
         abilityCanvas.enabled = false;
-        abilityRangeIndicator.enabled = false;
 
         Cursor.visible = true;
 
@@ -72,16 +69,16 @@ public class RollingThunder : AbilityClass
     {
         Cursor.visible = false;
 
+        abilityCanvas.enabled = true;
+
         while (ability.GetSkillInput())
         {
             GetMousePosition();
 
-            Vector3 hitPositionDirection = (targetPosition - transform.position).normalized;
-            float distance = Vector3.Distance(targetPosition, transform.position);
-            distance = Mathf.Min(distance, thunderRange / 2f);
-            Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
+            Quaternion canvasRotation = Quaternion.LookRotation(targetPosition - transform.position);
+            canvasRotation.eulerAngles = new Vector3(0f, canvasRotation.eulerAngles.y, 0f);
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 0.01f, newHitPosition.z);
+            abilityCanvas.transform.rotation = Quaternion.Lerp(canvasRotation, abilityCanvas.transform.rotation, 0f);
 
             yield return null;
         }
@@ -90,7 +87,6 @@ public class RollingThunder : AbilityClass
         InstantiateProjectile(thunderPrefab, firePivot, thunderVelocity, direction, thunderDamage);
 
         abilityCanvas.enabled = false;
-        abilityRangeIndicator.enabled = false;
 
         Cursor.visible = true;
     }

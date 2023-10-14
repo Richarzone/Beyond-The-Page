@@ -5,6 +5,8 @@ using Photon.Pun;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    
+    
     #region SingletonPattern
 
     public static NetworkManager instance;
@@ -12,15 +14,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         if (instance != null && instance != this) 
-        { 
-            gameObject.SetActive(false);
+        {
+            PhotonNetwork.Destroy(photonView);
+            Destroy(gameObject);
         }
         else
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
+
     }
     #endregion
 
@@ -31,16 +34,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings();
     }
-    
-    /*
-    public override void OnConnectedToMaster()
-    {
-        base.OnConnectedToMaster();
-        Debug.Log("connection stablished");
-        CreateRoom("testRoom");
-
-    }
-    */
 
     #endregion
 

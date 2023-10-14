@@ -16,12 +16,15 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     [Header("Main Menu")]
     public Button createRoomBtn;
     public Button joinRoomBtn;
-    [SerializeField]  public Button backBtn;
+    public Button backBtn;
 
     [Header("Lobby")]
     public Button startGameBtn;
     
     public TextMeshProUGUI playerTextList;
+
+    [Header("ManagerObject")]
+    public GameObject managerObject;
 
     public override void OnConnectedToMaster()
     {
@@ -77,23 +80,21 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     public void LeaveLobby()
     {
         PhotonNetwork.LeaveRoom();
-
+        
         lobbyWindow.SetActive (false);
         mainWindow.SetActive (true);
     }
 
     public void PressBack()
     {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.Destroy(managerObject);
         SceneManager.LoadScene("Main Menu");
-        Debug.Log("Back");
     }
 
     public void StartGame()
     {
         NetworkManager.instance.photonView.RPC("LoadScene", RpcTarget.All, "Game View");
-        
     }
-
-
 }
 

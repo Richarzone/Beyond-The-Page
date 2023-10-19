@@ -7,6 +7,7 @@ public class GooberAttack : GooberBaseState
     {
         MonoBehaviour.print("I am attacking");
         //unit.agent.isStopped = false;
+        unit.agent.speed = 3.5f;
         unit.agent.SetDestination(unit.transform.position);
         MonoBehaviour.print(unit.agent.pathStatus);
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Attack);
@@ -25,7 +26,6 @@ public class GooberAttack : GooberBaseState
     {
         //unit.StartCoroutine(WaitForAnimationOfAttack(unit, this, 1f));
         unit.TransitionToState(unit.AggroState);
-        
     }
 
     public override void OnTriggerEnter(GooberUnit unit, Collider collider)

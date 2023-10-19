@@ -12,14 +12,15 @@ public class GooberAttackMovement : StateMachineBehaviour
         {
             unit = animator.gameObject.GetComponentInParent<GooberUnit>();
         }
-        //Vector3 direction = Vector3.MoveTowards(unit.transform.position, unit.player.position, 1f);
+
         Vector3 direction = unit.player.position - unit.transform.position;
         direction.y = 0f;
+
         //Debug.Log(direction);
         //Debug.Log(direction.normalized * unit.attackMagnitude);
         unit.agent.velocity = direction.normalized * unit.attackMagnitude;
         //Debug.Log(unit.agent.velocity);
-        unit.agent.SetDestination(unit.player.position);
+        unit.agent.SetDestination(unit.player.position*1.5f);
         //Debug.Log(unit.agent.pathStatus);
     }
 

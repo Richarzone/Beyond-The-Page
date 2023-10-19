@@ -31,6 +31,8 @@ public class GooberAggro : GooberBaseState
 
     public override void Update(GooberUnit unit)
     {
+        unit.agent.speed = unit.moveSpeed;
+        //Debug.Log(unit.agent.speed);
         unit.agent.SetDestination(unit.player.position);
         if (unit.agent.velocity.x > 0)
         {
@@ -41,9 +43,9 @@ public class GooberAggro : GooberBaseState
             unit.sprite.flipX = false;
         }
 
-        if(Vector3.Distance(unit.transform.position, unit.agent.destination) <= 3f) {
+        if(Vector3.Distance(unit.transform.position, unit.agent.destination) <= unit.attackRadius) {
             //unit.agent.isStopped = true;
-            unit.TransitionToState(new GooberAttack());
+            unit.TransitionToState(unit.AttackState);
         }
 
         //MonoBehaviour.print(Vector3.Distance(unit.transform.position, unit.agent.destination));

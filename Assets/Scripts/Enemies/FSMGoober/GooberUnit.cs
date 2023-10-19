@@ -14,12 +14,15 @@ public class GooberUnit : MonoBehaviour
     public NavMeshAgent agent;
     public SpriteRenderer sprite;
     public float attackMagnitude;
+    public float moveSpeed;
+    public float attackRadius;
 
     public GooberBaseState currentState;
 
     public readonly GooberIdle IdleState = new GooberIdle();
     public readonly GooberPatrol PatrolState = new GooberPatrol();
     public readonly GooberAggro AggroState = new GooberAggro();
+    public readonly GooberAttack AttackState = new GooberAttack();
 
     // Start is called before the first frame update
     void Awake()

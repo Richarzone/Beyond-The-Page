@@ -16,7 +16,7 @@ public class GooberIdle : GooberBaseState
     public override void Update(GooberUnit unit)
     {
         timer += Time.deltaTime;
-        if (timer >= Random.Range(1f, unit.wanderTimer)) 
+        if (timer >= Random.Range(1f, unit.wanderTimer + 1f)) 
         {
             unit.TransitionToState(unit.PatrolState);
         }

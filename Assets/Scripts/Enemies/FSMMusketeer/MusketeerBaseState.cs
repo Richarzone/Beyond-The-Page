@@ -5,8 +5,23 @@ using UnityEngine;
 public abstract class MusketeerBaseState
 {
     public abstract void EnterState(MusketeerUnit unit);
-    public abstract void Update(MusketeerUnit unit);
-    public abstract void LateUpdate(MusketeerUnit unit);
-    public abstract void OnTriggerEnter(MusketeerUnit unit);
-    public abstract void OnCollisionEnter(MusketeerUnit unit);
+    public virtual void Update(MusketeerUnit unit)
+    {
+
+    }
+
+    public virtual void LateUpdate(MusketeerUnit unit)
+    {
+
+    }
+
+    public virtual void OnTriggerEnter(MusketeerUnit unit, Collider collider)
+    {
+
+    }
+
+    public virtual void OnCollisionEnter(MusketeerUnit unit, Collision collision)
+    {
+
+    }
 }

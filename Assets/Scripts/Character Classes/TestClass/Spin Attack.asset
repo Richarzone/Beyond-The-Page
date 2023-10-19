@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0734872215d3861469b75aab2c288f69, type: 3}
+  m_Name: Spin Attack
+  m_EditorClassIdentifier: 
+  abilityInput: 0
+  activeAbility: 0
+  lockAbility: 0
+  blockMovement: 0
+  blockRotation: 0
+  blockAbilities: 0
+  blockClassChange: 0
+  quickCast: 0
+  abilityVFX: {fileID: 4503918350103407173, guid: e2075c80ed227f04094d9882ae0c3946, type: 3}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  abilityDamage: 0
+  abilityRange: 0
+  isContinuous: 0
+  abilityDuration: 0
+  animationEnterTrigger: Spin Attack
+  animationExitTrigger: Spin Exit
+  abilityRangeIndicator: {fileID: 0}

@@ -5,10 +5,18 @@ using UnityEngine;
 public class CharacterClass : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
+    [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected LayerMask groundLayer;
+    [SerializeField] protected Transform vfxPivot;
 
-    [Header("Attacks")]
+    [Header("Basic Attack")]
+    [SerializeField] protected float attackDamage;
     [SerializeField] protected float attackSpeed;
-    [SerializeField] protected float habilityCooldown;
+
+    [Header("Abilities")]
+    [SerializeField] protected bool globalCooldown;
+    [SerializeField] protected float abilityCooldown;
+    [SerializeField] protected List<AbilityClass> abilities = new List<AbilityClass>();
 
     protected float timeBetweenAttacks;
 
@@ -17,6 +25,7 @@ public class CharacterClass : MonoBehaviour
     // Switch to control if the player can attack or not
     protected bool lockAttack;
 
+    // ---- CAN REMOVE ----
     // Skill 1 input
     protected bool skillInput1;
     // Switch to detect if skill 1 is active or not
@@ -37,6 +46,7 @@ public class CharacterClass : MonoBehaviour
     protected bool activeSkill3;
     // Switch to control if the player can use the skill 3
     protected bool lockSkill3;
+    // ---- CAN REMOVE ----
 
     // Dodge input
     protected bool dodge;
@@ -45,10 +55,19 @@ public class CharacterClass : MonoBehaviour
     protected bool blockMovement;
     // Switch to control if the player can rotate or not
     protected bool blockRotation;
+    // Switch to control if the player can use skills or not
+    protected bool blockAbilities;
+    // Switch to control if the player can switch classes or not
+    protected bool blockClassChange;
+    // Switch to control if the player can switch classes or not
+    protected bool blockDodge;
+
+    private AbilityManager abilityManager;
 
     private void Start()
     {
-        activeSkill1 = false;
+        abilityManager = transform.parent.GetComponent<AbilityManager>();
+        animator = GetComponent<Animator>();
     }
 
     virtual protected void Attack()
@@ -56,80 +75,177 @@ public class CharacterClass : MonoBehaviour
 
     }
 
-    virtual protected IEnumerator Skill1()
-    {
-        yield return null;
-    }
-
-    virtual protected IEnumerator Skill2()
-    {
-        yield return null;
-    }
-
-    virtual protected IEnumerator Skill3()
-    {
-        yield return null;
-    }
-
     virtual protected IEnumerator Dodge(float dodgeDuration)
     {
         yield return null;
     }
 
+    #region Inputs
     public void AttackInput(bool input)
     {
         attack = input;
     }
 
-    #region Skills
     public void Skill1Active()
     {
-        skillInput1 = true;
-        activeSkill1 = true;
+        abilities[0].SkillInput(true);
+        abilities[0].ActiveSkill(true);
+        abilities[0].UseAbility();
+        abilityManager.LastUsedSkill = abilities[0];
     }
 
     public void Skill2Active()
     {
-        skillInput2 = true;
-        activeSkill2 = true;
+        abilities[1].SkillInput(true);
+        abilities[1].ActiveSkill(true);
+        abilities[1].UseAbility();
+        abilityManager.LastUsedSkill = abilities[1];
     }
 
     public void Skill3Active()
     {
-        skillInput3 = true;
-        activeSkill3 = true;
+        abilities[2].SkillInput(true);
+        abilities[2].ActiveSkill(true);
+        abilities[2].UseAbility();
+        abilityManager.LastUsedSkill = abilities[2];
     }
 
     public void Skill1Deactivate()
     {
-        skillInput1 = false;
+        abilities[0].SkillInput(false);
     }
 
     public void Skill2Deactivate()
     {
-        skillInput2 = false;
+        abilities[1].SkillInput(false);
     }
 
     public void Skill3Deactivate()
     {
-        skillInput3 = false;
+        abilities[2].SkillInput(false);
     }
-    #endregion
 
     public void DodgeInput(float dodgeDuration)
     {
         StartCoroutine(Dodge(dodgeDuration));
     }
+    #endregion
 
     #region Properties
-    public bool BlockingMovement()
+    public Animator GetAnimator()
     {
-        return blockMovement;
+        return animator;
     }
 
-    public bool BlockingRotation()
+    public Transform GetVFXPivot()
     {
-        return blockRotation;
+        return vfxPivot;
+    }
+
+    public LayerMask GetEnemyLayer()
+    {
+        return enemyLayer;
+    }
+
+    public LayerMask GetGroundLayer()
+    {
+        return groundLayer;
+    }
+
+    public AbilityManager AbilityManager()
+    {
+        return abilityManager;
+    }
+
+    public float AttackDamage()
+    {
+        return attackDamage;
+    }
+
+    public float AbilityCooldown()
+    {
+        return abilityCooldown;
+    }
+
+    public bool GlobalCooldown()
+    {
+        return globalCooldown;
+    }
+    
+    public bool BlockMovement
+    {
+        get { return blockMovement; }
+        set { blockMovement = value; }
+    }
+    
+    public bool BlockRotation
+    {
+        get { return blockRotation; }
+        set { blockRotation = value; }
+    }
+
+    public bool BlockClassChange
+    {
+        get { return blockClassChange; }
+        set { blockClassChange = value; }
+    }
+
+    public bool BlockAbilities
+    {
+        get { return blockAbilities; }
+        set { blockAbilities = value; }
+    }
+
+    public bool BlockDodge
+    {
+        get { return blockDodge; }
+        set { blockDodge = value; }
+    }
+    #endregion
+
+    #region Events
+    // Events for movement
+    private void EnableMovement()
+    {
+        blockMovement = false;
+    }
+
+    private void DisableMovement()
+    {
+        blockMovement = true;
+    }
+
+    // Events for rotation
+    private void EnableRotation()
+    {
+        blockRotation = false;
+    }
+
+    private void DisableRotation()
+    {
+        blockRotation = true;
+    }
+
+    // Events for abilities
+    private void EnableAbilities()
+    {
+        blockAbilities = false;
+    }
+
+    private void DisableAbilities()
+    {
+        blockAbilities = true;
+    }
+
+    // Events for class change
+    private void EnableClassChange()
+    {
+        blockClassChange = false;
+    }
+
+    private void DisableClassChange()
+    {
+        blockClassChange = true;
     }
     #endregion
 }

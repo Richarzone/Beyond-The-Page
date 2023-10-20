@@ -92,6 +92,7 @@ public class Nova : AbilityClass
         abilityRangeIndicator.enabled = true;
 
         character.BlockClassChange = true;
+        character.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -103,7 +104,6 @@ public class Nova : AbilityClass
         character.BlockAttack = true;
         character.BlockMovement = true;
         character.BlockRotation = true;
-        character.BlockAbilities = true;
         character.BlockDodge = true;
 
         abilityRangeIndicator.enabled = false;

@@ -120,8 +120,8 @@ public class MassHex : AbilityClass
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
 
-        character.BlockClassChange = true;
-        character.BlockAbilities = true;
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
 
         Cursor.visible = true;
 

@@ -37,6 +37,9 @@ public class Swirl : AbilityClass
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
+
         Cursor.visible = false;
 
         while (skillInput)
@@ -44,12 +47,16 @@ public class Swirl : AbilityClass
             yield return null;
         }
 
+
+        characterClass.BlockDodge = true;
+
         abilityRangeIndicator.enabled = false;
-        characterClass.BlockAbilities = true;
         characterClass.GetAnimator().SetTrigger("Swirl");
 
         Cursor.visible = true;
-        
+
+        characterClass.AbilityManager().LastUsedSkill = this;
+
         yield return new WaitForSeconds(swirlBuffer);
 
         SwirlDamage();
@@ -62,7 +69,9 @@ public class Swirl : AbilityClass
         yield return new WaitForSeconds(swirlDownTime);
 
         // End the animation of the ability
+        characterClass.BlockClassChange = false;
         characterClass.BlockAbilities = false;
+        characterClass.BlockDodge = false;
 
         yield return new WaitForSeconds(abilityCooldown);
 
@@ -74,6 +83,9 @@ public class Swirl : AbilityClass
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
+
         Cursor.visible = false;
 
         while (ability.GetSkillInput())
@@ -81,7 +93,6 @@ public class Swirl : AbilityClass
             yield return null;
         }
 
-        character.BlockAbilities = true;
         abilityRangeIndicator.enabled = false;
 
         Cursor.visible = true;
@@ -98,6 +109,7 @@ public class Swirl : AbilityClass
         yield return new WaitForSeconds(swirlDownTime);
 
         // End the animation of the ability
+        character.BlockClassChange = false;
         character.BlockAbilities = false;
     }
 

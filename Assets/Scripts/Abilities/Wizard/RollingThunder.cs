@@ -39,6 +39,9 @@ public class RollingThunder : AbilityClass
 
         abilityCanvas.enabled = true;
 
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
+
         Cursor.visible = false;
         
         while (skillInput)
@@ -58,7 +61,12 @@ public class RollingThunder : AbilityClass
 
         abilityCanvas.enabled = false;
 
+        characterClass.BlockClassChange = false;
+        characterClass.BlockAbilities = false;
+
         Cursor.visible = true;
+
+        characterClass.AbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
@@ -67,9 +75,12 @@ public class RollingThunder : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
     {
-        Cursor.visible = false;
-
         abilityCanvas.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
+
+        Cursor.visible = false;
 
         while (ability.GetSkillInput())
         {
@@ -87,6 +98,9 @@ public class RollingThunder : AbilityClass
         InstantiateProjectile(thunderPrefab, firePivot, thunderVelocity, direction, thunderDamage);
 
         abilityCanvas.enabled = false;
+
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
 
         Cursor.visible = true;
     }

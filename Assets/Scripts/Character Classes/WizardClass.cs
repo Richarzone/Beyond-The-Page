@@ -23,7 +23,7 @@ public class WizardClass : CharacterClass
         GetMousePosition();
 
         // Attacks
-        if (attack)
+        if (attack && !blockAttack)
         {
             Attack();
         }
@@ -59,6 +59,7 @@ public class WizardClass : CharacterClass
         Destroy(vfxEnterInstance.gameObject, vfxEnterInstance.main.duration);
         playerVisual.SetActive(false);
         weaponVisual.SetActive(false);
+        blockClassChange = true;
 
         yield return new WaitForSeconds(dodgeDuration);
 
@@ -66,6 +67,7 @@ public class WizardClass : CharacterClass
         Destroy(vfxExitInstance.gameObject, vfxExitInstance.main.duration);
         playerVisual.SetActive(true);
         weaponVisual.SetActive(true);
+        blockClassChange = false;
     }
 
     #region Helper Functions

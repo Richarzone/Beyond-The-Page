@@ -25,6 +25,8 @@ public class Concoction : AbilityClass
         GameObject twinSpellInstance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
         twinSpellInstance.transform.parent = characterClass.GetVFXPivot();
 
+        characterClass.AbilityManager().LastUsedSkill = this;
+
         yield return new WaitForSeconds(abilityCooldown);
 
         lockSkill = false;

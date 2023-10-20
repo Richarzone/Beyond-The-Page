@@ -42,6 +42,9 @@ public class Molotov : AbilityClass
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
 
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
+
         Cursor.visible = false;
 
         while (skillInput)
@@ -64,7 +67,12 @@ public class Molotov : AbilityClass
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
 
+        characterClass.BlockClassChange = false;
+        characterClass.BlockAbilities = false;
+
         Cursor.visible = true;
+
+        characterClass.AbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
@@ -77,6 +85,9 @@ public class Molotov : AbilityClass
         abilityCanvas.transform.localScale = new Vector3(molotovAOE, molotovAOE, molotovAOE);
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -99,6 +110,9 @@ public class Molotov : AbilityClass
 
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
+
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
 
         Cursor.visible = true;
     }

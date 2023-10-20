@@ -45,6 +45,9 @@ public class MassHex : AbilityClass
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
 
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
+
         Cursor.visible = false;
 
         while (skillInput)
@@ -68,7 +71,12 @@ public class MassHex : AbilityClass
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
 
+        characterClass.BlockClassChange = false;
+        characterClass.BlockAbilities = false;
+
         Cursor.visible = true;
+
+        characterClass.AbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(hexBuffer);
 
@@ -85,6 +93,9 @@ public class MassHex : AbilityClass
         abilityCanvas.transform.localScale = (Vector3.one * hexAOE) * 2;
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -109,9 +120,11 @@ public class MassHex : AbilityClass
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
 
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
+
         Cursor.visible = true;
 
-        //add buffer
         yield return new WaitForSeconds(hexBuffer);
 
         ApplyHex(hexInstance.gameObject);

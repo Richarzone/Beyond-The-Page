@@ -25,7 +25,7 @@ public class TwinSpell : AbilityClass
     // Add vfx for null twin spell
     private IEnumerator AbilityCoroutine()
     {
-        if (characterClass.AbilityManager().LastUsedSkill != null || characterClass.AbilityManager().LastUsedSkill == this)
+        if (characterClass.AbilityManager().LastUsedSkill != null || characterClass.AbilityManager().LastUsedSkill != this)
         {
             lockSkill = true;
 
@@ -34,6 +34,8 @@ public class TwinSpell : AbilityClass
             ParticleSystem vfxTwinSpellInstance = Instantiate(twinSpellVFX, characterClass.GetVFXPivot().position, twinSpellVFX.transform.rotation);
             vfxTwinSpellInstance.transform.parent = characterClass.GetVFXPivot();
             Destroy(vfxTwinSpellInstance.gameObject, vfxTwinSpellInstance.main.duration + vfxTwinSpellInstance.main.startLifetime.constant);
+
+            characterClass.AbilityManager().LastUsedSkill = this;
 
             yield return new WaitForSeconds(abilityCooldown);
 

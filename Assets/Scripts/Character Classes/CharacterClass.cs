@@ -22,35 +22,12 @@ public class CharacterClass : MonoBehaviour
 
     // Attack input
     protected bool attack;
-    // Switch to control if the player can attack or not
-    protected bool lockAttack;
-
-    // ---- CAN REMOVE ----
-    // Skill 1 input
-    protected bool skillInput1;
-    // Switch to detect if skill 1 is active or not
-    protected bool activeSkill1;
-    // Switch to control if the player can use the skill 1
-    protected bool lockSkill1;
-
-    // Skill 2 input
-    protected bool skillInput2;
-    // Switch to detect if skill 2 is active or not
-    protected bool activeSkill2;
-    // Switch to control if the player can use the skill 2
-    protected bool lockSkill2;
-
-    // Skill 3 input
-    protected bool skillInput3;
-    // Switch to detect if skill 3 is active or not
-    protected bool activeSkill3;
-    // Switch to control if the player can use the skill 3
-    protected bool lockSkill3;
-    // ---- CAN REMOVE ----
 
     // Dodge input
     protected bool dodge;
 
+    // Switch to control if the player can attack or not
+    protected bool blockAttack;
     // Switch to control if the player can move or not
     protected bool blockMovement;
     // Switch to control if the player can rotate or not
@@ -91,7 +68,7 @@ public class CharacterClass : MonoBehaviour
         abilities[0].SkillInput(true);
         abilities[0].ActiveSkill(true);
         abilities[0].UseAbility();
-        abilityManager.LastUsedSkill = abilities[0];
+        //abilityManager.LastUsedSkill = abilities[0];
     }
 
     public void Skill2Active()
@@ -99,7 +76,7 @@ public class CharacterClass : MonoBehaviour
         abilities[1].SkillInput(true);
         abilities[1].ActiveSkill(true);
         abilities[1].UseAbility();
-        abilityManager.LastUsedSkill = abilities[1];
+        //abilityManager.LastUsedSkill = abilities[1];
     }
 
     public void Skill3Active()
@@ -107,7 +84,7 @@ public class CharacterClass : MonoBehaviour
         abilities[2].SkillInput(true);
         abilities[2].ActiveSkill(true);
         abilities[2].UseAbility();
-        abilityManager.LastUsedSkill = abilities[2];
+        //abilityManager.LastUsedSkill = abilities[2];
     }
 
     public void Skill1Deactivate()
@@ -170,6 +147,12 @@ public class CharacterClass : MonoBehaviour
     public bool GlobalCooldown()
     {
         return globalCooldown;
+    }
+
+    public bool BlockAttack
+    {
+        get { return blockAttack; }
+        set { blockAttack = value; }
     }
     
     public bool BlockMovement

@@ -40,6 +40,9 @@ public class Nova : AbilityClass
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
+
         Cursor.visible = false;
 
         while (skillInput)
@@ -49,8 +52,6 @@ public class Nova : AbilityClass
 
         characterClass.BlockMovement = true;
         characterClass.BlockRotation = true;
-        characterClass.BlockClassChange = true;
-        characterClass.BlockAbilities = true;
         characterClass.BlockDodge = true;
 
         abilityRangeIndicator.enabled = false;
@@ -59,6 +60,8 @@ public class Nova : AbilityClass
         characterClass.GetAnimator().SetTrigger("Nova");
 
         Cursor.visible = true;
+
+        characterClass.AbilityManager().LastUsedSkill = this;
 
         // Instantiate VFX
         ParticleSystem vfxSpinInstance = Instantiate(novaVFX, characterClass.GetVFXPivot().position, novaVFX.transform.rotation);
@@ -88,6 +91,8 @@ public class Nova : AbilityClass
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
+        character.BlockClassChange = true;
+
         Cursor.visible = false;
 
         while (ability.GetSkillInput())
@@ -95,10 +100,11 @@ public class Nova : AbilityClass
             yield return null;
         }
 
+        character.BlockAttack = true;
         character.BlockMovement = true;
         character.BlockRotation = true;
         character.BlockAbilities = true;
-        character.BlockClassChange = true;
+        character.BlockDodge = true;
 
         abilityRangeIndicator.enabled = false;
 
@@ -120,10 +126,12 @@ public class Nova : AbilityClass
         yield return new WaitForSeconds(novaDownTime);
 
         // End the animation of the ability
+        character.BlockAttack = false;
         character.BlockMovement = false;
         character.BlockRotation = false;
-        character.BlockAbilities = false;
         character.BlockClassChange = false;
+        character.BlockAbilities = false;
+        character.BlockDodge = false;
     }
 
     // Damage Event

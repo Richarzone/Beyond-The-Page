@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOverController : MonoBehaviour
 {
-    [Header("Scene Management")]
-    [SerializeField] private SceneLoaderManager sceneManager;
+    
 
     [Header("UI")]
-    [SerializeField] private Button tryAgainButton;
-    [SerializeField] private Button quitButton;
+    [SerializeField] private Button backToMainBtn;
 
-    
+    public void PressBackToMain()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
 }

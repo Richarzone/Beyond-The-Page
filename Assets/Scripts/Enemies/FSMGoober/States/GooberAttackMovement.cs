@@ -10,7 +10,7 @@ public class GooberAttackMovement : StateMachineBehaviour
     {
         if (unit == null)
         {
-            unit = animator.gameObject.GetComponent<GooberUnit>();
+            unit = animator.gameObject.GetComponentInParent<GooberUnit>();
         }
 
         Vector3 direction = unit.player.position - unit.transform.position;
@@ -42,7 +42,7 @@ public class GooberAttackMovement : StateMachineBehaviour
     {
         if (unit == null)
         {
-            unit = animator.gameObject.GetComponent<GooberUnit>();
+            unit = animator.gameObject.GetComponentInParent<GooberUnit>();
         }
         Debug.Log("ONSTATEEXIT");
         unit.currentState.OnDisable(unit);

@@ -92,7 +92,7 @@ AnimationClip:
     - time: 1.4583334
       value: {fileID: 21300000, guid: ee25c194ec74f40ae9504afb5e8e6528, type: 3}
     attribute: m_Sprite
-    path: Billboard/GooberSprite
+    path: 
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 24

@@ -213,7 +213,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gooberanimations
+  m_Name: Goober
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: anim
@@ -375,7 +375,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 3135542572207154273}
-    m_Position: {x: 300, y: 30, z: 0}
+    m_Position: {x: 290, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8061220277163944608}
     m_Position: {x: 130, y: 180, z: 0}
@@ -384,7 +384,7 @@ AnimatorStateMachine:
     m_Position: {x: 680, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1385726917324513920}
-    m_Position: {x: 570, y: 60, z: 0}
+    m_Position: {x: 550, y: 70, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -6489725639796643608}

@@ -2,25 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GooberAttackMovement : StateMachineBehaviour
+public class GubGubAttackMovement : StateMachineBehaviour
 {
-    GooberUnit unit;
+    GubGubUnit unit;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (unit == null)
         {
-            unit = animator.gameObject.GetComponent<GooberUnit>();
+            unit = animator.gameObject.GetComponent<GubGubUnit>();
         }
-
+        //Vector3 direction = Vector3.MoveTowards(unit.transform.position, unit.player.position, 1f);
         Vector3 direction = unit.player.position - unit.transform.position;
         direction.y = 0f;
-
         //Debug.Log(direction);
         //Debug.Log(direction.normalized * unit.attackMagnitude);
         unit.agent.velocity = direction.normalized * unit.attackMagnitude;
         //Debug.Log(unit.agent.velocity);
-        unit.agent.SetDestination(unit.player.position*1.5f);
+        unit.agent.SetDestination(unit.player.position);
         //Debug.Log(unit.agent.pathStatus);
     }
 
@@ -42,7 +41,7 @@ public class GooberAttackMovement : StateMachineBehaviour
     {
         if (unit == null)
         {
-            unit = animator.gameObject.GetComponent<GooberUnit>();
+            unit = animator.gameObject.GetComponent<GubGubUnit>();
         }
         Debug.Log("ONSTATEEXIT");
         unit.currentState.OnDisable(unit);

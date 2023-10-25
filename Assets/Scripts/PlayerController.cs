@@ -286,6 +286,8 @@ public class PlayerController : MonoBehaviour
         changeClassAction.Enable();
     }
     #endregion
+<<<<<<< Updated upstream
+=======
 
     #region Enemy Hit Damage
     public void DamagePlayer(float damageValue)
@@ -350,4 +352,5 @@ public class PlayerController : MonoBehaviour
     {
         sceneManager.LoadGameOverScene();
     }*/
+>>>>>>> Stashed changes
 }

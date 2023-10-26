@@ -23,9 +23,9 @@ public class Stun : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -35,7 +35,7 @@ public class Stun : AbilityClass
 
     private IEnumerator AbilityCoroutine()
     {
-        lockSkill = true;
+        blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
         abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
@@ -60,6 +60,11 @@ public class Stun : AbilityClass
 
             yield return null;
         }
+        
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
 
         SetDirectionTarget();
         InstantiateProjectileTarget(stunPrefab, firePivot, stunVelocity, direction);
@@ -72,14 +77,19 @@ public class Stun : AbilityClass
 
         Cursor.visible = true;
 
-        characterClass.AbilityManager().LastUsedSkill = this;
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
         abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);

@@ -72,16 +72,16 @@ public class PlayerController : MonoBehaviour
         changeClassAction.canceled += context => classMenuSwitch = false;
 
         skill1Action = playerInput.actions["Skill 1"];
-        skill1Action.started += ActiveSkill1;
-        skill1Action.canceled += DeactivateSkill1;
+        skill1Action.started += PressedSkill1;
+        skill1Action.canceled += ReleasedSkill1;
 
         skill2Action = playerInput.actions["Skill 2"];
-        skill2Action.started += ActiveSkill2;
-        skill2Action.canceled += DeactivateSkill2;
+        skill2Action.started += PressedSkill2;
+        skill2Action.canceled += ReleasedSkill2;
 
         skill3Action = playerInput.actions["Skill 3"];
-        skill3Action.started += ActiveSkill3;
-        skill3Action.canceled += DeactivateSkill3;
+        skill3Action.started += PressedSkill3;
+        skill3Action.canceled += ReleasedSkill3;
 
         dodgeAction = playerInput.actions["Dodge"];
         dodgeAction.started += UseDodge;
@@ -229,34 +229,70 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Skills
-    private void ActiveSkill1(InputAction.CallbackContext context)
+    // Pressed Skill Button
+    private void PressedSkill1(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill1Active();
     }
 
-    private void DeactivateSkill1(InputAction.CallbackContext context)
-    {
-        currentCharacterClass.Skill1Deactivate();
-    }
-
-    private void ActiveSkill2(InputAction.CallbackContext context)
+    private void PressedSkill2(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill2Active();
     }
 
-    private void DeactivateSkill2(InputAction.CallbackContext context)
-    {
-        currentCharacterClass.Skill2Deactivate();
-    }
-
-    private void ActiveSkill3(InputAction.CallbackContext context)
+    private void PressedSkill3(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill3Active();
     }
 
-    private void DeactivateSkill3(InputAction.CallbackContext context)
+    // Released Skill Button
+    private void ReleasedSkill1(InputAction.CallbackContext context)
+    {
+        currentCharacterClass.Skill1Deactivate();
+    }
+
+    private void ReleasedSkill2(InputAction.CallbackContext context)
+    {
+        currentCharacterClass.Skill2Deactivate();
+    }
+
+    private void ReleasedSkill3(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill3Deactivate();
+    }
+
+    // Lock Skill Button
+    public void LockSkill(int buttonID)
+    {
+        switch (buttonID)
+        {
+            case 0:
+                skill1Action.Disable();
+                break;
+            case 1:
+                skill2Action.Disable();
+                break;
+            case 2:
+                skill3Action.Disable();
+                break;
+        }
+    }
+
+    // Unlock Skill Button
+    public void UnlockSkill(int buttonID)
+    {
+        switch (buttonID)
+        {
+            case 0:
+                skill1Action.Enable();
+                break;
+            case 1:
+                skill2Action.Enable();
+                break;
+            case 2:
+                skill3Action.Enable();
+                break;
+        }
     }
     #endregion
 

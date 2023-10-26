@@ -11,7 +11,9 @@ public class AbilityClass : MonoBehaviour
     // Switch to detect if skill is active or not
     protected bool activeSkill;
     // Switch to control if the player can use the skill
-    protected bool lockSkill;
+    protected bool blockSkill;
+    // ID of the button that called this ability
+    protected int skillButton;
 
     protected CharacterClass characterClass;
 
@@ -19,10 +21,10 @@ public class AbilityClass : MonoBehaviour
     {
         characterClass = GetComponent<CharacterClass>();
         
-        if (characterClass.GlobalCooldown())
+        /*if (characterClass.Gl())
         {
             abilityCooldown = characterClass.AbilityCooldown();
-        }
+        }*/
     }
 
     public virtual void UseAbility()
@@ -30,7 +32,7 @@ public class AbilityClass : MonoBehaviour
 
     }
 
-    public virtual IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public virtual IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         yield return null;
     }
@@ -48,5 +50,10 @@ public class AbilityClass : MonoBehaviour
     public void ActiveSkill(bool active)
     {
         activeSkill = active;
+    }
+
+    public void AbilityButtonID(int id)
+    {
+        skillButton = id;
     }
 }

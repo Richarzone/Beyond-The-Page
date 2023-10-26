@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class IllusionistClass : CharacterClass
 {
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         // Attacks

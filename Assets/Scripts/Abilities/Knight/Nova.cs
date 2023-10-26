@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Nova : AbilityClass
 {
     [Header("Nova")]
-    [SerializeField] private ParticleSystem novaVFX;
     [SerializeField] private GameObject twinSpellObject;
+    [SerializeField] private ParticleSystem novaVFX;
     [SerializeField] private float novaNormalDamage;
     [SerializeField] private float novaCriticalDamage;
     [SerializeField] private float novaAttackRange;
@@ -22,9 +22,9 @@ public class Nova : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -35,7 +35,7 @@ public class Nova : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         // Lock the use of the abilities
-        lockSkill = true;
+        blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
@@ -50,6 +50,11 @@ public class Nova : AbilityClass
             yield return null;
         }
 
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+        
         characterClass.BlockMovement = true;
         characterClass.BlockRotation = true;
         characterClass.BlockDodge = true;
@@ -61,7 +66,7 @@ public class Nova : AbilityClass
 
         Cursor.visible = true;
 
-        characterClass.AbilityManager().LastUsedSkill = this;
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         // Instantiate VFX
         ParticleSystem vfxSpinInstance = Instantiate(novaVFX, characterClass.GetVFXPivot().position, novaVFX.transform.rotation);
@@ -83,10 +88,15 @@ public class Nova : AbilityClass
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;

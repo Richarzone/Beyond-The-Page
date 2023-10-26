@@ -8,9 +8,9 @@ public class Concoction : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -20,19 +20,29 @@ public class Concoction : AbilityClass
 
     private IEnumerator AbilityCoroutine()
     {
-        lockSkill = true;
+        blockSkill = true;
+
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
 
         GameObject twinSpellInstance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
         twinSpellInstance.transform.parent = characterClass.GetVFXPivot();
 
-        characterClass.AbilityManager().LastUsedSkill = this;
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         GameObject twinSpellInstance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
         twinSpellInstance.transform.parent = characterClass.GetVFXPivot();

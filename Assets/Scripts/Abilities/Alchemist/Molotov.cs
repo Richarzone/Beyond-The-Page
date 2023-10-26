@@ -23,9 +23,9 @@ public class Molotov : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -35,7 +35,7 @@ public class Molotov : AbilityClass
 
     private IEnumerator AbilityCoroutine()
     {
-        lockSkill = true;
+        blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(molotovRange, molotovRange, molotovRange);
         abilityCanvas.transform.localScale = new Vector3(molotovAOE, molotovAOE, molotovAOE);
@@ -61,6 +61,11 @@ public class Molotov : AbilityClass
             yield return null;
         }
 
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+        
         SetDirectionTarget();
         InstantiateProjectileTarget(molotovPrefab, firePivot, molotovVelocity, direction);
 
@@ -72,14 +77,19 @@ public class Molotov : AbilityClass
 
         Cursor.visible = true;
 
-        characterClass.AbilityManager().LastUsedSkill = this;
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(molotovRange, molotovRange, molotovRange);
         abilityCanvas.transform.localScale = new Vector3(molotovAOE, molotovAOE, molotovAOE);

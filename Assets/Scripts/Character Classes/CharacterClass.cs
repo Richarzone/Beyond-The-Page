@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterClass : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class CharacterClass : MonoBehaviour
     [SerializeField] protected float attackSpeed;
 
     [Header("Abilities")]
-    [SerializeField] protected bool globalCooldown;
     [SerializeField] protected float abilityCooldown;
     [SerializeField] protected List<AbilityClass> abilities = new List<AbilityClass>();
 
@@ -67,24 +67,24 @@ public class CharacterClass : MonoBehaviour
     {
         abilities[0].SkillInput(true);
         abilities[0].ActiveSkill(true);
+        abilities[0].AbilityButtonID(0);
         abilities[0].UseAbility();
-        //abilityManager.LastUsedSkill = abilities[0];
     }
 
     public void Skill2Active()
     {
         abilities[1].SkillInput(true);
         abilities[1].ActiveSkill(true);
+        abilities[1].AbilityButtonID(1);
         abilities[1].UseAbility();
-        //abilityManager.LastUsedSkill = abilities[1];
     }
 
     public void Skill3Active()
     {
         abilities[2].SkillInput(true);
         abilities[2].ActiveSkill(true);
+        abilities[2].AbilityButtonID(2);
         abilities[2].UseAbility();
-        //abilityManager.LastUsedSkill = abilities[2];
     }
 
     public void Skill1Deactivate()
@@ -129,7 +129,7 @@ public class CharacterClass : MonoBehaviour
         return groundLayer;
     }
 
-    public AbilityManager AbilityManager()
+    public AbilityManager GetAbilityManager()
     {
         return abilityManager;
     }
@@ -142,11 +142,6 @@ public class CharacterClass : MonoBehaviour
     public float AbilityCooldown()
     {
         return abilityCooldown;
-    }
-
-    public bool GlobalCooldown()
-    {
-        return globalCooldown;
     }
 
     public bool BlockAttack

@@ -13,9 +13,9 @@ public class SpinAttack : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -26,11 +26,18 @@ public class SpinAttack : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         // Lock the use of abilities
-        lockSkill = true;
+        blockSkill = true;
+
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+        
         characterClass.BlockRotation = true;
         characterClass.BlockClassChange = true;
         characterClass.BlockAbilities = true;
         characterClass.BlockDodge = true;
+
 
         characterClass.GetAnimator().SetTrigger("Spin Attack");
 
@@ -39,7 +46,7 @@ public class SpinAttack : AbilityClass
         vfxSpinInstance.transform.parent = characterClass.GetVFXPivot();
         Destroy(vfxSpinInstance.gameObject, vfxSpinInstance.main.duration + vfxSpinInstance.main.startLifetime.constant);
 
-        characterClass.AbilityManager().LastUsedSkill = this;
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(spinAttackDuration);
 
@@ -53,10 +60,15 @@ public class SpinAttack : AbilityClass
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         // Lock the use of abilities
         character.BlockAttack = true;

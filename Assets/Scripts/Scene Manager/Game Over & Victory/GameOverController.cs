@@ -9,7 +9,8 @@ public class GameOverController : MonoBehaviour
     
 
     [Header("UI")]
-    [SerializeField] private Button backToMainBtn;
+    [SerializeField] private Button GameOverBackToMainBtn;
+
 
     public void PressBackToMain()
     {

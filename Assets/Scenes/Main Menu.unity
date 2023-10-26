@@ -230,9 +230,9 @@ MonoBehaviour:
   sceneManager: {fileID: 0}
   startScreen: {fileID: 513333212}
   characterSelectScreen: {fileID: 759257112}
-  MultiplayerButton: {fileID: 0}
+  MultiplayerButton: {fileID: 671036536}
   SingleplayerButton: {fileID: 852293608}
-  OptionsButton: {fileID: 0}
+  OptionsButton: {fileID: 1618496085}
   ExitButton: {fileID: 263359815}
   playButton: {fileID: 198095520}
   backButton: {fileID: 1514620992}

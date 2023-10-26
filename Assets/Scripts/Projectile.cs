@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float lifeTime;
-    [SerializeField] private bool hasImpactVFX;
-    [SerializeField] private ParticleSystem impactVFX;
+    [SerializeField] protected float lifeTime;
+    [SerializeField] protected bool hasImpactVFX;
+    [SerializeField] protected ParticleSystem impactVFX;
+    [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected bool ignoreEnemyLayer;
+
+    protected float baseDamage;
+    protected float calculatedDamge;
 
     void Start()
     {
         StartCoroutine(LifeTime());
+    }
+
+    public void SetDamage(float applyDamage, float damage)
+    {
+        baseDamage = damage;
+        calculatedDamge = applyDamage;
     }
 
     private IEnumerator LifeTime()
@@ -21,6 +32,11 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if ((1 << collision.gameObject.layer) == enemyLayer.value)
+        {
+            collision.gameObject.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
+        }
+
         /*Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashRange);
 
         foreach (Collider collider in hitColliders)
@@ -45,10 +61,18 @@ public class Projectile : MonoBehaviour
 
         if (hasImpactVFX)
         {
-            ParticleSystem impact = Instantiate(impactVFX, transform.position, impactVFX.transform.rotation);
+            ParticleSystem impact = Instantiate(impactVFX, new Vector3(transform.position.x, 0.2f, transform.position.z), impactVFX.transform.rotation);
             Destroy(impact.gameObject, impact.main.duration + impact.main.duration);
         }
-        
+
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((1 << other.gameObject.layer) == enemyLayer.value)
+        {
+            other.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
+        }
     }
 }

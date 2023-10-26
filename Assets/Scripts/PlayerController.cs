@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     // References
     private Rigidbody rb;
-    
+
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
     private InputAction moveAction = new InputAction();
@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private bool classMenuSwitch;
     private bool skill1;
     private bool skill2;
-    private bool skill3;
     private bool dodge;
 
     [Header("Player Settings")]
@@ -142,7 +141,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Rotate the player to look a the mouse position
-        if (!currentCharacterClass.BlockingRotation())
+        if (!currentCharacterClass.BlockRotation)
         {
             Rotation();
         }
@@ -150,7 +149,7 @@ public class PlayerController : MonoBehaviour
         if (classMenuSwitch)
         {
             classMenu.SetActive(true);
-            
+
             if (attack)
             {
                 ChageClass();
@@ -180,7 +179,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (currentCharacterClass.BlockingMovement())
+        if (currentCharacterClass.BlockMovement)
         {
             rb.velocity = Vector3.zero;
             return;
@@ -199,7 +198,7 @@ public class PlayerController : MonoBehaviour
     private void Rotation()
     {
         Ray ray = Camera.main.ScreenPointToRay(aim);
-        
+
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity))
         {
             targetPosition = raycastHit.point;
@@ -280,14 +279,13 @@ public class PlayerController : MonoBehaviour
     {
         classMenuSwitch = false;
         changeClassAction.Disable();
-        
+
         yield return new WaitForSeconds(characterChangeCooldown);
 
         changeClassAction.Enable();
     }
     #endregion
-<<<<<<< Updated upstream
-=======
+
 
     #region Enemy Hit Damage
     public void DamagePlayer(float damageValue)
@@ -352,5 +350,4 @@ public class PlayerController : MonoBehaviour
     {
         sceneManager.LoadGameOverScene();
     }*/
->>>>>>> Stashed changes
 }

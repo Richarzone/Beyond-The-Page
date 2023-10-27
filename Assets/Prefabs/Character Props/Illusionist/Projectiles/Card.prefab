@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 721830404347537037}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 30, z: 5}
+  m_LocalScale: {x: 17, y: 25, z: 1}
   m_Children: []
   m_Father: {fileID: 6915246436933900951}
   m_RootOrder: 0
@@ -132,14 +132,13 @@ MonoBehaviour:
   rotationSpeed: 0
   hasImpactVFX: 0
   impactVFX: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 512
   ignoreEnemyLayer: 0
-  target: {fileID: 0}
-  origin: {fileID: 0}
-  baseDamage: 0
-  projectileVelocity: 0
 --- !u!54 &4484248796694877728
 Rigidbody:
   m_ObjectHideFlags: 0

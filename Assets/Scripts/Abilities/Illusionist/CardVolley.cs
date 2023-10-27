@@ -57,8 +57,10 @@ public class CardVolley : AbilityClass
 
         Cursor.visible = false;
 
-        //ParticleSystem hexInstance = 
-        
+        // Instantiate VFX
+        ParticleSystem cardVolleyVFXInstance = Instantiate(cardVolleyVFX, characterClass.GetVFXPivot().position, cardVolleyVFX.transform.rotation);
+        cardVolleyVFXInstance.transform.parent = characterClass.GetVFXPivot();
+
         while (currentAmmo > 0 && currentDuration > 0)
         {
             if (target == null)
@@ -89,12 +91,13 @@ public class CardVolley : AbilityClass
                 }
             }
 
+
             currentDuration -= Time.deltaTime;
 
             yield return null;
         }
 
-        //Destroy(hexInstance.gameObject);
+        Destroy(cardVolleyVFXInstance.gameObject);
 
         abilityRangeIndicator.enabled = false;
 

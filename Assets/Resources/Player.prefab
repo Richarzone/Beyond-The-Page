@@ -1016,6 +1016,7 @@ MonoBehaviour:
   abilityCooldown: 0
   abilities:
   - {fileID: 8965724119572540944}
+  - {fileID: 1686181224606153647}
 --- !u!114 &8965724119572540944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1049,17 +1050,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1328eebd17e58d74aac95f1a0f4a62c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityCooldown: 0
-  firePivot: {fileID: 0}
-  cardPrefab: {fileID: 0}
-  cardVolleyVFX: {fileID: 0}
-  cardVolleyRange: 0
-  projectileDamage: 0
-  projectileVelocity: 0
-  rateOfFire: 0
-  ammunition: 0
-  abilityDuration: 0
-  abilityRangeIndicator: {fileID: 0}
+  abilityCooldown: 5
+  firePivot: {fileID: 8257383117765253482}
+  cardPrefab: {fileID: 8374124755614616686, guid: 5e0aadf9357b9ae4b98a5d75a697572b, type: 3}
+  cardVolleyVFX: {fileID: 1384250825461536810, guid: 965b880467c507247be0d599d7727345, type: 3}
+  cardVolleyRange: 10
+  projectileDamage: 2
+  projectileVelocity: 15
+  rateOfFire: 7
+  abilityDuration: 15
+  ammunition: 30
+  abilityRangeIndicator: {fileID: 8257383117258004985}
+  target: {fileID: 0}
+  currentDuration: 0
 --- !u!95 &8257383117360717209
 Animator:
   serializedVersion: 5
@@ -3907,7 +3910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fa74c87e0d039fb43a273f1c26756d79, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa74c87e0d039fb43a273f1c26756d79, type: 3}

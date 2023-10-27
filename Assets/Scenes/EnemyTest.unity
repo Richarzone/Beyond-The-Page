@@ -871,13 +871,14 @@ GameObject:
   - component: {fileID: 307686342}
   - component: {fileID: 307686343}
   - component: {fileID: 307686344}
+  - component: {fileID: 307686346}
   m_Layer: 0
-  m_Name: Devil
+  m_Name: DevilEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &307686341
 Transform:
   m_ObjectHideFlags: 0
@@ -885,14 +886,17 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307686340}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.21, z: 8.39}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1604939100}
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 1688011002}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &307686342
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -901,7 +905,6 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307686340}
   serializedVersion: 2
-  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -945,6 +948,49 @@ CapsuleCollider:
   m_Height: 5.8
   m_Direction: 1
   m_Center: {x: 0.42, y: 2.92, z: 0}
+--- !u!95 &307686345
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307686340}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0a1b1b7f7fce3475f9f73aa77403ddf9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &307686346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307686340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f94ff2d45164c4084d8a8264997a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 307686345}
+  spriteTransform: {fileID: 1363033842}
+  agent: {fileID: 307686343}
+  billboard: {fileID: 1604939099}
+  detectionRadius: 10
+  aggroArea: {fileID: 1841399988}
+  walkSpeed: 3.5
+  attackRadius: 3
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &386067794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,10 +1127,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 469294926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428bc62ee35af4f09b4a8504951167d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 88b1b5f1bdd9f45e68130297e719706d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goober: {fileID: 800018388}
+  boolean: 0
+  musketeer: {fileID: 800018388}
+  lerpSpeed: 2
+  endRotation: {x: 0, y: 0, z: 0, w: 0}
+  t: 0
 --- !u!1 &476039356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,37 +1437,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 547154439}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &578065484
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 578065485}
-  m_Layer: 0
-  m_Name: Rotate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &578065485
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 578065484}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1363033842}
-  m_Father: {fileID: 1604939100}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &655436548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,6 +1726,8 @@ NavMeshObstacle:
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 0
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
 --- !u!65 &690883327
@@ -1779,7 +1800,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690883325}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.68, y: 1.2899084, z: 15.37}
+  m_LocalPosition: {x: 5.68, y: 1.2899084, z: 16.62}
   m_LocalScale: {x: 5.1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3323,7 +3344,6 @@ GameObject:
   - component: {fileID: 1159712337}
   - component: {fileID: 1159712336}
   - component: {fileID: 1159712339}
-  - component: {fileID: 1159712338}
   m_Layer: 0
   m_Name: Musketeer
   m_TagString: Enemy
@@ -3339,11 +3359,11 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159712332}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 85
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
@@ -3369,12 +3389,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159712332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.4, y: 0, z: 11.7}
+  m_LocalPosition: {x: 7.4, y: 0, z: 15.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 469294927}
   m_Father: {fileID: 0}
   m_RootOrder: 11
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1159712336
 NavMeshAgent:
@@ -3411,15 +3432,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1731912257}
-  rbody: {fileID: 1159712333}
+  spriteTransform: {fileID: 1731912256}
   agent: {fileID: 1159712336}
-  sprite: {fileID: 1731912258}
-  spriteRotation: {fileID: 0}
+  sphereCollider: {fileID: 1159712339}
+  billboard: {fileID: 469294926}
   waitTime: 2
-  sphereColliderAggro: {fileID: 1159712339}
-  sphereColliderFlee: {fileID: 1159712338}
-  AimTime: 0
+  pursueRadius: 15
+  attackRadius: 10
+  fleeRadius: 5
+  pursueSpeed: 4
+  fleeSpeed: 5
+  AimTime: 3
   patrolDistance: 4
+  firePivot: {fileID: 1162310441}
+  projectile: {fileID: 351001629929396286, guid: 7c083df4fab12403b88ed8415ae71294, type: 3}
+  projectileVelocity: 15
   patrolPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -3430,18 +3457,6 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
 --- !u!135 &1159712338
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159712332}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &1159712339
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3455,6 +3470,36 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1162310440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1162310441}
+  m_Layer: 0
+  m_Name: FirePivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1162310441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162310440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.02, y: 1.79, z: 2.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1159712335}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1165391859
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,6 +3616,7 @@ Transform:
   - {fileID: 124895654}
   m_Father: {fileID: 0}
   m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1165391865
 SphereCollider:
@@ -4044,7 +4090,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1363033842}
   - component: {fileID: 1363033843}
-  - component: {fileID: 1363033844}
   m_Layer: 0
   m_Name: DevilSprite
   m_TagString: Untagged
@@ -4059,11 +4104,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363033841}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 3.49, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.13, y: 0.65, z: -1.15}
   m_LocalScale: {x: 0.65450907, y: 0.65450907, z: 0.65450907}
   m_Children: []
-  m_Father: {fileID: 578065485}
+  m_Father: {fileID: 1604939100}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1363033843
@@ -4776,7 +4821,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 578065485}
+  - {fileID: 1363033842}
   m_Father: {fileID: 307686341}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4790,6 +4835,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 428bc62ee35af4f09b4a8504951167d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 88b1b5f1bdd9f45e68130297e719706d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   goober: {fileID: 800018388}
@@ -4809,6 +4855,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+
+  boolean: 0
+  musketeer: {fileID: 800018388}
+  lerpSpeed: 2
+  endRotation: {x: 0, y: 0, z: 0, w: 1}
+  t: 0
 --- !u!1 &1661146732
 GameObject:
   m_ObjectHideFlags: 0
@@ -4922,6 +4974,35 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684366473}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1688011001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688011002}
+  m_Layer: 0
+  m_Name: Devil
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1688011002
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688011001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.63, y: 0.24, z: 10.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 307686341}
+  - {fileID: 1841399989}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1708180714
 GameObject:
   m_ObjectHideFlags: 0
@@ -5147,7 +5228,6 @@ GameObject:
   - component: {fileID: 1731912256}
   - component: {fileID: 1731912258}
   - component: {fileID: 1731912257}
-  - component: {fileID: 1731912259}
   m_Layer: 0
   m_Name: MusketeerSprite
   m_TagString: Untagged
@@ -5163,7 +5243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731912255}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.029999733, y: 2.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: -1}
   m_LocalScale: {x: 0.2955975, y: 0.2955975, z: 0.2955975}
   m_Children: []
   m_Father: {fileID: 469294927}
@@ -5240,19 +5320,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1731912259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731912255}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428bc62ee35af4f09b4a8504951167d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goober: {fileID: 800018388}
 --- !u!1 &1754877372
 GameObject:
   m_ObjectHideFlags: 0
@@ -5505,6 +5572,55 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839551486}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1841399988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1841399989}
+  - component: {fileID: 1841399990}
+  m_Layer: 0
+  m_Name: DevilZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1841399989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841399988}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1688011002}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1841399990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841399988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0329d9ae3714bafbce1d36ef61ac53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0
+  detectionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  player: {fileID: 0}
+  colliders: []
 --- !u!1 &1995093529
 GameObject:
   m_ObjectHideFlags: 0

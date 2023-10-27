@@ -10,12 +10,12 @@ public class Billboard : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        //transform.rotation = mainCamera.transform.rotation;
     }
 
     void LateUpdate()
     {
         transform.rotation = mainCamera.transform.rotation;
+        //transform.eulerAngles = Vector3.zero;
     }
 
     private void Update()

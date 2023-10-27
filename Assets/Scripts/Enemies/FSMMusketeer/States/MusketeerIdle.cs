@@ -7,6 +7,7 @@ public class MusketeerIdle : MusketeerBaseState
     private float timer;
     public override void EnterState(MusketeerUnit unit)
     {
+        Debug.Log("I am idle.");
         timer = 0f;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Idle);
     }
@@ -32,9 +33,10 @@ public class MusketeerIdle : MusketeerBaseState
     {
         if (collider.CompareTag("Player"))
         {
+            unit.agent.isStopped = true;
             unit.player = collider.gameObject.transform;
             unit.TransitionToState(unit.AimState);
-            unit.sphereColliderAggro.radius = 20f;
+            unit.sphereCollider.radius = unit.fleeRadius;
         }
     }
 

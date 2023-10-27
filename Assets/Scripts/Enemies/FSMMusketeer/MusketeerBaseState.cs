@@ -24,4 +24,9 @@ public abstract class MusketeerBaseState
     {
 
     }
+
+    public virtual void OnDisable(MusketeerUnit unit)
+    {
+
+    }
 }

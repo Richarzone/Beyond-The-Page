@@ -1,23 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class MusketeerUnit : MonoBehaviour
 {
-    public Animator animator;
-    public Rigidbody rbody;
-    internal Transform player;
-    public NavMeshAgent agent;
-    public SpriteRenderer sprite;
-    public Transform spriteRotation;
-    public float waitTime;
-    public SphereCollider sphereColliderAggro;
-    public SphereCollider sphereColliderFlee;
-    public float AimTime;
+    [Header("Sprite components")] 
+    [SerializeField] public Animator animator;
+    public Transform spriteTransform;
 
+    [Header("Object components")]
+    public NavMeshAgent agent;
+    //private SpriteRenderer sprite;
+    public SphereCollider sphereCollider;
+
+    [Header("Billboard")]
+    public GameObject billboard;
+    internal BillboardMusketeer billboardMusketeer;
+
+    [Header("Enemy data")]
+    public float waitTime;
+    public float pursueRadius;
+    public float attackRadius;
+    public float fleeRadius;
+    public float pursueSpeed;
+    public float fleeSpeed;
+    public float AimTime;
     public float patrolDistance;
+
+    [Header("Projectile")]
+    [SerializeField] private Transform firePivot;
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private float projectileVelocity;
+    private Vector3 targetPosition;
+    private Vector3 direction;
+    private float targetRotation;
+
+    internal Transform player;
     internal int patrolIndex;
+    internal bool aimHelper;
 
     public MusketeerBaseState currentState;
     public MusketeerBaseState currentDirection;
@@ -27,7 +49,6 @@ public class MusketeerUnit : MonoBehaviour
     public readonly MusketeerAggro AggroState = new MusketeerAggro();
     public readonly MusketeerAim AimState = new MusketeerAim();
     public readonly MusketeerShoot ShootState = new MusketeerShoot();
-    public readonly MusketeerStand StandState = new MusketeerStand();
     public readonly MusketeerFlee FleeState = new MusketeerFlee();
     public readonly MusketeerFrontRight FRightState = new MusketeerFrontRight();
     public readonly MusketeerBackLeft BLeftState = new MusketeerBackLeft();
@@ -40,6 +61,7 @@ public class MusketeerUnit : MonoBehaviour
     {
         NavMeshPath path = new NavMeshPath();
         patrolIndex = 0;
+        billboardMusketeer = billboard.GetComponent<BillboardMusketeer>();
         //agent.autoBraking = false;
         CalculatePatrolPath(path);
         TransitionToState(IdleState);
@@ -74,7 +96,7 @@ public class MusketeerUnit : MonoBehaviour
         currentDirection.EnterState(this);
     }
 
-    public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Aim = 2, ShootReload = 3, Stand = 4, Death = 5}
+    public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Aim = 2, ShootReload = 3, Death = 4}
     public void SetAnimatorTrigger(AnimatorTriggerStates state)
     {
         animator.SetInteger("anim", (int)state);
@@ -90,7 +112,6 @@ public class MusketeerUnit : MonoBehaviour
     void CalculatePatrolPath(NavMeshPath path)
     {
         int firstDirection = Random.Range(0, 4);
-        //int firstDirection = 0;
 
         for (int i = 0; i < 8; i += 2)
         {
@@ -139,5 +160,42 @@ public class MusketeerUnit : MonoBehaviour
             }
 
         }
+    }
+
+    public void InstantiateProjectile(Transform pivot, Transform player, Vector3 direction)
+    {
+        GameObject instance = Instantiate(projectile, pivot.position, Quaternion.identity);
+        instance.transform.LookAt(player, Vector3.up);
+        instance.GetComponent<Rigidbody>().velocity = direction * projectileVelocity;
+    }
+
+    public void SetDirection(Transform player)
+    {
+        // Get the direction for the projectile to fly to
+        targetRotation = Mathf.Atan2(player.position.y - firePivot.position.y,
+                                     player.position.x - firePivot.position.x) * Mathf.Rad2Deg;
+
+        //Debug.Log(targetPosition);
+        direction = (new Vector3(player.position.x, firePivot.position.y, player.position.z) - firePivot.position).normalized;
+    }
+
+    public Vector3 GetDirection()
+    {
+        return direction;
+    }
+
+    public Transform GetFirePivot()
+    {
+        return firePivot;
+    }
+
+    public bool SetAimHelper(bool _aimHelper)
+    {
+        return aimHelper = _aimHelper;
+    }
+
+    public bool GetAimHelper()
+    {
+        return aimHelper;
     }
 }

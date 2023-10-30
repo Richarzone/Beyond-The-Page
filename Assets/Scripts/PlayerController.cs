@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     // References
     private Rigidbody rb;
-    
+
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
     private InputAction moveAction = new InputAction();
@@ -34,11 +35,22 @@ public class PlayerController : MonoBehaviour
     private bool dodge;
 
     [Header("Player Settings")]
+    [SerializeField] protected LayerMask playerLayer;
+    [SerializeField] private float playerHealth;
+    [SerializeField] private bool infiniteHealth;
     [SerializeField] private float movementSpeed;
     [SerializeField] private List<GameObject> characterClasses = new List<GameObject>();
     [SerializeField] private float characterChangeCooldown;
     private CharacterClass currentCharacterClass;
     private int currentClass;
+
+    [Header("Damage VFX")]
+    [SerializeField] private Transform damageAnimPivot;
+    [SerializeField] private GameObject damageNormalAnim;
+    [SerializeField] private GameObject damageCritAnim;
+    [SerializeField] private GameObject damageSuperAnim;
+    [SerializeField] private float minimunX;
+    [SerializeField] private float maximumX;
 
     [Header("Dodge")]
     [SerializeField] protected float dodgeSpeed;
@@ -193,7 +205,7 @@ public class PlayerController : MonoBehaviour
     private void Rotation()
     {
         Ray ray = Camera.main.ScreenPointToRay(aim);
-        
+
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity))
         {
             targetPosition = raycastHit.point;
@@ -326,7 +338,62 @@ public class PlayerController : MonoBehaviour
         character4Action.Enable();
     }
     #endregion
-    
+
+
+    #region Enemy Hit Damage
+    public void DamagePlayer(float damageValue)
+    {
+
+        if (!infiniteHealth)
+        {
+            playerHealth -= damageValue;
+        }
+
+        // Spawn damage effect
+        float randomX = Random.Range(minimunX, maximumX);
+
+        GameObject pivotInsatnce = new GameObject("Pivot Instance");
+        pivotInsatnce.transform.position = new Vector3(damageAnimPivot.position.x + randomX, damageAnimPivot.position.y, damageAnimPivot.position.z);
+        pivotInsatnce.transform.SetParent(damageAnimPivot);
+
+        GameObject damageInstance = DamageAnimationInstance(damageValue);
+        damageInstance.transform.SetParent(pivotInsatnce.transform);
+        damageInstance.transform.localScale = Vector3.one;
+        damageInstance.GetComponent<TextMeshProUGUI>().text = damageValue.ToString();
+
+        Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+
+        if (playerHealth <= 0)
+        {
+            damageAnimPivot.SetParent(null);
+            Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+            Destroy(gameObject);
+        }
+    }
+
+    private GameObject DamageAnimationInstance(float damageValue)
+    {
+        if (damageValue >= 3f)
+        {
+            return Instantiate(damageSuperAnim, transform.position, Quaternion.identity);
+        }
+        if (damageValue >= 2f)
+        {
+            return Instantiate(damageCritAnim, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            return Instantiate(damageNormalAnim, transform.position, Quaternion.identity);
+        }
+    }
+
+    public LayerMask GetPlayerLayer()
+    {
+        return playerLayer;
+    }
+
+    #endregion
+
     /*private void Victory(InputAction.CallbackContext context)
     {
         sceneManager.LoadVictoryScene();

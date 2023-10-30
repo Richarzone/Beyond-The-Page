@@ -64,7 +64,7 @@ public class Projectile : MonoBehaviour
             ParticleSystem impact = Instantiate(impactVFX, new Vector3(transform.position.x, 0.2f, transform.position.z), impactVFX.transform.rotation);
             Destroy(impact.gameObject, impact.main.duration + impact.main.duration);
         }
-        
+
         Destroy(gameObject);
     }
 

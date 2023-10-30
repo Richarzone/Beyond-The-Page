@@ -8,6 +8,7 @@ public class EnemyClass : MonoBehaviour
 {
     [SerializeField] private float health;
     [SerializeField] private bool infiniteHealth;
+    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask groundLayer;
     private float damageMultiplyer;
 
@@ -27,8 +28,13 @@ public class EnemyClass : MonoBehaviour
     private Animator hexAnimator;
     private Coroutine hexCorrutine;
 
+    [Header ("Hitboxes")]
+    [SerializeField] private float attackDamage;
+    [SerializeField] private float hitboxRange;
+
+
     private float currentHealth;
-    private bool isGrounded;
+    public bool isGrounded;
     private int hexLevel;
     
     void Start()
@@ -129,6 +135,21 @@ public class EnemyClass : MonoBehaviour
         if ((1 << collision.gameObject.layer) == groundLayer)
         {
             isGrounded = false;
+        }
+    }
+
+    public void EnemyMeleeAttack()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, hitboxRange);
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+
+            if ((1 << hitCollider.gameObject.layer) == playerLayer.value)
+            {
+                Debug.Log(hitCollider.gameObject.layer);
+                hitCollider.GetComponent<PlayerController>().DamagePlayer(attackDamage);
+            }
         }
     }
 }

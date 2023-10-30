@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class SceneLoaderManager : MonoBehaviour
 {
     [SerializeField] private Animator transitionAnimator;
-    private float clipLenght;
+    private float clipLength;
 
     private void Start()
     {
-        clipLenght = transitionAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        clipLength = transitionAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
     }
 
     public void LoadNextScene()
@@ -42,7 +42,7 @@ public class SceneLoaderManager : MonoBehaviour
     {
         transitionAnimator.SetTrigger("Start");
 
-        yield return new WaitForSeconds(clipLenght + 1f);
+        yield return new WaitForSeconds(clipLength + 1f);
 
         SceneManager.LoadScene(sceneIndex);
     }

@@ -6,44 +6,32 @@ using UnityEngine.UIElements;
 public class MusketeerFlee : MusketeerBaseState
 {
     private Vector3 walkPosition = new Vector3(0f, 0.8f, -1f);
-    private Vector3 startPos;
-
-    private float lerpSpeed;
-    private float t = 0.0f;
 
     private Vector3 fleeDirection;
     public override void EnterState(MusketeerUnit unit)
     {
-        unit.agent.isStopped = false;
-        unit.agent.speed = unit.fleeSpeed;
+        unit.Agent.isStopped = false;
+        unit.Agent.speed = unit.FleeSpeed;
         Debug.Log("I am fleeing.");
-        startPos = unit.spriteTransform.localPosition;
-        unit.spriteTransform.localRotation = Quaternion.Euler(Vector3.zero);
-        lerpSpeed = unit.billboardMusketeer.lerpSpeed;
-        unit.billboardMusketeer.boolean = true;
+        unit.SpriteTransform.localRotation = Quaternion.Euler(Vector3.zero);
+        unit.SpriteTransform.localPosition = walkPosition;
+        unit.BillboardMusketeer.lerpInt = 0;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Walk);
     }
 
     public override void Update(MusketeerUnit unit)
     {
         //Debug.DrawLine(unit.player.position, unit.transform.position, Color.blue, 10f);
-        fleeDirection = -(unit.player.position - unit.transform.position).normalized * 10f;
-        if (unit.spriteTransform.localPosition != walkPosition)
-        {
-            t += lerpSpeed * Time.deltaTime;
-            unit.spriteTransform.localPosition = Vector3.Lerp(startPos, walkPosition, t);
-        }
-        else if (Vector3.Distance(unit.transform.position, unit.player.position) >= unit.attackRadius)
+        fleeDirection = -(unit.Player.position - unit.transform.position).normalized * 10f;
+        if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.AttackRadius)
         {
             unit.TransitionToState(unit.AimState);
-            unit.transform.LookAt(unit.player, Vector3.up);
-            ChangeDirection(unit);
-            unit.sphereCollider.enabled = true;
-            unit.agent.isStopped = true;
+            unit.SphereRadius = unit.AttackRadius;
+            unit.Agent.isStopped = true;
         }
         else
         {
-            unit.agent.SetDestination(fleeDirection);
+            unit.Agent.SetDestination(fleeDirection);
             ChangeDirection(unit);
         }
     }

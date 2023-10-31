@@ -13,26 +13,26 @@ public class GubGubAttackMovement : StateMachineBehaviour
             unit = animator.gameObject.GetComponent<GubGubUnit>();
         }
         //Vector3 direction = Vector3.MoveTowards(unit.transform.position, unit.player.position, 1f);
-        Vector3 direction = unit.player.position - unit.transform.position;
+        Vector3 direction = unit.Player.position - unit.transform.position;
         direction.y = 0f;
         //Debug.Log(direction);
         //Debug.Log(direction.normalized * unit.attackMagnitude);
-        unit.agent.velocity = direction.normalized * unit.attackMagnitude;
+        unit.Agent.velocity = direction.normalized * unit.AttackMagnitude;
         //Debug.Log(unit.agent.velocity);
-        unit.agent.SetDestination(unit.player.position);
+        unit.Agent.SetDestination(unit.Player.position);
         //Debug.Log(unit.agent.pathStatus);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (unit.agent.velocity.x > 0)
+        if (unit.Agent.velocity.x > 0)
         {
-            unit.sprite.flipX = true;
+            unit.Sprite.flipX = true;
         }
         else
         {
-            unit.sprite.flipX = false;
+            unit.Sprite.flipX = false;
         }
     }
 

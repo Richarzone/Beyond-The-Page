@@ -2,20 +2,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class GooberUnit : MonoBehaviour
 {
-    public Animator animator;
-    public Rigidbody rbody;
-    public CapsuleCollider capsuleCollider;
-    public float wanderTimer;
-    public float moveRadius;
-    internal Transform player;
-    public NavMeshAgent agent;
-    public SpriteRenderer sprite;
-    public float attackMagnitude;
-    public float moveSpeed;
-    public float attackRadius;
+    [Header("Object components")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private Rigidbody rbody;
+    private Transform player;
+    public Transform Player
+    {
+        get { return player; }
+        set { player = value; }
+    }
+    [SerializeField] private NavMeshAgent agent;
+    public NavMeshAgent Agent
+    {
+        get { return agent; }
+    }
+
+    [Header("Sprite Components")]
+    [SerializeField] private SpriteRenderer sprite;
+    public SpriteRenderer Sprite
+    {
+        get { return sprite; }
+    }
+
+    [Header("Enemy Data")]
+    [SerializeField] private float wanderTimer;
+    public float WanderTimer
+    {
+        get { return wanderTimer; }
+    }
+    [SerializeField] private float moveRadius;
+    public float MoveRadius
+    {
+        get { return moveRadius; }
+    }
+    [SerializeField] private float moveSpeed;
+    public float MoveSpeed
+    {
+        get { return moveSpeed; }
+    }
+    [SerializeField] private float attackRadius;
+    public float AttackRadius
+    {
+        get { return attackRadius; }
+    }
+    [SerializeField] private float detectionRadius;
+    public float DetectionRadius
+    {
+        get { return detectionRadius; }
+    }
+
+    [Header("Attack Range")]
+    [SerializeField] private float attackMagnitude;
+    public float AttackMagnitude
+    {
+        get { return attackMagnitude; }
+    }
+
+    [SerializeField] private LayerMask playerLayer;
+
+    private Collider[] colliders;
+    public Collider[] Colliders
+    {
+        get { return colliders; }
+    }
 
     public GooberBaseState currentState;
 
@@ -33,6 +86,11 @@ public class GooberUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        colliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
+        foreach (Collider collider in colliders)
+        {
+            player = collider.gameObject.transform;
+        }
         currentState.Update(this);
     }
 
@@ -56,5 +114,13 @@ public class GooberUnit : MonoBehaviour
     public void SetAnimatorTrigger(AnimatorTriggerStates state)
     {
         animator.SetInteger("anim", (int)state);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }

@@ -18,7 +18,7 @@ public class DevilAggro : DevilBaseState
         startPos = unit.SpriteTransform.localPosition;
         lerpSpeed = unit.BillboardComponent.lerpSpeed;
         unit.SpriteTransform.localPosition = aimPosition;
-        unit.BillboardComponent.boolean = true;
+        //unit.BillboardComponent.boolean = true;
         unit.Agent.speed = unit.WalkSpeed;
         unit.Agent.isStopped = false;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Walk);

@@ -16,9 +16,14 @@ public class GubGubIdle : GubGubBaseState
     public override void Update(GubGubUnit unit)
     {
         timer += Time.deltaTime;
-        if (timer >= Random.Range(1f, unit.wanderTimer + 1f))
+        if (timer >= Random.Range(1f, unit.WanderTimer + 1f))
         {
             unit.TransitionToState(unit.PatrolState);
+        }
+
+        if(unit.Player != null)
+        {
+            unit.TransitionToState(unit.AggroState);
         }
     }
 
@@ -33,11 +38,6 @@ public class GubGubIdle : GubGubBaseState
 
     public override void OnTriggerEnter(GubGubUnit unit, Collider collider)
     {
-        if (collider.CompareTag("Player"))
-        {
-            unit.player = collider.gameObject.transform;
-            unit.TransitionToState(unit.AggroState);
-        }
     }
 
     public override void OnDisable(GubGubUnit unit)

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MusketeerShoot: MusketeerBaseState
+public class MusketeerShoot : MusketeerBaseState
 {
     private bool rotate;
     private Quaternion lookOnLook;
@@ -13,12 +13,12 @@ public class MusketeerShoot: MusketeerBaseState
     private bool executeCoroutine;
     public override void EnterState(MusketeerUnit unit)
     {
-        unit.sphereCollider.enabled = false;
+        unit.SphereRadius = 0;
         executeCoroutine = true;
         Debug.Log("I shot.");
-        Debug.Log(unit.GetAimHelper());
-        unit.SetDirection(unit.player);
-        unit.InstantiateProjectile(unit.GetFirePivot(), unit.player, unit.GetDirection());
+        Debug.Log(unit.AimHelper);
+        unit.SetDirection(unit.Player);
+        unit.InstantiateProjectile(unit.FirePivot, unit.Player, unit.Direction);
         rotate = false;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.ShootReload);
     }
@@ -40,11 +40,11 @@ public class MusketeerShoot: MusketeerBaseState
         if (rotate)
         {
             //ChangeDirection(unit);
-            lookOnLook = Quaternion.LookRotation(unit.player.position - unit.transform.position);
+            lookOnLook = Quaternion.LookRotation(unit.Player.position - unit.transform.position);
             unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, lookOnLook, Time.deltaTime);
 
             ReturnToAim(unit);
-            unit.spriteTransform.rotation = Quaternion.Slerp(unit.spriteTransform.rotation, lookOnLookSprite, Time.deltaTime);
+            unit.SpriteTransform.rotation = Quaternion.Slerp(unit.SpriteTransform.rotation, lookOnLookSprite, Time.deltaTime);
             //ReturnToAim(unit);
         }
     }
@@ -56,7 +56,7 @@ public class MusketeerShoot: MusketeerBaseState
         Debug.Log(executeCoroutine);
         if (executeCoroutine)
         {
-            unit.StartCoroutine(WaitForAim(unit, unit.animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
+            unit.StartCoroutine(WaitForAim(unit, unit.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
             executeCoroutine = false;
         }
         Debug.Log("DISABLED SHOOT");
@@ -64,7 +64,7 @@ public class MusketeerShoot: MusketeerBaseState
 
     public void ReturnToAim(MusketeerUnit unit)
     {
-        if (unit.GetAimHelper())
+        if (unit.AimHelper)
         {
             ReturnToAimLeft(unit);
         }
@@ -80,12 +80,12 @@ public class MusketeerShoot: MusketeerBaseState
         {
 
             unit.TransitionToDirection(unit.FLeftState);
-            lookOnLookSprite = Quaternion.LookRotation(unit.player.position - unit.spriteTransform.position) * Quaternion.Euler(new Vector3(0.0f, 90f, 0.0f));
+            lookOnLookSprite = Quaternion.LookRotation(unit.Player.position - unit.SpriteTransform.position) * Quaternion.Euler(new Vector3(0.0f, 90f, 0.0f));
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
             unit.TransitionToDirection(unit.BLeftState);
-            lookOnLookSprite = Quaternion.LookRotation(unit.player.position - unit.spriteTransform.position) * Quaternion.Euler(new Vector3(0.0f, 90f, 0.0f));
+            lookOnLookSprite = Quaternion.LookRotation(unit.Player.position - unit.SpriteTransform.position) * Quaternion.Euler(new Vector3(0.0f, 90f, 0.0f));
 
         }
     }
@@ -95,12 +95,12 @@ public class MusketeerShoot: MusketeerBaseState
         if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
             unit.TransitionToDirection(unit.FRightState);
-            lookOnLookSprite = Quaternion.LookRotation(unit.player.position - unit.spriteTransform.position) * Quaternion.Euler(new Vector3(0f, -90f, 0f));
+            lookOnLookSprite = Quaternion.LookRotation(unit.Player.position - unit.SpriteTransform.position) * Quaternion.Euler(new Vector3(0f, -90f, 0f));
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
             unit.TransitionToDirection(unit.BRightState);
-            lookOnLookSprite = Quaternion.LookRotation(unit.player.position - unit.spriteTransform.position) * Quaternion.Euler(new Vector3(0.0f, -90f, 0.0f));
+            lookOnLookSprite = Quaternion.LookRotation(unit.Player.position - unit.SpriteTransform.position) * Quaternion.Euler(new Vector3(0.0f, -90f, 0.0f));
 
         }
     }
@@ -113,25 +113,25 @@ public class MusketeerShoot: MusketeerBaseState
 
     public void ChangeDirection(MusketeerUnit unit)
     {
-        unit.spriteTransform.LookAt(unit.player, Vector3.up);
+        unit.SpriteTransform.LookAt(unit.Player, Vector3.up);
         if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
             //unit.TransitionToDirection(unit.FLeftState);
         }
         else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
             //unit.TransitionToDirection(unit.FRightState);
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
             //unit.TransitionToDirection(unit.BLeftState);
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
             //unit.TransitionToDirection(unit.BRightState);
         }
     }

@@ -15,9 +15,15 @@ public class MusketeerIdle : MusketeerBaseState
     public override void Update(MusketeerUnit unit)
     {
         timer += Time.deltaTime;
-        if (timer >= unit.waitTime)
+        if (timer >= unit.WaitTime)
         {
             unit.TransitionToState(unit.PatrolState);
+        }
+
+        if(unit.Player != null)
+        {
+            unit.TransitionToState(unit.AimState);
+            unit.SphereRadius = unit.FleeRadius;
         }
     }
 
@@ -31,13 +37,13 @@ public class MusketeerIdle : MusketeerBaseState
 
     public override void OnTriggerEnter(MusketeerUnit unit, Collider collider)
     {
-        if (collider.CompareTag("Player"))
-        {
-            unit.agent.isStopped = true;
-            unit.player = collider.gameObject.transform;
-            unit.TransitionToState(unit.AimState);
-            unit.sphereCollider.radius = unit.fleeRadius;
-        }
+        //if (collider.CompareTag("Player"))
+        //{
+        //    unit.agent.isStopped = true;
+        //    unit.player = collider.gameObject.transform;
+        //    unit.TransitionToState(unit.AimState);
+        //    unit.sphereCollider.radius = unit.fleeRadius;
+        //}
     }
 
 }

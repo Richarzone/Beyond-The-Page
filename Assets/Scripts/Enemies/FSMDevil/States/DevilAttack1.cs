@@ -18,7 +18,7 @@ public class DevilAttack1 : DevilBaseState
         startPos = unit.SpriteTransform.localPosition;
         lerpSpeed = unit.BillboardComponent.lerpSpeed;
         unit.SpriteTransform.localPosition = aimPosition;
-        unit.BillboardComponent.boolean = false;
+        //unit.BillboardComponent.boolean = false;
         Debug.Log("I am attacking.");
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Attack1);
         Debug.Log(unit.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);

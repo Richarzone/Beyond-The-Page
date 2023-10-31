@@ -7,9 +7,12 @@ public class GubGubAttack : GubGubBaseState
     {
         MonoBehaviour.print("I am attacking");
         //unit.agent.isStopped = false;
-        unit.agent.speed = 3.5f;
-        unit.agent.SetDestination(unit.transform.position);
-        MonoBehaviour.print(unit.agent.pathStatus);
+        unit.Agent.speed = 3.5f;
+        //unit.Agent.SetDestination(unit.transform.position);
+        unit.Agent.isStopped = true;
+        unit.Agent.ResetPath();
+        unit.Agent.isStopped = false;
+        MonoBehaviour.print(unit.Agent.pathStatus);
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Attack);
     }
 

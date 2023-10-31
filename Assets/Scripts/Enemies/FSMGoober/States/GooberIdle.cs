@@ -16,10 +16,15 @@ public class GooberIdle : GooberBaseState
     public override void Update(GooberUnit unit)
     {
         timer += Time.deltaTime;
-        if (timer >= Random.Range(1f, unit.wanderTimer + 1f)) 
+        if (timer >= Random.Range(1f, unit.WanderTimer + 1f)) 
         {
             unit.TransitionToState(unit.PatrolState);
         }
+
+        if(unit.Player != null)
+        {
+            unit.TransitionToState(unit.AggroState);
+        } 
     }
 
     public override void LateUpdate(GooberUnit unit)
@@ -33,11 +38,11 @@ public class GooberIdle : GooberBaseState
 
     public override void OnTriggerEnter(GooberUnit unit, Collider collider)
     {
-        if (collider.CompareTag("Player"))
-        {
-            unit.player = collider.gameObject.transform;
-            unit.TransitionToState(unit.AggroState);
-        }
+        //if (1<< collider.gameObject.layer == unit.PlayerLayer)
+        //{
+        //    unit.player = collider.gameObject.transform;
+        //    unit.TransitionToState(unit.AggroState);
+        //}
     }
 
     public override void OnDisable(GooberUnit unit)

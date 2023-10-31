@@ -170,7 +170,7 @@ AnimationClip:
     - time: 3.0833333
       value: {fileID: 21300000, guid: a92257f253e629a49afe734659ba25a4, type: 3}
     attribute: m_Sprite
-    path: 
+    path: Billboard/GubGubSprite
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 24

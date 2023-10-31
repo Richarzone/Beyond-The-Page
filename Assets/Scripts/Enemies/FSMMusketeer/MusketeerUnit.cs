@@ -7,39 +7,120 @@ using UnityEngine.AI;
 public class MusketeerUnit : MonoBehaviour
 {
     [Header("Sprite components")] 
-    [SerializeField] public Animator animator;
-    public Transform spriteTransform;
+    [SerializeField] private Animator animator;
+    public Animator Animator
+    {
+        get { return animator; }
+    }
+    [SerializeField] private Transform spriteTransform;
+    public Transform SpriteTransform
+    {
+        get { return spriteTransform; }
+    }
 
     [Header("Object components")]
-    public NavMeshAgent agent;
+    [SerializeField] private NavMeshAgent agent;
+    public NavMeshAgent Agent
+    {
+        get { return agent; }
+    }
+    private Transform player;
+    public Transform Player
+    {
+        get { return player; }
+        set { player = value; }
+    }
     //private SpriteRenderer sprite;
-    public SphereCollider sphereCollider;
 
     [Header("Billboard")]
-    public GameObject billboard;
-    internal BillboardMusketeer billboardMusketeer;
+    [SerializeField] private GameObject billboard;
+    private BillboardMusketeer billboardMusketeer;
+    public BillboardMusketeer BillboardMusketeer
+    {
+        get { return billboardMusketeer; }
+    }
 
     [Header("Enemy data")]
-    public float waitTime;
-    public float pursueRadius;
-    public float attackRadius;
-    public float fleeRadius;
-    public float pursueSpeed;
-    public float fleeSpeed;
-    public float AimTime;
-    public float patrolDistance;
+    [SerializeField] private float waitTime;
+    public float WaitTime
+    {
+        get { return waitTime; }
+    }
+    [SerializeField] private float pursueRadius;
+    public float PursueRadius
+    {
+        get { return pursueRadius; }
+    }
+    [SerializeField] private float attackRadius;
+    public float AttackRadius
+    {
+        get { return attackRadius; }
+    }
+    [SerializeField] private float fleeRadius;
+    public float FleeRadius
+    {
+        get { return fleeRadius; }
+    }
+    [SerializeField] private float pursueSpeed;
+    public float PursueSpeed
+    {
+        get { return pursueSpeed; }
+    }
+    [SerializeField] private float fleeSpeed;
+    public float FleeSpeed
+    {
+        get { return fleeSpeed; }
+    }
+    [SerializeField] private float aimTime;
+    public float AimTime
+    {
+        get { return aimTime; }
+    }
+    [SerializeField] private float patrolDistance;
+    [SerializeField] private LayerMask playerLayer;
 
     [Header("Projectile")]
     [SerializeField] private Transform firePivot;
+    public Transform FirePivot
+    {
+        get { return firePivot; }
+    }
     [SerializeField] private GameObject projectile;
     [SerializeField] private float projectileVelocity;
     private Vector3 targetPosition;
     private Vector3 direction;
+    public Vector3 Direction
+    {
+        get { return direction; }
+        set { direction = value; }
+    }
     private float targetRotation;
 
-    internal Transform player;
-    internal int patrolIndex;
-    internal bool aimHelper;
+    private int patrolIndex;
+    public int PatrolIndex
+    {
+        get { return patrolIndex; }
+        set { patrolIndex = value; }
+    }
+    private bool aimHelper;
+    public bool AimHelper
+    {
+        get { return aimHelper; }
+        set { aimHelper = value; }
+    }
+    private float sphereRadius;
+    public float SphereRadius
+    {
+        get { return sphereRadius; }
+        set { sphereRadius = value; }
+    }
+
+    
+    private Collider[] colliders;
+    public Collider[] Colliders
+    {
+        get { return colliders; }
+    }
 
     public MusketeerBaseState currentState;
     public MusketeerBaseState currentDirection;
@@ -59,6 +140,7 @@ public class MusketeerUnit : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        sphereRadius = attackRadius;
         NavMeshPath path = new NavMeshPath();
         patrolIndex = 0;
         billboardMusketeer = billboard.GetComponent<BillboardMusketeer>();
@@ -71,6 +153,11 @@ public class MusketeerUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        colliders = Physics.OverlapSphere(transform.position, sphereRadius, playerLayer);
+        foreach (Collider collider in colliders)
+        {
+            player = collider.gameObject.transform;
+        }
         currentState.Update(this);
     }
 
@@ -179,23 +266,10 @@ public class MusketeerUnit : MonoBehaviour
         direction = (new Vector3(player.position.x, firePivot.position.y, player.position.z) - firePivot.position).normalized;
     }
 
-    public Vector3 GetDirection()
+    void OnDrawGizmosSelected()
     {
-        return direction;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, sphereRadius);
     }
 
-    public Transform GetFirePivot()
-    {
-        return firePivot;
-    }
-
-    public bool SetAimHelper(bool _aimHelper)
-    {
-        return aimHelper = _aimHelper;
-    }
-
-    public bool GetAimHelper()
-    {
-        return aimHelper;
-    }
 }

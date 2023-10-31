@@ -8,29 +8,34 @@ public class GubGubPatrol : GubGubBaseState
     public override void EnterState(GubGubUnit unit)
     {
         MonoBehaviour.print("I am  patrolling");
-        destination = RandomDirection(unit, unit.moveRadius);
+        destination = RandomDirection(unit, unit.MoveRadius);
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Walk);
     }
 
     public override void Update(GubGubUnit unit)
     {
-        unit.agent.SetDestination(destination);
+        unit.Agent.SetDestination(destination);
         //MonoBehaviour.print(unit.agent.velocity.magnitude);
-        if (unit.agent.velocity.x > 0)
+        if (unit.Agent.velocity.x > 0)
         {
-            unit.sprite.flipX = true;
-            if (Vector3.Distance(unit.transform.position, unit.agent.destination) <= 0.1f)
+            unit.Sprite.flipX = true;
+            if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
                 unit.TransitionToState(unit.IdleState);
             }
         }
-        else if (unit.agent.velocity.x < 0)
+        else if (unit.Agent.velocity.x < 0)
         {
-            unit.sprite.flipX = false;
-            if (Vector3.Distance(unit.transform.position, unit.agent.destination) <= 0.1f)
+            unit.Sprite.flipX = false;
+            if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
                 unit.TransitionToState(unit.IdleState);
             }
+        }
+
+        if(unit.Player != null)
+        {
+            unit.TransitionToState(unit.AggroState);
         }
 
 
@@ -50,11 +55,6 @@ public class GubGubPatrol : GubGubBaseState
 
     public override void OnTriggerEnter(GubGubUnit unit, Collider collider)
     {
-        if (collider.CompareTag("Player"))
-        {
-            unit.player = collider.gameObject.transform;
-            unit.TransitionToState(unit.AggroState);
-        }
     }
 
     public Vector3 RandomDirection(GubGubUnit unit, float moveRadius)

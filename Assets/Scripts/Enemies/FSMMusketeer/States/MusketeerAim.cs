@@ -4,47 +4,44 @@ using UnityEngine;
 public class MusketeerAim : MusketeerBaseState
 {
     private Vector3 aimPosition = new Vector3(0f, 1.68f, 0f);
-    private Vector3 startPos;
-
-    private float lerpSpeed;
-    private float t = 0.0f;
 
     private IEnumerator coroutine;
 
     public override void EnterState(MusketeerUnit unit)
     {
         Debug.Log("Aiming at player");
-        startPos = unit.spriteTransform.localPosition;
-        lerpSpeed = unit.billboardMusketeer.lerpSpeed;
-        unit.billboardMusketeer.boolean = false;
-        unit.sphereCollider.enabled = true;
+        unit.BillboardMusketeer.lerpInt = 3;
+        unit.SpriteTransform.localPosition = aimPosition;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Aim);
-        coroutine = WaitForAimingTime(unit, this, unit.AimTime);
+        coroutine = WaitForAimingTime(unit, unit.AimTime);
         unit.StartCoroutine(coroutine);
-
     }
 
     public override void Update(MusketeerUnit unit)
     {
-        unit.transform.LookAt(unit.player, Vector3.up);
+        unit.transform.LookAt(unit.Player, Vector3.up);
         ChangeDirection(unit);
+        unit.Agent.SetDestination(unit.Player.position);
 
-        unit.agent.SetDestination(unit.player.position);
-        if (unit.spriteTransform.localPosition != aimPosition)
-        {
-            t += lerpSpeed * Time.deltaTime;
-            unit.spriteTransform.localPosition = Vector3.Lerp(startPos, aimPosition, t);
-        }
-        else if (Vector3.Distance(unit.transform.position, unit.agent.destination) >= unit.pursueRadius)
+        if (Vector3.Distance(unit.transform.position, unit.Agent.destination) >= unit.PursueRadius)
         {
             unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.AggroState);
-            unit.sphereCollider.radius = unit.attackRadius;
+            unit.SphereRadius = unit.AttackRadius;
         }
 
         //unit.spriteRotation.LookAt(unit.player, Vector3.up);
         //unit.spriteRotation.eulerAngles = unit.player.position;
 
+    }
+
+    public override void LateUpdate(MusketeerUnit unit)
+    {
+        if (unit.Colliders != null)
+        {
+            unit.TransitionToState(unit.FleeState);
+            unit.StopCoroutine(coroutine);
+        }
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)
@@ -53,45 +50,38 @@ public class MusketeerAim : MusketeerBaseState
 
     public override void OnTriggerEnter(MusketeerUnit unit, Collider collider)
     {
-        if (collider.CompareTag("Player"))
-        {
-            unit.TransitionToState(unit.FleeState);
-            unit.StopCoroutine(coroutine);
-            unit.player = collider.gameObject.transform;
-            unit.sphereCollider.enabled = false;
-        }
     }
 
     public void ChangeDirection(MusketeerUnit unit)
     {
-        unit.spriteTransform.LookAt(unit.player, Vector3.up);
+        unit.SpriteTransform.LookAt(unit.Player, Vector3.up);
         if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
-            unit.SetAimHelper(true);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
+            unit.AimHelper = true;
             unit.TransitionToDirection(unit.FLeftState);
         }
         else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
-            unit.SetAimHelper(false);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
+            unit.AimHelper = false;
             unit.TransitionToDirection(unit.FRightState);
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
-            unit.SetAimHelper(true);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
+            unit.AimHelper = true;
             unit.TransitionToDirection(unit.BLeftState);
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
-            unit.spriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
-            unit.SetAimHelper(false);
+            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
+            unit.AimHelper = false;
             unit.TransitionToDirection(unit.BRightState);
         }
     }
 
-    IEnumerator WaitForAimingTime(MusketeerUnit unit, MusketeerAim state, float aimTime)
+    IEnumerator WaitForAimingTime(MusketeerUnit unit, float aimTime)
     {
         yield return new WaitForSeconds(aimTime);
         unit.TransitionToState(unit.ShootState);

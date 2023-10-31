@@ -23,27 +23,23 @@ public class GubGubAggro : GubGubBaseState
 
     public override void OnTriggerEnter(GubGubUnit unit, Collider collider)
     {
-        if (collider.CompareTag("Player"))
-        {
-            unit.player = collider.gameObject.transform;
-        }
     }
 
     public override void Update(GubGubUnit unit)
     {
-        unit.agent.speed = unit.moveSpeed;
+        unit.Agent.speed = unit.MoveSpeed;
         //Debug.Log(unit.agent.speed);
-        unit.agent.SetDestination(unit.player.position);
-        if (unit.agent.velocity.x > 0)
+        unit.Agent.SetDestination(unit.Player.position);
+        if (unit.Agent.velocity.x > 0)
         {
-            unit.sprite.flipX = true;
+            unit.Sprite.flipX = true;
         }
         else
         {
-            unit.sprite.flipX = false;
+            unit.Sprite.flipX = false;
         }
 
-        if (Vector3.Distance(unit.transform.position, unit.agent.destination) <= unit.attackRadius)
+        if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= unit.AttackRadius)
         {
             //unit.agent.isStopped = true;
             unit.TransitionToState(unit.AttackState);

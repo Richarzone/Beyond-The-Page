@@ -5,6 +5,7 @@ public class GubGubAggro : GubGubBaseState
     public override void EnterState(GubGubUnit unit)
     {
         MonoBehaviour.print("I am agro");
+        unit.SphereRadius = unit.DetectionRadius;
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Walk);
     }
 

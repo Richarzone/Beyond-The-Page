@@ -25,6 +25,10 @@ public class GubGubIdle : GubGubBaseState
         {
             unit.TransitionToState(unit.AggroState);
         }
+        else if(unit.StartingHealth != unit.CurrentHealth)
+        {
+            unit.SphereRadius = 100f;
+        }
     }
 
     public override void LateUpdate(GubGubUnit unit)

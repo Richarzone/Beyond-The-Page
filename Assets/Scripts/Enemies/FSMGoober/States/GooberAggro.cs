@@ -5,6 +5,7 @@ public class GooberAggro : GooberBaseState
     public override void EnterState(GooberUnit unit)
     {
         MonoBehaviour.print("I am agro");
+        unit.SphereRadius = unit.DetectionRadius;
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Walk);
     }
 

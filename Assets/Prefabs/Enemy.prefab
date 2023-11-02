@@ -5122,9 +5122,9 @@ GameObject:
   - component: {fileID: 3941290083360925824}
   - component: {fileID: 3941290083360925825}
   - component: {fileID: 3941290083360925830}
-  - component: {fileID: 3941290083360925827}
   - component: {fileID: 3941290083360925826}
   - component: {fileID: 3941290083360925831}
+  - component: {fileID: 3941290083360925827}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -5198,36 +5198,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3941290083360925827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3941290083360925828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803267878855f064c90d2c428a4c4f7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 20
-  infiniteHealth: 1
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  damageAnimPivot: {fileID: 3941290082214821544}
-  damageNormalAnim: {fileID: 9040294145958886370, guid: 1edc9e31f955aa1449956235e03e6b64, type: 3}
-  damageCritAnim: {fileID: 6862093440302700443, guid: 01952e8881515d24b8da2151365912c4, type: 3}
-  damageSuperAnim: {fileID: 4800258163839220073, guid: 82b254f5bb04015488cdeee63d7a6336, type: 3}
-  minimunX: -0.5
-  maximumX: 0.5
-  hexLevels:
-  - {fileID: 2100000, guid: 2fd0b8fd4572d27408dfc206ab474ebd, type: 2}
-  - {fileID: 2100000, guid: 1086dd222230c4b45960ee0051b35e97, type: 2}
-  - {fileID: 2100000, guid: 930ed6626a7480048a76eb855f2ab180, type: 2}
-  hexCanvas: {fileID: 3941290083469379177}
-  hexImage: {fileID: 3941290082663140483}
-  hexBackground: {fileID: 3941290081701334895}
 --- !u!54 &3941290083360925826
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5258,6 +5228,42 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3941290083360925827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3941290083360925828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803267878855f064c90d2c428a4c4f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 20
+  infiniteHealth: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  damageAnimPivot: {fileID: 3941290082214821544}
+  damageNormalAnim: {fileID: 9040294145958886370, guid: 1edc9e31f955aa1449956235e03e6b64, type: 3}
+  damageCritAnim: {fileID: 6862093440302700443, guid: 01952e8881515d24b8da2151365912c4, type: 3}
+  damageSuperAnim: {fileID: 4800258163839220073, guid: 82b254f5bb04015488cdeee63d7a6336, type: 3}
+  minimunX: -0.5
+  maximumX: 0.5
+  hexLevels:
+  - {fileID: 2100000, guid: 2fd0b8fd4572d27408dfc206ab474ebd, type: 2}
+  - {fileID: 2100000, guid: 1086dd222230c4b45960ee0051b35e97, type: 2}
+  - {fileID: 2100000, guid: 930ed6626a7480048a76eb855f2ab180, type: 2}
+  hexCanvas: {fileID: 3941290083469379177}
+  hexImage: {fileID: 3941290082663140483}
+  hexBackground: {fileID: 3941290081701334895}
+  attackDamage: 0
+  hitboxRange: 0
+  isGrounded: 0
 --- !u!1 &3941290083469379177
 GameObject:
   m_ObjectHideFlags: 0

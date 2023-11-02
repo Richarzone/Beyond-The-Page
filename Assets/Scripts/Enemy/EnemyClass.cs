@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.AI;
 
 public class EnemyClass : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class EnemyClass : MonoBehaviour
     [SerializeField] private bool infiniteHealth;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Animator enemyAnimator;
+    [SerializeField] private float deathTime;
     private float damageMultiplyer;
 
     [Header("Damage VFX")]
@@ -34,6 +37,13 @@ public class EnemyClass : MonoBehaviour
 
 
     private float currentHealth;
+    public float CurrentHealth 
+    { 
+        get
+        {
+            return currentHealth;
+        }
+    }
     public bool isGrounded;
     private int hexLevel;
     
@@ -69,12 +79,19 @@ public class EnemyClass : MonoBehaviour
 
         Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
 
+        
         if (currentHealth <= 0)
         {
             damageAnimPivot.SetParent(null);
+            enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
+            enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
+            enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
+            Debug.Log(enemyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
             Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-            Destroy(gameObject);
+            Destroy(gameObject, deathTime);
+            
         }
+        
     }
 
     private GameObject DamageAnimationInstance(float applyDamage, float damageValue)

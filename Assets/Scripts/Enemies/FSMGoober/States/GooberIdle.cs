@@ -24,7 +24,11 @@ public class GooberIdle : GooberBaseState
         if(unit.Player != null)
         {
             unit.TransitionToState(unit.AggroState);
-        } 
+        }
+        else if (unit.StartingHealth != unit.CurrentHealth)
+        {
+            unit.SphereRadius = 100f;
+        }
     }
 
     public override void LateUpdate(GooberUnit unit)
@@ -38,11 +42,6 @@ public class GooberIdle : GooberBaseState
 
     public override void OnTriggerEnter(GooberUnit unit, Collider collider)
     {
-        //if (1<< collider.gameObject.layer == unit.PlayerLayer)
-        //{
-        //    unit.player = collider.gameObject.transform;
-        //    unit.TransitionToState(unit.AggroState);
-        //}
     }
 
     public override void OnDisable(GooberUnit unit)

@@ -37,7 +37,11 @@ public class GooberPatrol : GooberBaseState
         {
             unit.TransitionToState(unit.AggroState);
         }
-        
+        else if (unit.StartingHealth != unit.CurrentHealth)
+        {
+            unit.SphereRadius = 100f;
+        }
+
         //if (unit.agent.velocity.magnitude <= 0.15f)
         //{
         //    unit.TransitionToState(unit.IdleState);

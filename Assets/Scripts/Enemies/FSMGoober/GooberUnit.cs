@@ -55,6 +55,13 @@ public class GooberUnit : MonoBehaviour
         get { return detectionRadius; }
     }
 
+    private float sphereRadius;
+    public float SphereRadius
+    {
+        get { return sphereRadius; }
+        set { sphereRadius = value; }
+    }
+
     [Header("Attack Range")]
     [SerializeField] private float attackMagnitude;
     public float AttackMagnitude
@@ -70,6 +77,26 @@ public class GooberUnit : MonoBehaviour
         get { return colliders; }
     }
 
+    private EnemyClass enemyClass;
+    private float startingHealth;
+    public float StartingHealth
+    {
+        get
+        {
+            return startingHealth;
+        }
+    }
+
+    private float currentHealth;
+
+    public float CurrentHealth
+    {
+        get
+        {
+            return currentHealth;
+        }
+    }
+
     public GooberBaseState currentState;
 
     public readonly GooberIdle IdleState = new GooberIdle();
@@ -80,13 +107,21 @@ public class GooberUnit : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        sphereRadius = detectionRadius;
+        enemyClass = GetComponent<EnemyClass>();
         TransitionToState(IdleState);
+    }
+
+    private void Start()
+    {
+        startingHealth = enemyClass.CurrentHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        colliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
+        currentHealth = enemyClass.CurrentHealth;
+        colliders = Physics.OverlapSphere(transform.position, sphereRadius, playerLayer);
         foreach (Collider collider in colliders)
         {
             player = collider.gameObject.transform;
@@ -119,7 +154,7 @@ public class GooberUnit : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.DrawWireSphere(transform.position, sphereRadius);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }

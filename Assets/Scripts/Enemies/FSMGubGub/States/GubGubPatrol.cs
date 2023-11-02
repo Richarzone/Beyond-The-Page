@@ -37,7 +37,11 @@ public class GubGubPatrol : GubGubBaseState
         {
             unit.TransitionToState(unit.AggroState);
         }
-
+        else if(unit.StartingHealth != unit.CurrentHealth)
+        {
+            unit.SphereRadius = 100f;
+        }
+       
 
         //if (unit.agent.velocity.magnitude <= 0.15f)
         //{
@@ -51,6 +55,7 @@ public class GubGubPatrol : GubGubBaseState
 
     public override void OnCollisionEnter(GubGubUnit unit, Collision collider)
     {
+
     }
 
     public override void OnTriggerEnter(GubGubUnit unit, Collider collider)

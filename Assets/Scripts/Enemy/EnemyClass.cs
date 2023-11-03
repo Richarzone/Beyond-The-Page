@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
+using System.Linq;
 
 public class EnemyClass : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public class EnemyClass : MonoBehaviour
         if (currentHealth <= 0)
         {
             damageAnimPivot.SetParent(null);
+            enemyAnimator.GetComponent<List<AudioSource>>().ElementAt(3).Play();
             enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
             enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
             enemyAnimator.GetComponent<Animator>().SetTrigger("Death");

@@ -22,6 +22,8 @@ public class GooberAttackMovement : StateMachineBehaviour
         //Debug.Log(unit.agent.velocity);
         unit.Agent.SetDestination(unit.Player.position*1.5f);
         //Debug.Log(unit.agent.pathStatus);
+
+        unit.goobersSFX[2].Play();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

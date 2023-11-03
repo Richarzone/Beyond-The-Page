@@ -2,9 +2,15 @@
 
 public class GooberAggro : GooberBaseState
 {
+    private AudioSource audio;
+
     public override void EnterState(GooberUnit unit)
     {
-        MonoBehaviour.print("I am agro");
+        MonoBehaviour.print("I am aggro");
+        audio = unit.goobersSFX[0];
+        audio.loop = true;
+        audio.Play();
+
         unit.SphereRadius = unit.DetectionRadius;
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Walk);
     }
@@ -41,6 +47,8 @@ public class GooberAggro : GooberBaseState
         }
 
         if(Vector3.Distance(unit.transform.position, unit.Agent.destination) <= unit.AttackRadius) {
+            audio.loop = false;
+            audio.Stop();
             //unit.agent.isStopped = true;
             unit.TransitionToState(unit.AttackState);
         }

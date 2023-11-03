@@ -4,10 +4,14 @@ using UnityEngine.UIElements;
 
 public class GooberPatrol : GooberBaseState
 {
+    private AudioSource audio;
+    private float startingTime = 0f;
+    public float durationTime = 0.015f; // 15 milliseconds
     private Vector3 destination;
     public override void EnterState(GooberUnit unit)
     {
         MonoBehaviour.print("I am  patrolling");
+        audio = unit.goobersSFX[0];
         destination = RandomDirection(unit, unit.MoveRadius);
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Walk);
     }
@@ -16,7 +20,8 @@ public class GooberPatrol : GooberBaseState
     {
         unit.Agent.SetDestination(destination);
         //MonoBehaviour.print(unit.agent.velocity.magnitude);
-        if(unit.Agent.velocity.x > 0)
+        nextAudio();
+        if (unit.Agent.velocity.x > 0)
         {
             unit.Sprite.flipX = true;
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
@@ -83,5 +88,28 @@ public class GooberPatrol : GooberBaseState
 
     public override void OnDisable(GooberUnit unit)
     {
+    }
+
+    void nextAudio()
+    {
+        // Calculate the end time for the desired audio clip
+        float endTime = startingTime + durationTime;
+
+        // Check if the end time exceeds the audio clip length
+        if (endTime > audio.clip.length)
+        {
+            endTime = audio.clip.length;
+            startingTime = 0f;
+        }
+
+        // Set the time range for the audio clip
+        audio.time = startingTime;
+        audio.SetScheduledEndTime(endTime);
+
+        // Play the audio within the specified time range
+        audio.PlayScheduled(AudioSettings.dspTime);
+
+        // Update the starting time for the next iteration
+        startingTime = endTime;
     }
 }

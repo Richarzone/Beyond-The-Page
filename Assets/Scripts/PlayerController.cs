@@ -62,10 +62,11 @@ public class PlayerController : MonoBehaviour
     /*[Header("UI")]
     [SerializeField] private GameObject classMenu;*/
 
+
     private Vector3 targetPosition;
 
     private void Awake()
-    {
+    {   
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
 

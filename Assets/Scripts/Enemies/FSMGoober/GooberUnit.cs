@@ -104,6 +104,9 @@ public class GooberUnit : MonoBehaviour
     public readonly GooberAggro AggroState = new GooberAggro();
     public readonly GooberAttack AttackState = new GooberAttack();
 
+    [Header("SFX")]
+    public AudioSource[] goobersSFX;
+
     // Start is called before the first frame update
     void Awake()
     {

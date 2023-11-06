@@ -10,6 +10,7 @@ public class MusketeerPatrol : MusketeerBaseState
         {
             unit.PatrolIndex = 0;
         }
+        Debug.Log(unit.SphereRadius);
         //Debug.Log(unit.patrolPoints[unit.patrolIndex]);
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Walk);
         ChangeDirection(unit);
@@ -29,11 +30,17 @@ public class MusketeerPatrol : MusketeerBaseState
 
         }
 
-        if(unit.Player != null)
+        
+    }
+
+    public override void LateUpdate(MusketeerUnit unit)
+    {
+        if (unit.Player != null)
         {
             unit.Agent.isStopped = true;
-            unit.TransitionToState(unit.AimState);
             unit.SphereRadius = unit.FleeRadius;
+            unit.TransitionToState(unit.AimState);
+
         }
     }
 

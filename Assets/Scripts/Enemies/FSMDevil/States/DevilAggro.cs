@@ -8,17 +8,13 @@ public class DevilAggro : DevilBaseState
     private Vector3 aimPosition = new Vector3(0.13f, 0.65f, -1.15f);
     private Vector3 startPos;
 
-    private float lerpSpeed;
     private float t = 0f;
-
-    private Collider[] colliders;
+    private float lerpSpeed = 1f;
     public override void EnterState(DevilUnit unit)
     {
         Debug.Log("I am pursuing.");
         startPos = unit.SpriteTransform.localPosition;
-        lerpSpeed = unit.BillboardComponent.lerpSpeed;
-        unit.SpriteTransform.localPosition = aimPosition;
-        //unit.BillboardComponent.boolean = true;
+        //unit.SpriteTransform.localPosition = aimPosition;
         unit.Agent.speed = unit.WalkSpeed;
         unit.Agent.isStopped = false;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Walk);
@@ -30,24 +26,19 @@ public class DevilAggro : DevilBaseState
 
     public override void Update(DevilUnit unit)
     {
-        colliders = Physics.OverlapSphere(unit.transform.position, unit.AttackRadius, unit.DetectionLayer);
-
         unit.Agent.SetDestination(unit.Player.position);
         ChangeDirection(unit);
-        if (colliders.Length != 0)
-        {
-            unit.TransitionToState(unit.Attack1State);
-        }
-
-        //if (unit.SpriteTransform.localPosition != aimPosition)
-        //{
-        //    t += lerpSpeed * Time.deltaTime;
-        //    unit.SpriteTransform.localPosition = Vector3.Lerp(startPos, aimPosition, t);
-        //}
+        //Debug.Log(unit.Colliders.Length);
     }
 
     public override void LateUpdate(DevilUnit unit)
     {
+        if (unit.Colliders.Length != 0)
+        {
+            unit.Agent.isStopped = true;
+            unit.TransitionToState(unit.Attack1State);
+        }
+
         if (unit.DevilZone.colliders.Length == 0)
         {
             unit.TransitionToState(unit.ReturnState);
@@ -56,11 +47,6 @@ public class DevilAggro : DevilBaseState
     }
 
     public override void OnTriggerEnter(DevilUnit unit, Collider collider)
-    {
-
-    }
-
-    public override void OnTriggerExit(DevilUnit unit, Collider collider)
     {
 
     }
@@ -74,18 +60,22 @@ public class DevilAggro : DevilBaseState
     {
         if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
         {
+            unit.AimHelper = true;
             unit.TransitionToDirection(unit.FLeftState);
         }
         else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
+            unit.AimHelper = false;
             unit.TransitionToDirection(unit.FRightState);
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
+            unit.AimHelper = true;
             unit.TransitionToDirection(unit.BLeftState);
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
+            unit.AimHelper = false;
             unit.TransitionToDirection(unit.BRightState);
         }
     }

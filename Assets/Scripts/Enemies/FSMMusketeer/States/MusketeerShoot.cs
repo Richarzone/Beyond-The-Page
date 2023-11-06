@@ -13,7 +13,6 @@ public class MusketeerShoot : MusketeerBaseState
     private bool executeCoroutine;
     public override void EnterState(MusketeerUnit unit)
     {
-        unit.SphereRadius = 0;
         executeCoroutine = true;
         Debug.Log("I shot.");
         Debug.Log(unit.AimHelper);
@@ -109,30 +108,6 @@ public class MusketeerShoot : MusketeerBaseState
     {
         yield return new WaitForSeconds(length);
         unit.TransitionToState(unit.AimState);
-    }
-
-    public void ChangeDirection(MusketeerUnit unit)
-    {
-        unit.SpriteTransform.LookAt(unit.Player, Vector3.up);
-        if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
-        {
-            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
-            //unit.TransitionToDirection(unit.FLeftState);
-        }
-        else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
-        {
-            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
-            //unit.TransitionToDirection(unit.FRightState);
-        }
-        else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
-        {
-            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
-            //unit.TransitionToDirection(unit.BLeftState);
-        }
-        else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
-        {
-            unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
-            //unit.TransitionToDirection(unit.BRightState);
-        }
+        unit.SphereRadius = unit.FleeRadius;
     }
 }

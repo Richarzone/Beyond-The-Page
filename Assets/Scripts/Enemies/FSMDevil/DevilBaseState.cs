@@ -5,6 +5,12 @@ using UnityEngine;
 public abstract class DevilBaseState
 {
     public abstract void EnterState(DevilUnit unit);
+
+    public virtual void FixedUpdate(DevilUnit unit)
+    {
+
+    }
+
     public virtual void Update(DevilUnit unit)
     {
 
@@ -16,11 +22,6 @@ public abstract class DevilBaseState
     }
 
     public virtual void OnTriggerEnter(DevilUnit unit, Collider collider)
-    {
-
-    }
-
-    public virtual void OnTriggerExit(DevilUnit unit, Collider collider)
     {
 
     }

@@ -23,11 +23,6 @@ public class DevilAttack2 : DevilBaseState
 
     }
 
-    public override void OnTriggerExit(DevilUnit unit, Collider collider)
-    {
-
-    }
-
     public override void OnCollisionEnter(DevilUnit unit, Collision collision)
     {
 

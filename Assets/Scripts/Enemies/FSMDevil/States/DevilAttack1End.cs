@@ -12,7 +12,7 @@ public class DevilAttack1End : StateMachineBehaviour
         {
             unit = animator.gameObject.GetComponent<DevilUnit>();
         }
-        unit.CurrentState.OnDisable(unit);
+        unit.currentState.OnDisable(unit);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

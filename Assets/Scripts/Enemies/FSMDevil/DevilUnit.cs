@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class DevilUnit : MonoBehaviour
 {
@@ -27,8 +28,8 @@ public class DevilUnit : MonoBehaviour
 
     [Header("Billboard")]
     [SerializeField] private GameObject billboard;
-    private BillboardMusketeer billboardComponent;
-    public BillboardMusketeer BillboardComponent
+    private BillboardDevil billboardComponent;
+    public BillboardDevil BillboardComponent
     {
         get { return billboardComponent; }
     }
@@ -68,30 +69,30 @@ public class DevilUnit : MonoBehaviour
         set { rotateHelper = value; }
     }
 
-    private DevilBaseState currentState;
-    public DevilBaseState CurrentState
-    {
-        get { return currentState; }
-    }
-    private DevilBaseState currentDirection;
-    public DevilBaseState CurrentDirection
-    {
-        get { return currentDirection; }
-    }
-
     [Header("Attack Range")]
     [SerializeField] private float attackRadius;
     public float AttackRadius
     {
         get { return attackRadius; }
     }
-    [SerializeField] private LayerMask detectionLayer;
-    public LayerMask DetectionLayer
+    [SerializeField] private LayerMask playerLayer;
+
+    private Collider[] colliders;
+    public Collider[] Colliders
     {
-        get { return detectionLayer; }
+        get { return colliders; }
+        set { colliders = value; }
     }
 
-    internal bool fromAttack;
+    private bool aimHelper;
+    public bool AimHelper
+    {
+        get { return aimHelper; }
+        set { aimHelper = value; }
+    }
+
+    public DevilBaseState currentState;
+    public DevilBaseState currentDirection;
 
     public readonly DevilIdle IdleState = new DevilIdle();
     public readonly DevilAggro AggroState = new DevilAggro();
@@ -108,11 +109,20 @@ public class DevilUnit : MonoBehaviour
     {
         devilZone = AggroArea.GetComponent<DevilZone>();
         devilZone.radius = detectionRadius;
-        billboardComponent = billboard.GetComponent<BillboardMusketeer>();
+        billboardComponent = billboard.GetComponent<BillboardDevil>();
         TransitionToState(IdleState);
         TransitionToDirection(FLeftState);
     }
 
+    void FixedUpdate()
+    {
+        colliders = Physics.OverlapSphere(transform.position, AttackRadius, playerLayer);
+        foreach (Collider collider in colliders)
+        {
+            player = collider.gameObject.transform;
+        }
+        currentState.FixedUpdate(this);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -127,11 +137,6 @@ public class DevilUnit : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         currentState.OnTriggerEnter(this, other);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        currentState.OnTriggerExit(this, other);
     }
 
     void OnCollisionEnter(Collision other)

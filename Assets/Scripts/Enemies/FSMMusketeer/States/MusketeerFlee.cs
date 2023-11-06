@@ -26,7 +26,7 @@ public class MusketeerFlee : MusketeerBaseState
         if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.AttackRadius)
         {
             unit.TransitionToState(unit.AimState);
-            unit.SphereRadius = unit.AttackRadius;
+            unit.SphereRadius = unit.FleeRadius;
             unit.Agent.isStopped = true;
         }
         else

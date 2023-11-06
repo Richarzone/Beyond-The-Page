@@ -8,6 +8,7 @@ public class MusketeerIdle : MusketeerBaseState
     public override void EnterState(MusketeerUnit unit)
     {
         Debug.Log("I am idle.");
+        Debug.Log(unit.SphereRadius);
         timer = 0f;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Idle);
     }
@@ -20,15 +21,17 @@ public class MusketeerIdle : MusketeerBaseState
             unit.TransitionToState(unit.PatrolState);
         }
 
-        if(unit.Player != null)
-        {
-            unit.TransitionToState(unit.AimState);
-            unit.SphereRadius = unit.FleeRadius;
-        }
+        
     }
 
     public override void LateUpdate(MusketeerUnit unit)
     {
+        if (unit.Player != null)
+        {
+            unit.Agent.isStopped = true;
+            unit.SphereRadius = unit.FleeRadius;
+            unit.TransitionToState(unit.AimState);
+        }
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

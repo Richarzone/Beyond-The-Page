@@ -120,6 +120,7 @@ public class MusketeerUnit : MonoBehaviour
     public Collider[] Colliders
     {
         get { return colliders; }
+        set { colliders = value; }
     }
 
     public MusketeerBaseState currentState;
@@ -150,15 +151,25 @@ public class MusketeerUnit : MonoBehaviour
         TransitionToDirection(FRightState);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         colliders = Physics.OverlapSphere(transform.position, sphereRadius, playerLayer);
-        foreach (Collider collider in colliders)
+        foreach(Collider collider in colliders)
         {
             player = collider.gameObject.transform;
         }
+        currentState.FixedUpdate(this);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         currentState.Update(this);
+    }
+
+    private void LateUpdate()
+    {
+        currentState.LateUpdate(this);
     }
 
     void OnTriggerEnter(Collider other)

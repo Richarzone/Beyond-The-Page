@@ -21,9 +21,9 @@ public class MusketeerAim : MusketeerBaseState
     {
         unit.transform.LookAt(unit.Player, Vector3.up);
         ChangeDirection(unit);
-        unit.Agent.SetDestination(unit.Player.position);
+        //unit.Agent.SetDestination(unit.Player.position);
 
-        if (Vector3.Distance(unit.transform.position, unit.Agent.destination) >= unit.PursueRadius)
+        if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.PursueRadius)
         {
             unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.AggroState);
@@ -37,10 +37,11 @@ public class MusketeerAim : MusketeerBaseState
 
     public override void LateUpdate(MusketeerUnit unit)
     {
-        if (unit.Colliders != null)
+        if (unit.Colliders.Length != 0)
         {
-            unit.TransitionToState(unit.FleeState);
+            unit.SphereRadius = 0;
             unit.StopCoroutine(coroutine);
+            unit.TransitionToState(unit.FleeState);
         }
     }
 
@@ -86,5 +87,4 @@ public class MusketeerAim : MusketeerBaseState
         yield return new WaitForSeconds(aimTime);
         unit.TransitionToState(unit.ShootState);
     }
-
 }

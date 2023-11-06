@@ -5,6 +5,12 @@ using UnityEngine;
 public abstract class MusketeerBaseState
 {
     public abstract void EnterState(MusketeerUnit unit);
+
+    public virtual void FixedUpdate(MusketeerUnit unit)
+    {
+
+    }
+
     public virtual void Update(MusketeerUnit unit)
     {
 

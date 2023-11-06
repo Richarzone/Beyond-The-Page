@@ -36,26 +36,20 @@ public class DevilIdle : DevilBaseState
             }
             timer = 0f;
         }
-
-        if(unit.DevilZone.player != null)
-        {
-            unit.Player = unit.DevilZone.player;
-            unit.TransitionToState(unit.AggroState);
-        }
     }
 
     public override void LateUpdate(DevilUnit unit)
     {
-
+        if (unit.DevilZone.player != null)
+        {
+            unit.Player = unit.DevilZone.player;
+            unit.DevilZone.transform.position = unit.Player.position;
+            unit.TransitionToState(unit.AggroState);
+        }
     }
 
     public override void OnTriggerEnter(DevilUnit unit, Collider collider)
     {
-    }
-
-    public override void OnTriggerExit(DevilUnit unit, Collider collider)
-    {
-
     }
 
     public override void OnCollisionEnter(DevilUnit unit, Collision collision)

@@ -86,7 +86,11 @@ public class RollingThunder : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityCanvas.enabled = true;
+        abilityCanvas.transform.localScale = new Vector3(abilityWidth, 0, abilityRange);
+        abilityCanvas.transform.localPosition = new Vector3(0, abilityCanvas.transform.localPosition.y, abilityRange / 2f);
 
         character.BlockClassChange = true;
         character.BlockAbilities = true;
@@ -104,6 +108,8 @@ public class RollingThunder : AbilityClass
 
             yield return null;
         }
+
+        ability.SkillLock();
 
         SetDirection();
         InstantiateProjectile(thunderPrefab, firePivot, thunderVelocity, direction, thunderDamage);

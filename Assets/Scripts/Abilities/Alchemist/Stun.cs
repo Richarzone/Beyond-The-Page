@@ -91,6 +91,8 @@ public class Stun : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
         abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
         abilityCanvas.enabled = true;
@@ -114,6 +116,8 @@ public class Stun : AbilityClass
 
             yield return null;
         }
+
+        ability.SkillLock();
 
         SetDirectionTarget();
         InstantiateProjectileTarget(stunPrefab, firePivot, stunVelocity, direction);

@@ -98,6 +98,8 @@ public class Nova : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
@@ -110,6 +112,8 @@ public class Nova : AbilityClass
         {
             yield return null;
         }
+
+        ability.SkillLock();
 
         character.BlockAttack = true;
         character.BlockMovement = true;

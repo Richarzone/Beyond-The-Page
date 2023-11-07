@@ -17,14 +17,9 @@ public class AbilityClass : MonoBehaviour
 
     protected CharacterClass characterClass;
 
-    void Start()
+    private void Awake()
     {
         characterClass = GetComponent<CharacterClass>();
-        
-        /*if (characterClass.Gl())
-        {
-            abilityCooldown = characterClass.AbilityCooldown();
-        }*/
     }
 
     public virtual void UseAbility()

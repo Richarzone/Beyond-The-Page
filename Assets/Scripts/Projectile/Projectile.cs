@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [Header("Projectile Settings")]
     [SerializeField] protected float lifeTime;
     [SerializeField] protected bool hasImpactVFX;
     [SerializeField] protected ParticleSystem impactVFX;
@@ -13,7 +14,7 @@ public class Projectile : MonoBehaviour
     protected float baseDamage;
     protected float calculatedDamge;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(LifeTime());
     }
@@ -24,7 +25,7 @@ public class Projectile : MonoBehaviour
         calculatedDamge = applyDamage;
     }
 
-    private IEnumerator LifeTime()
+    protected IEnumerator LifeTime()
     {
         yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
@@ -35,6 +36,7 @@ public class Projectile : MonoBehaviour
         if ((1 << collision.gameObject.layer) == enemyLayer.value && !ignoreEnemyLayer)
         {
             collision.gameObject.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
+
         }
 
         /*Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashRange);
@@ -58,7 +60,6 @@ public class Projectile : MonoBehaviour
         impactAudioSource.PlayOneShot(impactSound);
 
         Destroy(impactPoint, impactSound.length);*/
-
         if (hasImpactVFX)
         {
             ParticleSystem impact = Instantiate(impactVFX, new Vector3(transform.position.x, 0.2f, transform.position.z), impactVFX.transform.rotation);
@@ -66,6 +67,7 @@ public class Projectile : MonoBehaviour
         }
 
         Destroy(gameObject);
+
     }
 
     private void OnTriggerEnter(Collider other)

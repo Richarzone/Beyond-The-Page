@@ -91,6 +91,8 @@ public class Molotov : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(molotovRange, molotovRange, molotovRange);
         abilityCanvas.transform.localScale = new Vector3(molotovAOE, molotovAOE, molotovAOE);
         abilityCanvas.enabled = true;
@@ -114,6 +116,8 @@ public class Molotov : AbilityClass
 
             yield return null;
         }
+
+        ability.SkillLock();
 
         SetDirectionTarget();
         InstantiateProjectileTarget(molotovPrefab, firePivot, molotovVelocity, direction);

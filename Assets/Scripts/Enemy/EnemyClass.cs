@@ -169,4 +169,9 @@ public class EnemyClass : MonoBehaviour
             }
         }
     }
+
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
 }

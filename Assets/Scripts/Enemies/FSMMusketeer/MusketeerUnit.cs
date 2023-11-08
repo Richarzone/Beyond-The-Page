@@ -115,7 +115,27 @@ public class MusketeerUnit : MonoBehaviour
         set { sphereRadius = value; }
     }
 
-    
+    private EnemyClass enemyClass;
+    private float startingHealth;
+    public float StartingHealth
+    {
+        get
+        {
+            return startingHealth;
+        }
+    }
+
+    private float currentHealth;
+
+    public float CurrentHealth
+    {
+        get
+        {
+            return currentHealth;
+        }
+    }
+
+
     private Collider[] colliders;
     public Collider[] Colliders
     {
@@ -142,6 +162,7 @@ public class MusketeerUnit : MonoBehaviour
     void Awake()
     {
         sphereRadius = attackRadius;
+        enemyClass = GetComponent<EnemyClass>();
         NavMeshPath path = new NavMeshPath();
         patrolIndex = 0;
         billboardMusketeer = billboard.GetComponent<BillboardMusketeer>();
@@ -149,6 +170,11 @@ public class MusketeerUnit : MonoBehaviour
         CalculatePatrolPath(path);
         TransitionToState(IdleState);
         TransitionToDirection(FRightState);
+    }
+
+    private void Start()
+    {
+        startingHealth = enemyClass.CurrentHealth;
     }
 
     private void FixedUpdate()
@@ -164,6 +190,7 @@ public class MusketeerUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentHealth = enemyClass.CurrentHealth;
         currentState.Update(this);
     }
 

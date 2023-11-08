@@ -32,9 +32,15 @@ public class EnemyClass : MonoBehaviour
     private Coroutine hexCorrutine;
 
     [Header ("Hitboxes")]
-    [SerializeField] private float attackDamage;
     [SerializeField] private float hitboxRange;
-
+    [SerializeField] private float attackDamage;
+    public float AttackDamage
+    {
+        get
+        {
+            return attackDamage;
+        }
+    }
 
     private float currentHealth;
     public float CurrentHealth 

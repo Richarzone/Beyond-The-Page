@@ -42,6 +42,10 @@ public class MusketeerPatrol : MusketeerBaseState
             unit.TransitionToState(unit.AimState);
 
         }
+        else if (unit.StartingHealth != unit.CurrentHealth)
+        {
+            unit.SphereRadius = 100f;
+        }
     }
 
     public override void OnTriggerEnter(MusketeerUnit unit, Collider collider)

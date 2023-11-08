@@ -140,7 +140,7 @@ AnimationClip:
     - time: 2.4583333
       value: {fileID: 21300000, guid: 5c6f6714b3d384b20abd1c943d7efe13, type: 3}
     attribute: m_Sprite
-    path: 
+    path: Billboard/MusketeerSprite
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 24

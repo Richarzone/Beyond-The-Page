@@ -8,10 +8,13 @@ public class Projectile : MonoBehaviour
     [SerializeField] protected bool hasImpactVFX;
     [SerializeField] protected ParticleSystem impactVFX;
     [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected LayerMask playerLayer;
     [SerializeField] protected bool ignoreEnemyLayer;
+    [SerializeField] protected float attackDamage;
 
     protected float baseDamage;
     protected float calculatedDamge;
+   
 
     void Start()
     {
@@ -35,6 +38,10 @@ public class Projectile : MonoBehaviour
         if ((1 << collision.gameObject.layer) == enemyLayer.value && !ignoreEnemyLayer)
         {
             collision.gameObject.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
+        }
+        else if ((1 << collision.gameObject.layer) == playerLayer.value)
+        {
+            collision.gameObject.GetComponent<PlayerController>().DamagePlayer(attackDamage);
         }
 
         /*Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashRange);
@@ -74,5 +81,6 @@ public class Projectile : MonoBehaviour
         {
             other.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
         }
+       
     }
 }

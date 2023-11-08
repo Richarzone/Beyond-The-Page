@@ -32,6 +32,10 @@ public class MusketeerIdle : MusketeerBaseState
             unit.SphereRadius = unit.FleeRadius;
             unit.TransitionToState(unit.AimState);
         }
+        else if (unit.StartingHealth != unit.CurrentHealth)
+        {
+            unit.SphereRadius = 100f;
+        }
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

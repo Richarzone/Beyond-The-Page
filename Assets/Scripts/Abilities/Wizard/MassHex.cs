@@ -97,6 +97,8 @@ public class MassHex : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(hexRange, hexRange, hexRange);
         abilityCanvas.transform.localScale = (Vector3.one * hexAOE) * 2;
         abilityCanvas.enabled = true;
@@ -123,6 +125,8 @@ public class MassHex : AbilityClass
 
         ParticleSystem hexInstance = InstantiateOnPoint(hexPrefab, abilityTargetPosition);
         Destroy(hexInstance.gameObject, hexInstance.main.duration + hexInstance.main.startLifetime.constant);
+        
+        ability.SkillLock();
 
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;

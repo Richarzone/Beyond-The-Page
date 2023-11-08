@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TwinSpell : AbilityClass
+public partial class TwinSpell : AbilityClass
 {
     [SerializeField] private Transform vfxPivot;
 
@@ -30,11 +30,6 @@ public class TwinSpell : AbilityClass
         {
             blockSkill = true;
 
-            if (characterClass.GetAbilityManager().BlockAbilitySlots())
-            {
-                characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
-            }
-
             characterClass.GetAbilityManager().AbilityCoroutineManager(characterClass.GetAbilityManager().LastUsedSkill.TwinSpellCoroutine(characterClass, this));
 
             ParticleSystem vfxTwinSpellInstance = Instantiate(twinSpellVFX, characterClass.GetVFXPivot().position, twinSpellVFX.transform.rotation);
@@ -45,6 +40,11 @@ public class TwinSpell : AbilityClass
             while (skillLock)
             {
                 yield return null; 
+            }
+
+            if (characterClass.GetAbilityManager().BlockAbilitySlots())
+            {
+                characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
             }
 
             characterClass.GetAbilityManager().LastUsedSkill = this;
@@ -78,8 +78,8 @@ public class TwinSpell : AbilityClass
         }
     }
 
-    public void SkillLock(bool value)
+    public void SkillLock()
     {
-        skillLock = value;
+        skillLock = !skillLock;
     }   
 }

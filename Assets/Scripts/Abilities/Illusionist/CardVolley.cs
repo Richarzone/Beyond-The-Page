@@ -27,11 +27,10 @@ public class CardVolley : AbilityClass
 
     public override void UseAbility()
     {
-        currentAmmo = ammunition;
-        currentDuration = abilityDuration;
-
         if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
+            currentAmmo = ammunition;
+            currentDuration = abilityDuration;
             characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
@@ -43,6 +42,7 @@ public class CardVolley : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         blockSkill = true;
+        float currentLowest;
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
         {
@@ -65,15 +65,21 @@ public class CardVolley : AbilityClass
         {
             if (target == null)
             {
-                // -------------Look for lowest health enemy-----------
-                Collider[] hitColliders = Physics.OverlapSphere(transform.position, cardVolleyRange);
+                currentLowest = 100000;
+                // Look for lowest health enemy
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, cardVolleyRange, characterClass.GetEnemyLayer().value);
 
                 foreach (Collider collider in hitColliders)
                 {
-                    if (hitColliders.Length != 0 && (1 << collider.gameObject.layer) == characterClass.GetEnemyLayer().value)
+                    if (hitColliders.Length != 0)
                     {
-                        target = collider.transform;
-                        break;
+                        EnemyClass enemy = collider.gameObject.GetComponent<EnemyClass>();
+
+                        if (enemy.GetHealth() < currentLowest)
+                        {
+                            currentLowest = enemy.GetHealth();
+                            target = enemy.transform;
+                        }
                     }
                 }
             }
@@ -85,19 +91,15 @@ public class CardVolley : AbilityClass
                 {
                     Shoot();
                 }
-                else
-                {
-                    target = null;
-                }
             }
-
 
             currentDuration -= Time.deltaTime;
 
             yield return null;
         }
 
-        Destroy(cardVolleyVFXInstance.gameObject);
+        cardVolleyVFXInstance.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        Destroy(cardVolleyVFXInstance.gameObject, cardVolleyVFXInstance.main.duration + cardVolleyVFXInstance.main.startLifetime.constant);
 
         abilityRangeIndicator.enabled = false;
 
@@ -118,11 +120,79 @@ public class CardVolley : AbilityClass
         blockSkill = false;
     }
 
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
+    {
+        currentAmmo = ammunition;
+        currentDuration = abilityDuration;
+        float currentLowest;
+
+        abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * cardVolleyRange) * 2;
+        abilityRangeIndicator.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
+
+        Cursor.visible = false;
+
+        // Instantiate VFX
+        ParticleSystem cardVolleyVFXInstance = Instantiate(cardVolleyVFX, characterClass.GetVFXPivot().position, cardVolleyVFX.transform.rotation);
+        cardVolleyVFXInstance.transform.parent = characterClass.GetVFXPivot();
+
+        while (currentAmmo > 0 && currentDuration > 0)
+        {
+            if (target == null)
+            {
+                currentLowest = 100000;
+                // Look for lowest health enemy
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, cardVolleyRange, characterClass.GetEnemyLayer().value);
+
+                foreach (Collider collider in hitColliders)
+                {
+                    if (hitColliders.Length != 0)
+                    {
+                        EnemyClass enemy = collider.gameObject.GetComponent<EnemyClass>();
+
+                        if (enemy.GetHealth() < currentLowest)
+                        {
+                            currentLowest = enemy.GetHealth();
+                            target = enemy.transform;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                float distance = Vector3.Distance(transform.position, target.position);
+
+                if (distance <= cardVolleyRange && target != null)
+                {
+                    Shoot();
+                }
+            }
+
+            currentDuration -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        cardVolleyVFXInstance.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        Destroy(cardVolleyVFXInstance.gameObject, cardVolleyVFXInstance.main.duration + cardVolleyVFXInstance.main.startLifetime.constant);
+
+        abilityRangeIndicator.enabled = false;
+
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
+
+        Cursor.visible = true;
+
+        currentAmmo = ammunition;
+        currentDuration = abilityDuration;
+    }
+
     private void Shoot()
     {
         if (timeBetweenAttacks <= 0f)
         {
-            //SetDirection();
             InstantiateHomingProjectile(cardPrefab, firePivot, projectileVelocity, projectileDamage);
 
             timeBetweenAttacks = 1 / rateOfFire;

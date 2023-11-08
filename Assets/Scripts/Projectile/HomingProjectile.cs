@@ -29,10 +29,14 @@ public class HomingProjectile : MonoBehaviour
 
     private void Update()
     {
-        direction = (new Vector3(target.position.x, origin.position.y, target.position.z) - origin.position).normalized;
-        rotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-        rb.velocity = transform.forward * projectileVelocity;
+        if (target != null)
+        {
+            direction = (new Vector3(target.position.x, origin.position.y, target.position.z) - origin.position).normalized;
+            rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+            rb.velocity = transform.forward * projectileVelocity;
+        }
+        
     }
 
     private IEnumerator LifeTime()
@@ -54,11 +58,6 @@ public class HomingProjectile : MonoBehaviour
             }
 
             Destroy(gameObject);
-        }
-        else
-        {
-            Debug.Log("Ignore");
-            Physics.IgnoreCollision(GetComponent<SphereCollider>(), collision.collider, true);
         }
 
         /*Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashRange);

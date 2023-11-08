@@ -89,6 +89,8 @@ public class Swirl : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
@@ -101,6 +103,8 @@ public class Swirl : AbilityClass
         {
             yield return null;
         }
+
+        ability.SkillLock();
 
         abilityRangeIndicator.enabled = false;
 

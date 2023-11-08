@@ -7,7 +7,7 @@ public class HatTrick : AbilityClass
 {
     [SerializeField] private Transform firePivot;
 
-    [Header("Rolling Thunder")]
+    [Header("Hat Trick")]
     [SerializeField] private GameObject hatPrefab;
     [SerializeField] private ParticleSystem hatTrickTeleportVFX;
     [SerializeField] private float thunderDamage;
@@ -108,7 +108,7 @@ public class HatTrick : AbilityClass
 
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
-        ability.SkillLock(true);
+        ability.SkillLock();
 
         abilityCanvas.enabled = true;
         abilityCanvas.transform.localScale = new Vector3(abilityWidth, 0, hatRange);
@@ -160,7 +160,7 @@ public class HatTrick : AbilityClass
             yield return null;
         }
         
-        ability.SkillLock(false);
+        ability.SkillLock();
     }
 
     #region Helper Functions

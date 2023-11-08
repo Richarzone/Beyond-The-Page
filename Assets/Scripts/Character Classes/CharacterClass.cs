@@ -38,6 +38,8 @@ public class CharacterClass : MonoBehaviour
     protected bool blockClassChange;
     // Switch to control if the player can switch classes or not
     protected bool blockDodge;
+    // Boolean to check if the player is using an ability that is a dash
+    protected bool isDashing;
 
     private AbilityManager abilityManager;
 
@@ -149,13 +151,13 @@ public class CharacterClass : MonoBehaviour
         get { return blockAttack; }
         set { blockAttack = value; }
     }
-    
+
     public bool BlockMovement
     {
         get { return blockMovement; }
         set { blockMovement = value; }
     }
-    
+
     public bool BlockRotation
     {
         get { return blockRotation; }
@@ -178,6 +180,12 @@ public class CharacterClass : MonoBehaviour
     {
         get { return blockDodge; }
         set { blockDodge = value; }
+    }
+
+    public bool IsDashing
+    {
+        get { return isDashing; }
+        set { isDashing = value; }
     }
     #endregion
 

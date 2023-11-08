@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     // References
     private Rigidbody rb;
+    private CapsuleCollider playerCollider;
 
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
@@ -31,11 +32,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector2 aim;
     private bool attack;
-    private bool classMenuSwitch;
     private bool dodge;
 
     [Header("Player Settings")]
-    [SerializeField] protected LayerMask playerLayer;
+    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float playerHealth;
     [SerializeField] private bool infiniteHealth;
     [SerializeField] private float movementSpeed;
@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maximumX;
 
     [Header("Dodge")]
-    [SerializeField] protected float dodgeSpeed;
-    [SerializeField] protected float dodgeDuration;
-    [SerializeField] protected float dodgeCooldown;
+    [SerializeField] private float dodgeSpeed;
+    [SerializeField] private float dodgeDuration;
+    [SerializeField] private float dodgeCooldown;
     private bool isDodging;
 
     [SerializeField] private SceneLoaderManager sceneManager;
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
 
         moveAction = playerInput.actions["Movement"];
         moveAction.performed += context => movement = context.ReadValue<Vector2>();
@@ -78,10 +79,6 @@ public class PlayerController : MonoBehaviour
         attackAction = playerInput.actions["Attack"];
         attackAction.performed += context => attack = true;
         attackAction.canceled += context => attack = false;
-
-        changeClassAction = playerInput.actions["Change Class"];
-        changeClassAction.performed += context => classMenuSwitch = true;
-        changeClassAction.canceled += context => classMenuSwitch = false;
 
         skill1Action = playerInput.actions["Skill 1"];
         skill1Action.started += PressedSkill1;
@@ -129,6 +126,10 @@ public class PlayerController : MonoBehaviour
         skill2Action.Enable();
         skill3Action.Enable();
         dodgeAction.Enable();
+        character1Action.Enable();
+        character2Action.Enable();
+        character3Action.Enable();
+        character4Action.Enable();
     }
 
     private void OnDisable()
@@ -141,12 +142,14 @@ public class PlayerController : MonoBehaviour
         skill2Action.Disable();
         skill3Action.Disable();
         dodgeAction.Disable();
+        character1Action.Disable();
+        character2Action.Disable();
+        character3Action.Disable();
+        character4Action.Disable();
     }
 
     private void Start()
     {
-        //classMenu.SetActive(false);
-
         foreach (GameObject characterClass in characterClasses)
         {
             characterClass.SetActive(false);
@@ -181,7 +184,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // If the player is dodging cancel all inputs until the dodge is over
-        if (isDodging)
+        if (isDodging || currentCharacterClass.IsDashing)
         {
             return;
         }
@@ -228,11 +231,14 @@ public class PlayerController : MonoBehaviour
     {
         isDodging = true;
         rb.AddForce(transform.forward.normalized * dodgeSpeed - rb.velocity, ForceMode.VelocityChange);
+        playerCollider.enabled = false;
+
         dodgeAction.Disable();
 
         yield return new WaitForSeconds(dodgeDuration);
 
         isDodging = false;
+        playerCollider.enabled = true;
 
         yield return new WaitForSeconds(dodgeCooldown);
 
@@ -339,7 +345,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-
     #region Enemy Hit Damage
     public void DamagePlayer(float damageValue)
     {
@@ -391,8 +396,17 @@ public class PlayerController : MonoBehaviour
     {
         return playerLayer;
     }
-
     #endregion
+
+    public Rigidbody GetRigidBody()
+    {
+        return rb;
+    }
+
+    public CapsuleCollider GetPlayerCollider()
+    {
+        return playerCollider;
+    }
 
     /*private void Victory(InputAction.CallbackContext context)
     {

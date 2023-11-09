@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Cinemachine;
 using TMPro;
 
@@ -58,6 +59,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dodgeCooldown;
     private bool isDodging;
 
+    [Header("UI Change Image")]
+    [SerializeField] public Texture[] changeClass;
+    [SerializeField] public RawImage selectedClass;
+
+    [Header("Scene Manager")]
     [SerializeField] private SceneLoaderManager sceneManager;
     /*[Header("UI")]
     [SerializeField] private GameObject classMenu;*/
@@ -326,6 +332,22 @@ public class PlayerController : MonoBehaviour
             currentCharacterClass.gameObject.SetActive(true);
 
             StartCoroutine(CharacterChangeCooldown());
+        }
+
+        switch (character)
+        {
+            case 0: 
+                selectedClass.texture = changeClass[0];
+                break;
+            case 1:
+                selectedClass.texture = changeClass[1];
+                break;
+            case 2:
+                selectedClass.texture = changeClass[2];
+                break;
+            case 3:
+                selectedClass.texture = changeClass[3];
+                break;
         }
     }
 

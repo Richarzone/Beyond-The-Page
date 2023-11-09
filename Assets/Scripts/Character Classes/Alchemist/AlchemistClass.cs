@@ -26,7 +26,7 @@ public class AlchemistClass : CharacterClass
     private void Update()
     {
         // Check the input for basic attack attack
-        if (attack)
+        if (attack && !blockAttack)
         {
             Attack();
         }
@@ -57,6 +57,7 @@ public class AlchemistClass : CharacterClass
         Destroy(vfxEnterInstance.gameObject, vfxEnterInstance.main.duration);
         playerVisual.SetActive(false);
         weaponVisual.SetActive(false);
+        blockClassChange = true;
 
         yield return new WaitForSeconds(dodgeDuration);
 
@@ -64,6 +65,7 @@ public class AlchemistClass : CharacterClass
         Destroy(vfxExitInstance.gameObject, vfxExitInstance.main.duration);
         playerVisual.SetActive(true);
         weaponVisual.SetActive(true);
+        blockClassChange = false;
     }
 
     #region Helper Functions

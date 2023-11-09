@@ -8,7 +8,7 @@ public class TestClass : CharacterClass
     private void Update()
     {
         // Check the input for basic attack attack
-        if (attack && !lockAttack)
+        if (attack && !blockAttack)
         {
             Attack();
         }

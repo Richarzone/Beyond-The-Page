@@ -19,9 +19,9 @@ public class Swirl : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -32,10 +32,13 @@ public class Swirl : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         // Lock the use of the habilities
-        lockSkill = true;
+        blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
+
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -44,12 +47,20 @@ public class Swirl : AbilityClass
             yield return null;
         }
 
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+        
+        characterClass.BlockDodge = true;
+
         abilityRangeIndicator.enabled = false;
-        characterClass.BlockAbilities = true;
         characterClass.GetAnimator().SetTrigger("Swirl");
 
         Cursor.visible = true;
-        
+
+        characterClass.GetAbilityManager().LastUsedSkill = this;
+
         yield return new WaitForSeconds(swirlBuffer);
 
         SwirlDamage();
@@ -62,17 +73,29 @@ public class Swirl : AbilityClass
         yield return new WaitForSeconds(swirlDownTime);
 
         // End the animation of the ability
+        characterClass.BlockClassChange = false;
         characterClass.BlockAbilities = false;
+        characterClass.BlockDodge = false;
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -81,7 +104,8 @@ public class Swirl : AbilityClass
             yield return null;
         }
 
-        character.BlockAbilities = true;
+        ability.SkillLock();
+
         abilityRangeIndicator.enabled = false;
 
         Cursor.visible = true;
@@ -98,6 +122,7 @@ public class Swirl : AbilityClass
         yield return new WaitForSeconds(swirlDownTime);
 
         // End the animation of the ability
+        character.BlockClassChange = false;
         character.BlockAbilities = false;
     }
 

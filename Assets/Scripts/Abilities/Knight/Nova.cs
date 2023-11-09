@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Nova : AbilityClass
 {
     [Header("Nova")]
-    [SerializeField] private ParticleSystem novaVFX;
     [SerializeField] private GameObject twinSpellObject;
+    [SerializeField] private ParticleSystem novaVFX;
     [SerializeField] private float novaNormalDamage;
     [SerializeField] private float novaCriticalDamage;
     [SerializeField] private float novaAttackRange;
@@ -22,9 +22,9 @@ public class Nova : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -35,10 +35,13 @@ public class Nova : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         // Lock the use of the abilities
-        lockSkill = true;
+        blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
+
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -47,10 +50,13 @@ public class Nova : AbilityClass
             yield return null;
         }
 
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+        
         characterClass.BlockMovement = true;
         characterClass.BlockRotation = true;
-        characterClass.BlockClassChange = true;
-        characterClass.BlockAbilities = true;
         characterClass.BlockDodge = true;
 
         abilityRangeIndicator.enabled = false;
@@ -59,6 +65,8 @@ public class Nova : AbilityClass
         characterClass.GetAnimator().SetTrigger("Nova");
 
         Cursor.visible = true;
+
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         // Instantiate VFX
         ParticleSystem vfxSpinInstance = Instantiate(novaVFX, characterClass.GetVFXPivot().position, novaVFX.transform.rotation);
@@ -80,13 +88,23 @@ public class Nova : AbilityClass
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * novaAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -95,10 +113,12 @@ public class Nova : AbilityClass
             yield return null;
         }
 
+        ability.SkillLock();
+
+        character.BlockAttack = true;
         character.BlockMovement = true;
         character.BlockRotation = true;
-        character.BlockAbilities = true;
-        character.BlockClassChange = true;
+        character.BlockDodge = true;
 
         abilityRangeIndicator.enabled = false;
 
@@ -120,10 +140,12 @@ public class Nova : AbilityClass
         yield return new WaitForSeconds(novaDownTime);
 
         // End the animation of the ability
+        character.BlockAttack = false;
         character.BlockMovement = false;
         character.BlockRotation = false;
-        character.BlockAbilities = false;
         character.BlockClassChange = false;
+        character.BlockAbilities = false;
+        character.BlockDodge = false;
     }
 
     // Damage Event

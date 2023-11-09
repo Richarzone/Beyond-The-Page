@@ -23,9 +23,9 @@ public class Stun : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -35,12 +35,15 @@ public class Stun : AbilityClass
 
     private IEnumerator AbilityCoroutine()
     {
-        lockSkill = true;
+        blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
         abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
+
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -57,6 +60,11 @@ public class Stun : AbilityClass
 
             yield return null;
         }
+        
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
 
         SetDirectionTarget();
         InstantiateProjectileTarget(stunPrefab, firePivot, stunVelocity, direction);
@@ -64,19 +72,34 @@ public class Stun : AbilityClass
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
 
+        characterClass.BlockClassChange = false;
+        characterClass.BlockAbilities = false;
+
         Cursor.visible = true;
+
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
+        ability.SkillLock();
+
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
         abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
 
         Cursor.visible = false;
 
@@ -94,11 +117,16 @@ public class Stun : AbilityClass
             yield return null;
         }
 
+        ability.SkillLock();
+
         SetDirectionTarget();
         InstantiateProjectileTarget(stunPrefab, firePivot, stunVelocity, direction);
 
         abilityCanvas.enabled = false;
         abilityRangeIndicator.enabled = false;
+
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
 
         Cursor.visible = true;
     }

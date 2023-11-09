@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.AI;
 
 public class EnemyClass : MonoBehaviour
 {
     [SerializeField] private float health;
     [SerializeField] private bool infiniteHealth;
+    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Animator enemyAnimator;
+    [SerializeField] private float deathTime;
     private float damageMultiplyer;
 
     [Header("Damage VFX")]
@@ -27,8 +31,26 @@ public class EnemyClass : MonoBehaviour
     private Animator hexAnimator;
     private Coroutine hexCorrutine;
 
+    [Header ("Hitboxes")]
+    [SerializeField] private float hitboxRange;
+    [SerializeField] private float attackDamage;
+    public float AttackDamage
+    {
+        get
+        {
+            return attackDamage;
+        }
+    }
+
     private float currentHealth;
-    private bool isGrounded;
+    public float CurrentHealth 
+    { 
+        get
+        {
+            return currentHealth;
+        }
+    }
+    public bool isGrounded;
     private int hexLevel;
     
     void Start()
@@ -63,12 +85,19 @@ public class EnemyClass : MonoBehaviour
 
         Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
 
+        
         if (currentHealth <= 0)
         {
             damageAnimPivot.SetParent(null);
+            enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
+            enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
+            enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
+            Debug.Log(enemyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
             Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-            Destroy(gameObject);
+            Destroy(gameObject, deathTime);
+            
         }
+        
     }
 
     private GameObject DamageAnimationInstance(float applyDamage, float damageValue)
@@ -132,4 +161,23 @@ public class EnemyClass : MonoBehaviour
         }
     }
 
+    public void EnemyMeleeAttack()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, hitboxRange);
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+
+            if ((1 << hitCollider.gameObject.layer) == playerLayer.value)
+            {
+                Debug.Log(hitCollider.gameObject.layer);
+                hitCollider.GetComponent<PlayerController>().DamagePlayer(attackDamage);
+            }
+        }
+    }
+
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
 }

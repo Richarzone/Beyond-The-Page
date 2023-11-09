@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Cinemachine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     // References
     private Rigidbody rb;
-    
+    private CapsuleCollider playerCollider;
+
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
     private InputAction moveAction = new InputAction();
@@ -30,22 +33,37 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private Vector2 aim;
     private bool attack;
-    private bool classMenuSwitch;
     private bool dodge;
 
     [Header("Player Settings")]
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private float playerHealth;
+    [SerializeField] private bool infiniteHealth;
     [SerializeField] private float movementSpeed;
     [SerializeField] private List<GameObject> characterClasses = new List<GameObject>();
     [SerializeField] private float characterChangeCooldown;
     private CharacterClass currentCharacterClass;
     private int currentClass;
 
+    [Header("Damage VFX")]
+    [SerializeField] private Transform damageAnimPivot;
+    [SerializeField] private GameObject damageNormalAnim;
+    [SerializeField] private GameObject damageCritAnim;
+    [SerializeField] private GameObject damageSuperAnim;
+    [SerializeField] private float minimunX;
+    [SerializeField] private float maximumX;
+
     [Header("Dodge")]
-    [SerializeField] protected float dodgeSpeed;
-    [SerializeField] protected float dodgeDuration;
-    [SerializeField] protected float dodgeCooldown;
+    [SerializeField] private float dodgeSpeed;
+    [SerializeField] private float dodgeDuration;
+    [SerializeField] private float dodgeCooldown;
     private bool isDodging;
 
+    [Header("UI Change Image")]
+    [SerializeField] public Texture[] changeClass;
+    [SerializeField] public RawImage selectedClass;
+
+    [Header("Scene Manager")]
     [SerializeField] private SceneLoaderManager sceneManager;
     /*[Header("UI")]
     [SerializeField] private GameObject classMenu;*/
@@ -56,6 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
 
         moveAction = playerInput.actions["Movement"];
         moveAction.performed += context => movement = context.ReadValue<Vector2>();
@@ -67,21 +86,17 @@ public class PlayerController : MonoBehaviour
         attackAction.performed += context => attack = true;
         attackAction.canceled += context => attack = false;
 
-        changeClassAction = playerInput.actions["Change Class"];
-        changeClassAction.performed += context => classMenuSwitch = true;
-        changeClassAction.canceled += context => classMenuSwitch = false;
-
         skill1Action = playerInput.actions["Skill 1"];
-        skill1Action.started += ActiveSkill1;
-        skill1Action.canceled += DeactivateSkill1;
+        skill1Action.started += PressedSkill1;
+        skill1Action.canceled += ReleasedSkill1;
 
         skill2Action = playerInput.actions["Skill 2"];
-        skill2Action.started += ActiveSkill2;
-        skill2Action.canceled += DeactivateSkill2;
+        skill2Action.started += PressedSkill2;
+        skill2Action.canceled += ReleasedSkill2;
 
         skill3Action = playerInput.actions["Skill 3"];
-        skill3Action.started += ActiveSkill3;
-        skill3Action.canceled += DeactivateSkill3;
+        skill3Action.started += PressedSkill3;
+        skill3Action.canceled += ReleasedSkill3;
 
         dodgeAction = playerInput.actions["Dodge"];
         dodgeAction.started += UseDodge;
@@ -117,6 +132,10 @@ public class PlayerController : MonoBehaviour
         skill2Action.Enable();
         skill3Action.Enable();
         dodgeAction.Enable();
+        character1Action.Enable();
+        character2Action.Enable();
+        character3Action.Enable();
+        character4Action.Enable();
     }
 
     private void OnDisable()
@@ -129,12 +148,14 @@ public class PlayerController : MonoBehaviour
         skill2Action.Disable();
         skill3Action.Disable();
         dodgeAction.Disable();
+        character1Action.Disable();
+        character2Action.Disable();
+        character3Action.Disable();
+        character4Action.Disable();
     }
 
     private void Start()
     {
-        //classMenu.SetActive(false);
-
         foreach (GameObject characterClass in characterClasses)
         {
             characterClass.SetActive(false);
@@ -169,7 +190,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // If the player is dodging cancel all inputs until the dodge is over
-        if (isDodging)
+        if (isDodging || currentCharacterClass.IsDashing)
         {
             return;
         }
@@ -193,7 +214,7 @@ public class PlayerController : MonoBehaviour
     private void Rotation()
     {
         Ray ray = Camera.main.ScreenPointToRay(aim);
-        
+
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity))
         {
             targetPosition = raycastHit.point;
@@ -216,11 +237,14 @@ public class PlayerController : MonoBehaviour
     {
         isDodging = true;
         rb.AddForce(transform.forward.normalized * dodgeSpeed - rb.velocity, ForceMode.VelocityChange);
+        playerCollider.enabled = false;
+
         dodgeAction.Disable();
 
         yield return new WaitForSeconds(dodgeDuration);
 
         isDodging = false;
+        playerCollider.enabled = true;
 
         yield return new WaitForSeconds(dodgeCooldown);
 
@@ -229,34 +253,70 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Skills
-    private void ActiveSkill1(InputAction.CallbackContext context)
+    // Pressed Skill Button
+    private void PressedSkill1(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill1Active();
     }
 
-    private void DeactivateSkill1(InputAction.CallbackContext context)
-    {
-        currentCharacterClass.Skill1Deactivate();
-    }
-
-    private void ActiveSkill2(InputAction.CallbackContext context)
+    private void PressedSkill2(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill2Active();
     }
 
-    private void DeactivateSkill2(InputAction.CallbackContext context)
-    {
-        currentCharacterClass.Skill2Deactivate();
-    }
-
-    private void ActiveSkill3(InputAction.CallbackContext context)
+    private void PressedSkill3(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill3Active();
     }
 
-    private void DeactivateSkill3(InputAction.CallbackContext context)
+    // Released Skill Button
+    private void ReleasedSkill1(InputAction.CallbackContext context)
+    {
+        currentCharacterClass.Skill1Deactivate();
+    }
+
+    private void ReleasedSkill2(InputAction.CallbackContext context)
+    {
+        currentCharacterClass.Skill2Deactivate();
+    }
+
+    private void ReleasedSkill3(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill3Deactivate();
+    }
+
+    // Lock Skill Button
+    public void LockSkill(int buttonID)
+    {
+        switch (buttonID)
+        {
+            case 0:
+                skill1Action.Disable();
+                break;
+            case 1:
+                skill2Action.Disable();
+                break;
+            case 2:
+                skill3Action.Disable();
+                break;
+        }
+    }
+
+    // Unlock Skill Button
+    public void UnlockSkill(int buttonID)
+    {
+        switch (buttonID)
+        {
+            case 0:
+                skill1Action.Enable();
+                break;
+            case 1:
+                skill2Action.Enable();
+                break;
+            case 2:
+                skill3Action.Enable();
+                break;
+        }
     }
     #endregion
 
@@ -272,6 +332,22 @@ public class PlayerController : MonoBehaviour
             currentCharacterClass.gameObject.SetActive(true);
 
             StartCoroutine(CharacterChangeCooldown());
+        }
+
+        switch (character)
+        {
+            case 0: 
+                selectedClass.texture = changeClass[0];
+                break;
+            case 1:
+                selectedClass.texture = changeClass[1];
+                break;
+            case 2:
+                selectedClass.texture = changeClass[2];
+                break;
+            case 3:
+                selectedClass.texture = changeClass[3];
+                break;
         }
     }
 
@@ -290,7 +366,70 @@ public class PlayerController : MonoBehaviour
         character4Action.Enable();
     }
     #endregion
-    
+
+    #region Enemy Hit Damage
+    public void DamagePlayer(float damageValue)
+    {
+
+        if (!infiniteHealth)
+        {
+            playerHealth -= damageValue;
+        }
+
+        // Spawn damage effect
+        float randomX = Random.Range(minimunX, maximumX);
+
+        GameObject pivotInsatnce = new GameObject("Pivot Instance");
+        pivotInsatnce.transform.position = new Vector3(damageAnimPivot.position.x + randomX, damageAnimPivot.position.y, damageAnimPivot.position.z);
+        pivotInsatnce.transform.SetParent(damageAnimPivot);
+
+        GameObject damageInstance = DamageAnimationInstance(damageValue);
+        damageInstance.transform.SetParent(pivotInsatnce.transform);
+        damageInstance.transform.localScale = Vector3.one;
+        damageInstance.GetComponent<TextMeshProUGUI>().text = damageValue.ToString();
+
+        Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+
+        if (playerHealth <= 0)
+        {
+            damageAnimPivot.SetParent(null);
+            Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+            Destroy(gameObject);
+        }
+    }
+
+    private GameObject DamageAnimationInstance(float damageValue)
+    {
+        if (damageValue >= 3f)
+        {
+            return Instantiate(damageSuperAnim, transform.position, Quaternion.identity);
+        }
+        if (damageValue >= 2f)
+        {
+            return Instantiate(damageCritAnim, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            return Instantiate(damageNormalAnim, transform.position, Quaternion.identity);
+        }
+    }
+
+    public LayerMask GetPlayerLayer()
+    {
+        return playerLayer;
+    }
+    #endregion
+
+    public Rigidbody GetRigidBody()
+    {
+        return rb;
+    }
+
+    public CapsuleCollider GetPlayerCollider()
+    {
+        return playerCollider;
+    }
+
     /*private void Victory(InputAction.CallbackContext context)
     {
         sceneManager.LoadVictoryScene();

@@ -11,21 +11,20 @@ public class RollingThunder : AbilityClass
     [SerializeField] private GameObject thunderPrefab;
     [SerializeField] private float thunderDamage;
     [SerializeField] private float thunderVelocity;
-    [SerializeField] private float thunderRange;
 
     [Header("UI")]
     [SerializeField] private Canvas abilityCanvas;
+    [SerializeField] private float abilityRange;
+    [SerializeField] private float abilityWidth;
 
     private Vector3 targetPosition;
-    private Vector3 habilityTargetPosition;
     private Vector3 direction;
-    private float targetRotation;
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -35,9 +34,14 @@ public class RollingThunder : AbilityClass
 
     private IEnumerator AbilityCoroutine()
     {
-        lockSkill = true;
+        blockSkill = true;
 
         abilityCanvas.enabled = true;
+        abilityCanvas.transform.localScale = new Vector3(abilityWidth, 0 , abilityRange);
+        abilityCanvas.transform.localPosition = new Vector3(0, abilityCanvas.transform.localPosition.y, abilityRange / 2f);
+
+        characterClass.BlockClassChange = true;
+        characterClass.BlockAbilities = true;
 
         Cursor.visible = false;
         
@@ -53,23 +57,45 @@ public class RollingThunder : AbilityClass
             yield return null;
         }
 
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+
         SetDirection();
         InstantiateProjectile(thunderPrefab, firePivot, thunderVelocity, direction, thunderDamage);
 
         abilityCanvas.enabled = false;
 
+        characterClass.BlockClassChange = false;
+        characterClass.BlockAbilities = false;
+
         Cursor.visible = true;
+
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
-        Cursor.visible = false;
+        ability.SkillLock();
 
         abilityCanvas.enabled = true;
+        abilityCanvas.transform.localScale = new Vector3(abilityWidth, 0, abilityRange);
+        abilityCanvas.transform.localPosition = new Vector3(0, abilityCanvas.transform.localPosition.y, abilityRange / 2f);
+
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
+
+        Cursor.visible = false;
 
         while (ability.GetSkillInput())
         {
@@ -83,10 +109,15 @@ public class RollingThunder : AbilityClass
             yield return null;
         }
 
+        ability.SkillLock();
+
         SetDirection();
         InstantiateProjectile(thunderPrefab, firePivot, thunderVelocity, direction, thunderDamage);
 
         abilityCanvas.enabled = false;
+
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
 
         Cursor.visible = true;
     }
@@ -118,9 +149,6 @@ public class RollingThunder : AbilityClass
     private void SetDirection()
     {
         // Get the direction for the projectile to fly to
-        targetRotation = Mathf.Atan2(targetPosition.y - firePivot.position.y,
-                                     targetPosition.x - firePivot.position.x) * Mathf.Rad2Deg;
-
         direction = (new Vector3(targetPosition.x, firePivot.position.y, targetPosition.z) - firePivot.position).normalized;
     }
     #endregion

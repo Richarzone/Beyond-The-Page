@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterClass : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class CharacterClass : MonoBehaviour
     [SerializeField] protected float attackSpeed;
 
     [Header("Abilities")]
-    [SerializeField] protected bool globalCooldown;
     [SerializeField] protected float abilityCooldown;
     [SerializeField] protected List<AbilityClass> abilities = new List<AbilityClass>();
 
@@ -22,35 +22,12 @@ public class CharacterClass : MonoBehaviour
 
     // Attack input
     protected bool attack;
-    // Switch to control if the player can attack or not
-    protected bool lockAttack;
-
-    // ---- CAN REMOVE ----
-    // Skill 1 input
-    protected bool skillInput1;
-    // Switch to detect if skill 1 is active or not
-    protected bool activeSkill1;
-    // Switch to control if the player can use the skill 1
-    protected bool lockSkill1;
-
-    // Skill 2 input
-    protected bool skillInput2;
-    // Switch to detect if skill 2 is active or not
-    protected bool activeSkill2;
-    // Switch to control if the player can use the skill 2
-    protected bool lockSkill2;
-
-    // Skill 3 input
-    protected bool skillInput3;
-    // Switch to detect if skill 3 is active or not
-    protected bool activeSkill3;
-    // Switch to control if the player can use the skill 3
-    protected bool lockSkill3;
-    // ---- CAN REMOVE ----
 
     // Dodge input
     protected bool dodge;
 
+    // Switch to control if the player can attack or not
+    protected bool blockAttack;
     // Switch to control if the player can move or not
     protected bool blockMovement;
     // Switch to control if the player can rotate or not
@@ -61,6 +38,8 @@ public class CharacterClass : MonoBehaviour
     protected bool blockClassChange;
     // Switch to control if the player can switch classes or not
     protected bool blockDodge;
+    // Boolean to check if the player is using an ability that is a dash
+    protected bool isDashing;
 
     private AbilityManager abilityManager;
 
@@ -90,24 +69,24 @@ public class CharacterClass : MonoBehaviour
     {
         abilities[0].SkillInput(true);
         abilities[0].ActiveSkill(true);
+        abilities[0].AbilityButtonID(0);
         abilities[0].UseAbility();
-        abilityManager.LastUsedSkill = abilities[0];
     }
 
     public void Skill2Active()
     {
         abilities[1].SkillInput(true);
         abilities[1].ActiveSkill(true);
+        abilities[1].AbilityButtonID(1);
         abilities[1].UseAbility();
-        abilityManager.LastUsedSkill = abilities[1];
     }
 
     public void Skill3Active()
     {
         abilities[2].SkillInput(true);
         abilities[2].ActiveSkill(true);
+        abilities[2].AbilityButtonID(2);
         abilities[2].UseAbility();
-        abilityManager.LastUsedSkill = abilities[2];
     }
 
     public void Skill1Deactivate()
@@ -152,7 +131,7 @@ public class CharacterClass : MonoBehaviour
         return groundLayer;
     }
 
-    public AbilityManager AbilityManager()
+    public AbilityManager GetAbilityManager()
     {
         return abilityManager;
     }
@@ -167,17 +146,18 @@ public class CharacterClass : MonoBehaviour
         return abilityCooldown;
     }
 
-    public bool GlobalCooldown()
+    public bool BlockAttack
     {
-        return globalCooldown;
+        get { return blockAttack; }
+        set { blockAttack = value; }
     }
-    
+
     public bool BlockMovement
     {
         get { return blockMovement; }
         set { blockMovement = value; }
     }
-    
+
     public bool BlockRotation
     {
         get { return blockRotation; }
@@ -200,6 +180,12 @@ public class CharacterClass : MonoBehaviour
     {
         get { return blockDodge; }
         set { blockDodge = value; }
+    }
+
+    public bool IsDashing
+    {
+        get { return isDashing; }
+        set { isDashing = value; }
     }
     #endregion
 

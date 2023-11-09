@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [Header("Projectile Settings")]
     [SerializeField] protected float lifeTime;
     [SerializeField] protected bool hasImpactVFX;
     [SerializeField] protected ParticleSystem impactVFX;
     [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected LayerMask playerLayer;
     [SerializeField] protected bool ignoreEnemyLayer;
+    [SerializeField] protected float attackDamage;
 
     protected float baseDamage;
     protected float calculatedDamge;
+   
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(LifeTime());
     }
@@ -24,7 +28,7 @@ public class Projectile : MonoBehaviour
         calculatedDamge = applyDamage;
     }
 
-    private IEnumerator LifeTime()
+    protected IEnumerator LifeTime()
     {
         yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
@@ -32,9 +36,14 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((1 << collision.gameObject.layer) == enemyLayer.value)
+        if ((1 << collision.gameObject.layer) == enemyLayer.value && !ignoreEnemyLayer)
         {
             collision.gameObject.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
+
+        }
+        else if ((1 << collision.gameObject.layer) == playerLayer.value)
+        {
+            collision.gameObject.GetComponent<PlayerController>().DamagePlayer(attackDamage);
         }
 
         /*Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashRange);
@@ -58,14 +67,14 @@ public class Projectile : MonoBehaviour
         impactAudioSource.PlayOneShot(impactSound);
 
         Destroy(impactPoint, impactSound.length);*/
-
         if (hasImpactVFX)
         {
             ParticleSystem impact = Instantiate(impactVFX, new Vector3(transform.position.x, 0.2f, transform.position.z), impactVFX.transform.rotation);
             Destroy(impact.gameObject, impact.main.duration + impact.main.duration);
         }
-        
+
         Destroy(gameObject);
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -74,5 +83,6 @@ public class Projectile : MonoBehaviour
         {
             other.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
         }
+       
     }
 }

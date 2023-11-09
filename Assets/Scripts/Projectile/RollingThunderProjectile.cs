@@ -6,16 +6,10 @@ public class RollingThunderProjectile : Projectile
 {
     private float maxDamage;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(LifeTime());
         maxDamage = calculatedDamge * 8f;
-    }
-
-    private IEnumerator LifeTime()
-    {
-        yield return new WaitForSeconds(lifeTime);
-        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

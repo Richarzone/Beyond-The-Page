@@ -13,9 +13,9 @@ public class SpinAttack : AbilityClass
 
     public override void UseAbility()
     {
-        if (activeSkill && !lockSkill && !characterClass.BlockAbilities)
+        if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
         {
-            characterClass.AbilityManager().AbilityCoroutineManager(AbilityCoroutine());
+            characterClass.GetAbilityManager().AbilityCoroutineManager(AbilityCoroutine());
         }
         else
         {
@@ -26,17 +26,27 @@ public class SpinAttack : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         // Lock the use of abilities
-        lockSkill = true;
+        blockSkill = true;
+
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
+        }
+        
         characterClass.BlockRotation = true;
         characterClass.BlockClassChange = true;
         characterClass.BlockAbilities = true;
         characterClass.BlockDodge = true;
+
+
         characterClass.GetAnimator().SetTrigger("Spin Attack");
 
         // Instantiate VFX
         ParticleSystem vfxSpinInstance = Instantiate(spinAttackVFX, characterClass.GetVFXPivot().position, spinAttackVFX.transform.rotation);
         vfxSpinInstance.transform.parent = characterClass.GetVFXPivot();
         Destroy(vfxSpinInstance.gameObject, vfxSpinInstance.main.duration + vfxSpinInstance.main.startLifetime.constant);
+
+        characterClass.GetAbilityManager().LastUsedSkill = this;
 
         yield return new WaitForSeconds(spinAttackDuration);
 
@@ -45,18 +55,27 @@ public class SpinAttack : AbilityClass
         characterClass.BlockClassChange = false;
         characterClass.BlockAbilities = false;
         characterClass.BlockDodge = false;
+
         characterClass.GetAnimator().SetTrigger("Spin Exit");
 
         yield return new WaitForSeconds(abilityCooldown);
 
-        lockSkill = false;
+        if (characterClass.GetAbilityManager().BlockAbilitySlots())
+        {
+            characterClass.GetAbilityManager().GetPlayerController().UnlockSkill(skillButton);
+        }
+
+        blockSkill = false;
     }
 
-    public override IEnumerator TwinSpellCoroutine(CharacterClass character, AbilityClass ability)
+    public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         // Lock the use of abilities
-        character.BlockAbilities = true;
+        character.BlockAttack = true;
         character.BlockRotation = true;
+        character.BlockClassChange = true;
+        character.BlockAbilities = true;
+        character.BlockDodge = true;
 
         GameObject twinSpellInstance = Instantiate(twinSpellObject, character.GetVFXPivot().position, twinSpellObject.transform.rotation);
         twinSpellInstance.transform.parent = character.GetVFXPivot();
@@ -74,8 +93,11 @@ public class SpinAttack : AbilityClass
         yield return new WaitForSeconds(spinAttackDuration);
 
         // End the animation of the ability
-        character.BlockAbilities = false;
+        character.BlockAttack = false;
         character.BlockRotation = false;
+        character.BlockClassChange = false;
+        character.BlockAbilities = false;
+        character.BlockDodge = false;
 
         twinSpellInstance.GetComponent<Animator>().SetTrigger("Spin Exit");
     }

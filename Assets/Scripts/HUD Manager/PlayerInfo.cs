@@ -8,8 +8,8 @@ public class PlayerInfo : MonoBehaviour
     public static event Action OnPlayerDamage;
     public static event Action OnPlayerDeath;
 
-    public float health, maxHealth;
-    public int usosChicharron;
+    public float health, maxHealth = 10f;
+    public int usosChicharron = 3;
 
     private void Start()
     {

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3732776002484407873}
   - component: {fileID: 3732776002484407903}
   - component: {fileID: 3732776002484407872}
-  - component: {fileID: -168978703047333964}
   - component: {fileID: 60609419920229530}
+  - component: {fileID: -168978703047333964}
   m_Layer: 5
   m_Name: chicharron
   m_TagString: Untagged
@@ -77,22 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-168978703047333964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3732776002484407874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eba3149a6610a74448fec31600cfa28a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fullChicharron: {fileID: 21300000, guid: a98a658735633604dbfdc0545b045d7a, type: 3}
-  semiFullChicharron: {fileID: 21300000, guid: c39fd0bfbd7124f45b64ffd265673af4, type: 3}
-  semiEmptyChicharron: {fileID: 21300000, guid: 91f24da50889eb149a4244f99e37ed9d, type: 3}
-  emptyChicharron: {fileID: 21300000, guid: fe54171b97d36ce409f8f65f1b44bbdd, type: 3}
 --- !u!114 &60609419920229530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,3 +97,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &-168978703047333964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3732776002484407874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba3149a6610a74448fec31600cfa28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullChicharron: {fileID: 21300000, guid: a98a658735633604dbfdc0545b045d7a, type: 3}
+  semiFullChicharron: {fileID: 21300000, guid: c39fd0bfbd7124f45b64ffd265673af4, type: 3}
+  semiEmptyChicharron: {fileID: 21300000, guid: 91f24da50889eb149a4244f99e37ed9d, type: 3}
+  emptyChicharron: {fileID: 21300000, guid: fe54171b97d36ce409f8f65f1b44bbdd, type: 3}
+  chicharronImage: {fileID: 3732776002484407872}

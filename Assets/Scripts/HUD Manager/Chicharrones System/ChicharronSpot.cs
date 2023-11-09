@@ -3,23 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using static HeartSelector;
 
 public class ChicharronSpot : MonoBehaviour
 {
     public GameObject chicharronPrefab;
     public PlayerInfo player;
-    ChicharronSelector chicharronImage = new ChicharronSelector();
+    ChicharronSelector chicharronImage;
 
+    // Solo para testing, habilitar con controles (key: K)
     public bool healing = false;
 
-    public void Awake()
+    public void Start()
     {
-        DoChicharron();
+        chicharronImage = chicharronPrefab.GetComponent<ChicharronSelector>();
+        SetChicharron();
     }
 
     public void Update()
     {
+        SetChicharron();
         if (healing == true) 
         {
             UseChicharron();
@@ -29,18 +31,17 @@ public class ChicharronSpot : MonoBehaviour
 
     public void UseChicharron()
     {
+        SetChicharron();
         if (player.usosChicharron == 0)
         {
             return;
         }
         player.UseChicharron();
-        DoChicharron();
         Debug.Log("Chicharron: " + player.usosChicharron);
     }
 
-    public void DoChicharron()
+    public void SetChicharron()
     {
-        ClearChicharron();
         if (player.usosChicharron == 0)
         {
             chicharronImage.SetChicharronImage(ChicharronStatus.Empty);
@@ -59,12 +60,5 @@ public class ChicharronSpot : MonoBehaviour
         }
         chicharronImage.transform.localScale = Vector3.one;
         // chicharronImage.transform.position = Vector3.zero;
-    }
-
-
-    public void ClearChicharron()
-    {
-        Destroy(gameObject);
-        chicharronImage = new ChicharronSelector();
     }
 }

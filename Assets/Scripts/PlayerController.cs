@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private InputAction character3Action = new InputAction();
     private InputAction character4Action = new InputAction();
 
-    private InputAction healingAction = new InputAction();
+    // private InputAction healingAction = new InputAction();
 
     private InputAction victoryAction = new InputAction();
     private InputAction gameOverAction = new InputAction();
@@ -61,8 +61,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dodgeCooldown;
     private bool isDodging;
 
-    [Header("Healing")]
-    [SerializeField] private bool healing;
+    // [Header("Healing")]
+    // [SerializeField] private bool heal;
 
     [Header("UI Change Image")]
     [SerializeField] public Texture[] changeClass;
@@ -103,9 +103,9 @@ public class PlayerController : MonoBehaviour
         skill3Action.started += PressedSkill3;
         skill3Action.canceled += ReleasedSkill3;
 
-        healingAction = playerInput.actions["Healing Action"];
-        healingAction.started += PressedSkill3;
-        healingAction.canceled += ReleasedSkill3;
+        // healingAction = playerInput.actions["Healing Action"];
+        // healingAction.started += PressedSkill3;
+        // healingAction.canceled += ReleasedSkill3;
 
         dodgeAction = playerInput.actions["Dodge"];
         dodgeAction.started += UseDodge;
@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         character3Action.Enable();
         character4Action.Enable();
 
-        healingAction.Enable();
+        // healingAction.Enable();
     }
 
     private void OnDisable()
@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
         character3Action.Disable();
         character4Action.Disable();
 
-        healingAction.Disable();
+        // healingAction.Disable();
     }
 
     private void Start()

@@ -18,7 +18,6 @@ public class DevilIdle : DevilBaseState
         timer += Time.deltaTime;
         if (timer >= 3f)
         {
-            
             switch (Random.Range(0, 4))
             {
                 case 0:
@@ -40,9 +39,10 @@ public class DevilIdle : DevilBaseState
 
     public override void LateUpdate(DevilUnit unit)
     {
-        if (unit.DevilZone.player != null)
+        if (unit.DevilZone.Player != null)
         {
-            unit.Player = unit.DevilZone.player;
+            unit.DevilZone.Radius = unit.DetectionRadius;
+            unit.Player = unit.DevilZone.Player;
             unit.DevilZone.transform.position = unit.Player.position;
             unit.TransitionToState(unit.AggroState);
         }
@@ -54,6 +54,9 @@ public class DevilIdle : DevilBaseState
 
     public override void OnCollisionEnter(DevilUnit unit, Collision collision)
     {
-
+        if ((1 << collision.gameObject.layer) == unit.ProjectileLayer)
+        {
+            unit.DevilZone.Radius = 100f;
+        }
     }
 }

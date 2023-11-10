@@ -13,6 +13,7 @@ public class EnemyClass : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Animator enemyAnimator;
     [SerializeField] private float deathTime;
+    [SerializeField] private GameObject parent;
     private float damageMultiplyer;
 
     [Header("Damage VFX")]
@@ -32,15 +33,12 @@ public class EnemyClass : MonoBehaviour
     private Coroutine hexCorrutine;
 
     [Header ("Hitboxes")]
-    [SerializeField] private float hitboxRange;
+    [Header("Hitboxes")]
+    [SerializeField] private Transform hitboxPosition;
     [SerializeField] private float attackDamage;
-    public float AttackDamage
-    {
-        get
         {
-            return attackDamage;
-        }
-    }
+    [SerializeField] private float hitboxRange;
+    [SerializeField] private bool hit;
 
     private float currentHealth;
     public float CurrentHealth 
@@ -52,10 +50,14 @@ public class EnemyClass : MonoBehaviour
     }
     public bool isGrounded;
     private int hexLevel;
-    
-    void Start()
+
+    private void Awake()
     {
         currentHealth = health;
+    }
+
+    void Start()
+    {
         damageMultiplyer = 1f;
 
         hexCanvas.SetActive(true);
@@ -85,7 +87,7 @@ public class EnemyClass : MonoBehaviour
 
         Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
 
-        
+        Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
             damageAnimPivot.SetParent(null);
@@ -93,9 +95,16 @@ public class EnemyClass : MonoBehaviour
             enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
             enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
             Debug.Log(enemyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
-            Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-            Destroy(gameObject, deathTime);
-            
+            if (parent != null)
+            {
+                Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                Destroy(parent, deathTime);
+            }
+            else
+            {
+                Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                Destroy(gameObject, deathTime);
+            }
         }
         
     }
@@ -161,6 +170,16 @@ public class EnemyClass : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((1 << other.gameObject.layer) == playerLayer.value && !hit)
+        {
+            Debug.Log(other.gameObject.layer);
+            other.GetComponent<PlayerController>().DamagePlayer(attackDamage);
+            hit = true;
+        }
+    }
+
     public void EnemyMeleeAttack()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, hitboxRange);
@@ -176,8 +195,23 @@ public class EnemyClass : MonoBehaviour
         }
     }
 
-    public float GetHealth()
     {
-        return currentHealth;
+        Collider[] hitColliders = Physics.OverlapSphere(hitboxPosition.transform.position, hitboxRange);
+
+        {
+
+            if ((1 << hitCollider.gameObject.layer) == playerLayer.value)
+            {
+                Debug.Log(hitCollider.gameObject.layer);
+                hitCollider.GetComponent<PlayerController>().DamagePlayer(attackDamage);
+            }
+        }
     }
+
+    private void SetFalse()
+    {
+        hit = false;
+    }
+
+
 }

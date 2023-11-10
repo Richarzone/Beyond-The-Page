@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DevilAttack1End : StateMachineBehaviour
+public class DevilAttackRightEnd : StateMachineBehaviour
 {
     DevilUnit unit;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -12,6 +12,7 @@ public class DevilAttack1End : StateMachineBehaviour
         {
             unit = animator.gameObject.GetComponent<DevilUnit>();
         }
+        //unit.OffsetRotate = new Vector3(0f, -90f, 0f);
         unit.currentState.OnDisable(unit);
     }
 

@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class DevilReturn : DevilBaseState
 {
-    private Vector3 aimPosition = new Vector3(0.13f, 0.65f, -1.15f);
-    private Vector3 startPos;
-
-    private float t = 0f;
-    private float lerpSpeed = 1f;
 
     public override void EnterState(DevilUnit unit)
     {
         Debug.Log("I am returning.");
-        startPos = unit.SpriteTransform.localPosition;
         unit.Agent.speed = unit.WalkSpeed;
         unit.Agent.isStopped = false;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Walk);
@@ -27,19 +21,22 @@ public class DevilReturn : DevilBaseState
         //Debug.Log(Vector3.Distance(unit.transform.position, unit.AggroArea.transform.position));
         if(Vector3.Distance(unit.transform.position, unit.AggroArea.transform.position) < 0.5f)
         {
-            unit.TransitionToState(unit.IdleState);
+            unit.Agent.ResetPath();
+            Debug.Log(unit.Agent.hasPath);
+            unit.transform.rotation = Quaternion.identity;
+            //Debug.Log(unit.transform.rotation);
+            if (unit.transform.localRotation == Quaternion.identity)
+            {
+                unit.TransitionToState(unit.IdleState);
+            }
         }
-
-
-        t = lerpSpeed * Time.deltaTime;
-        unit.SpriteTransform.localPosition = Vector3.Lerp(startPos, aimPosition, t);
     }
 
     public override void LateUpdate(DevilUnit unit)
     {
-        if (unit.DevilZone.player != null)
+        if (unit.DevilZone.Player != null)
         {
-            unit.Player = unit.DevilZone.player;
+            unit.Player = unit.DevilZone.Player;
             unit.DevilZone.transform.position = unit.Player.position;
             unit.TransitionToState(unit.AggroState);
         }
@@ -52,26 +49,21 @@ public class DevilReturn : DevilBaseState
 
     public override void OnCollisionEnter(DevilUnit unit, Collision collision)
     {
-
+        if ((1 << collision.gameObject.layer) == unit.ProjectileLayer)
+        {
+            unit.DevilZone.Radius = 100f;
+        }
     }
 
     public void ChangeDirection(DevilUnit unit)
     {
-        if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
-        {
-            unit.TransitionToDirection(unit.FLeftState);
-        }
-        else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
+        if (unit.transform.eulerAngles.y > 90f && unit.transform.eulerAngles.y < 270f)
         {
             unit.TransitionToDirection(unit.FRightState);
         }
-        else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
+        else
         {
-            unit.TransitionToDirection(unit.BLeftState);
-        }
-        else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
-        {
-            unit.TransitionToDirection(unit.BRightState);
+            unit.TransitionToDirection(unit.FLeftState);
         }
     }
 }

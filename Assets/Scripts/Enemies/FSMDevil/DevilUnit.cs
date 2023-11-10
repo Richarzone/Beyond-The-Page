@@ -26,14 +26,6 @@ public class DevilUnit : MonoBehaviour
         get { return agent; }
     }
 
-    [Header("Billboard")]
-    [SerializeField] private GameObject billboard;
-    private BillboardDevil billboardComponent;
-    public BillboardDevil BillboardComponent
-    {
-        get { return billboardComponent; }
-    }
-
     [Header("Enemy Data")]
     [SerializeField] private float detectionRadius;
     public float DetectionRadius
@@ -84,11 +76,17 @@ public class DevilUnit : MonoBehaviour
         set { colliders = value; }
     }
 
-    private bool aimHelper;
-    public bool AimHelper
+    private Vector3 offsetRotate = new Vector3(0f, -90f, 0f);
+    public Vector3 OffsetRotate
     {
-        get { return aimHelper; }
-        set { aimHelper = value; }
+        get { return offsetRotate;}
+        set { offsetRotate = value; }
+    }
+
+    [SerializeField] private LayerMask projectileLayer;
+    public LayerMask ProjectileLayer
+    {
+        get { return projectileLayer; }
     }
 
     public DevilBaseState currentState;
@@ -108,10 +106,8 @@ public class DevilUnit : MonoBehaviour
     void Awake()
     {
         devilZone = AggroArea.GetComponent<DevilZone>();
-        devilZone.radius = detectionRadius;
-        billboardComponent = billboard.GetComponent<BillboardDevil>();
+        devilZone.Radius = detectionRadius;
         TransitionToState(IdleState);
-        TransitionToDirection(FLeftState);
     }
 
     void FixedUpdate()

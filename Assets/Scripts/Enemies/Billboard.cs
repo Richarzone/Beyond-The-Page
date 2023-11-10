@@ -6,7 +6,6 @@ public class Billboard : MonoBehaviour
 {
     // Start is called before the first frame update
     Camera mainCamera;
-    public GameObject goober;
     void Start()
     {
         mainCamera = Camera.main;

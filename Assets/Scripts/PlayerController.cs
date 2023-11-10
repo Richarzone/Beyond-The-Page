@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Cinemachine;
 using TMPro;
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private InputAction character2Action = new InputAction();
     private InputAction character3Action = new InputAction();
     private InputAction character4Action = new InputAction();
+
+    // private InputAction healingAction = new InputAction();
 
     private InputAction victoryAction = new InputAction();
     private InputAction gameOverAction = new InputAction();
@@ -58,6 +61,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dodgeCooldown;
     private bool isDodging;
 
+    // [Header("Healing")]
+    // [SerializeField] private bool heal;
+
+    [Header("UI Change Image")]
+    [SerializeField] public Texture[] changeClass;
+    [SerializeField] public RawImage selectedClass;
+
+    [Header("Scene Manager")]
     [SerializeField] private SceneLoaderManager sceneManager;
     /*[Header("UI")]
     [SerializeField] private GameObject classMenu;*/
@@ -91,6 +102,10 @@ public class PlayerController : MonoBehaviour
         skill3Action = playerInput.actions["Skill 3"];
         skill3Action.started += PressedSkill3;
         skill3Action.canceled += ReleasedSkill3;
+
+        // healingAction = playerInput.actions["Healing Action"];
+        // healingAction.started += PressedSkill3;
+        // healingAction.canceled += ReleasedSkill3;
 
         dodgeAction = playerInput.actions["Dodge"];
         dodgeAction.started += UseDodge;
@@ -130,6 +145,8 @@ public class PlayerController : MonoBehaviour
         character2Action.Enable();
         character3Action.Enable();
         character4Action.Enable();
+
+        // healingAction.Enable();
     }
 
     private void OnDisable()
@@ -146,6 +163,8 @@ public class PlayerController : MonoBehaviour
         character2Action.Disable();
         character3Action.Disable();
         character4Action.Disable();
+
+        // healingAction.Disable();
     }
 
     private void Start()
@@ -326,6 +345,22 @@ public class PlayerController : MonoBehaviour
             currentCharacterClass.gameObject.SetActive(true);
 
             StartCoroutine(CharacterChangeCooldown());
+        }
+
+        switch (character)
+        {
+            case 0: 
+                selectedClass.texture = changeClass[0];
+                break;
+            case 1:
+                selectedClass.texture = changeClass[1];
+                break;
+            case 2:
+                selectedClass.texture = changeClass[2];
+                break;
+            case 3:
+                selectedClass.texture = changeClass[3];
+                break;
         }
     }
 

@@ -101,12 +101,8 @@ MonoBehaviour:
   impactVFX: {fileID: 0}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 512
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  ignoreEnemyLayer: 1
-  attackDamage: 1
+    m_Bits: 0
+  ignoreEnemyLayer: 0
 --- !u!135 &670833518357730689
 SphereCollider:
   m_ObjectHideFlags: 0

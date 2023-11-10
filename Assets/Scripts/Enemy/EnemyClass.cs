@@ -32,11 +32,9 @@ public class EnemyClass : MonoBehaviour
     private Animator hexAnimator;
     private Coroutine hexCorrutine;
 
-    [Header ("Hitboxes")]
     [Header("Hitboxes")]
     [SerializeField] private Transform hitboxPosition;
     [SerializeField] private float attackDamage;
-        {
     [SerializeField] private float hitboxRange;
     [SerializeField] private bool hit;
 
@@ -195,9 +193,11 @@ public class EnemyClass : MonoBehaviour
         }
     }
 
+    public void EnemyMeleeWeaponAttack()
     {
         Collider[] hitColliders = Physics.OverlapSphere(hitboxPosition.transform.position, hitboxRange);
 
+        foreach (Collider hitCollider in hitColliders)
         {
 
             if ((1 << hitCollider.gameObject.layer) == playerLayer.value)
@@ -213,5 +213,8 @@ public class EnemyClass : MonoBehaviour
         hit = false;
     }
 
-
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
 }

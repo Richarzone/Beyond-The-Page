@@ -46,7 +46,16 @@ MonoBehaviour:
   wall: {fileID: 2475766366571165108, guid: 053db738e92f7c345ac3ab77d6e5b6e6, type: 3}
   wallB: {fileID: 2390472640019669735, guid: c5d33242bd47fc944bb56fa4e6ec86b6, type: 3}
   pillar: {fileID: 5289201769782867899, guid: daf98bd995da66249be482ad345073e8, type: 3}
-  floorTile: {fileID: 8159256894842990969, guid: 626862b4836e14f4bb4bc80e85f47499, type: 3}
+  floorTile: {fileID: 1666976551979720790, guid: 626862b4836e14f4bb4bc80e85f47499, type: 3}
+  innerObstaclesPrefab:
+  - {fileID: 8798027388669456798, guid: d8dd2ecbd1a1e0d4aa1099a32d1a9317, type: 3}
+  cornerObstaclesPrefab:
+  - {fileID: 2367239224043021371, guid: 1987e5869144e7a44b822119e86ea7ae, type: 3}
+  - {fileID: 2988956701507339461, guid: c6b5181741320a641b2a2162a2d96f21, type: 3}
+  wallObstaclesPrefab:
+  - {fileID: 4445695181844550833, guid: 6c893812082149d4c91a6256e8a29e23, type: 3}
+  - {fileID: 5423530384470524489, guid: 6c32a576f6e443c408c1d7bb5f2e6bb2, type: 3}
+  - {fileID: 7092201964063375725, guid: aaff4133152c77a43a19684310e215fa, type: 3}
   roomSize:
     x: 30
     y: 30
@@ -54,5 +63,5 @@ MonoBehaviour:
     x: 3.2
     y: 3.2
   floorSize:
-    x: 1
-    y: 1
+    x: 5
+    y: 5

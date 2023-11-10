@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +8,22 @@ public class ProceduralRoom : MonoBehaviour
     private List<Colliders> wallListNB;
     private List<Colliders> pillarList;
     private List<Colliders> floorList;
+    
+    private List<Colliders> cornerTiles;
+    private List<Colliders> upperTiles;
+    private List<Colliders> lowerTiles;
+    private List<Colliders> leftTiles;
+    private List<Colliders> rightTiles;
+    private List<Colliders> innerTiles;
 
     [SerializeField] private GameObject wall;
     [SerializeField] private GameObject wallB;
     [SerializeField] private GameObject pillar;
     [SerializeField] private GameObject floorTile;
+
+    [SerializeField] private GameObject[] innerObstaclesPrefab;
+    [SerializeField] private GameObject[] cornerObstaclesPrefab;
+    [SerializeField] private GameObject[] wallObstaclesPrefab;
 
     [Serializable]
     private struct RoomSize
@@ -190,6 +200,13 @@ public class ProceduralRoom : MonoBehaviour
     {
         floorList = new List<Colliders>();
 
+        cornerTiles = new List<Colliders>();
+        upperTiles = new List<Colliders>();
+        lowerTiles = new List<Colliders>();
+        leftTiles = new List<Colliders>();
+        rightTiles = new List<Colliders>();
+        innerTiles = new List<Colliders>();
+
         int floorCountX = Mathf.Max(1, (int)(roomSize.x / floorSize.x));
         int floorCountY = Mathf.Max(1, (int)(roomSize.y / floorSize.y));
         float scaleX = (roomSize.x / floorCountX) / floorSize.x;
@@ -197,15 +214,53 @@ public class ProceduralRoom : MonoBehaviour
 
         for (int i = 0; i < floorCountX; i++)
         {
-            for (int j = 0; j < floorCountY; j++) 
+            for (int j = 0; j < floorCountY; j++)
             {
+
                 var t = transform.position + new Vector3(-roomSize.x / 2 + floorSize.x * scaleX / 2 + i * scaleX * floorSize.x, 0, -roomSize.y / 2 + floorSize.y * scaleY / 2 + j * scaleY * floorSize.y);
-                var r = transform.rotation;
-                
+                var r = Quaternion.Euler(90, 0, 0);
+
                 colliders.pos = t;
                 colliders.rot = r;
 
                 floorList.Add(colliders);
+
+                // Calculate tile position
+                // Upper corners
+                if (i == 0 && (j == 0 || j == floorCountY - 1))
+                {
+                    cornerTiles.Add(colliders);
+                }
+                // Lower corners
+                else if (i == floorCountX - 1 && (j == 0 || j == floorCountY - 1))
+                {
+                    cornerTiles.Add(colliders);
+                }
+                // Upper tiles
+                else if (i == 0)
+                {
+                    upperTiles.Add(colliders);
+                }
+                // Left tiles
+                else if (j == 0)
+                {
+                    leftTiles.Add(colliders);
+                }
+                // Lower tiles
+                else if (i == floorCountX - 1)
+                {
+                    lowerTiles.Add(colliders);
+                }
+                // Right tiles
+                else if (j == floorCountY - 1) 
+                { 
+                    rightTiles.Add(colliders);
+                }
+                // Inner tiles
+                else
+                {
+                    innerTiles.Add(colliders);
+                }
             }
         }
     }
@@ -239,8 +294,86 @@ public class ProceduralRoom : MonoBehaviour
         }
     }
 
+    void generateObstacles()
+    {
+        for (int i = 0; i < cornerTiles.Count; i++)
+        {
+            GameObject prefab = cornerObstaclesPrefab[UnityEngine.Random.Range(0, cornerObstaclesPrefab.Length)];
+            GameObject obstacle = Instantiate(prefab, transform);
+            obstacle.transform.position = cornerTiles[i].pos;
+            obstacle.transform.rotation = Quaternion.Euler(0, 0, 0);
+            obstacle.transform.localScale = Vector3.one;
+        }
+
+        for (int i = 0; i < upperTiles.Count; i++)
+        {
+            float chance = UnityEngine.Random.Range(0f, 100f);
+            if (chance <= 50f)
+            {
+                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                GameObject obstacle = Instantiate(prefab, transform);
+                obstacle.transform.position = upperTiles[i].pos;
+                obstacle.transform.rotation = Quaternion.Euler(0, -90, 0);
+                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+            }
+        }
+
+        for (int i = 0; i < leftTiles.Count; i++)
+        {
+            float chance = UnityEngine.Random.Range(0f, 100f);
+            if (chance <= 50f)
+            {
+                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                GameObject obstacle = Instantiate(prefab, transform);
+                obstacle.transform.position = leftTiles[i].pos;
+                obstacle.transform.rotation = Quaternion.Euler(0, 180, 0);
+                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+            }
+        }
+
+        for (int i = 0; i < lowerTiles.Count; i++)
+        {
+            float chance = UnityEngine.Random.Range(0f, 100f);
+            if (chance <= 50f)
+            {
+                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                GameObject obstacle = Instantiate(prefab, transform);
+                obstacle.transform.position = lowerTiles[i].pos;
+                obstacle.transform.rotation = Quaternion.Euler(0, 90, 0);
+                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+            }
+        }
+
+        for (int i = 0; i < rightTiles.Count; i++)
+        {
+            float chance = UnityEngine.Random.Range(0f, 100f);
+            if (chance <= 50f)
+            {
+                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                GameObject obstacle = Instantiate(prefab, transform);
+                obstacle.transform.position = rightTiles[i].pos;
+                obstacle.transform.rotation = Quaternion.Euler(0, 0, 0);
+                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+            }
+        }
+
+        for (int i = 0; i < innerTiles.Count; i++)
+        {
+            float chance = UnityEngine.Random.Range(0f, 100f);
+            if (chance <= 50f)
+            {
+                GameObject prefab = innerObstaclesPrefab[UnityEngine.Random.Range(0, innerObstaclesPrefab.Length)];
+                GameObject obstacle = Instantiate(prefab, transform);
+                obstacle.transform.position = innerTiles[i].pos;
+                obstacle.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360f), 0);
+                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+            }
+        }
+    }
+
     private void Start()
     {
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         createWalls();
         createPillars();
         createFloorTiles();
@@ -248,5 +381,7 @@ public class ProceduralRoom : MonoBehaviour
         renderWalls();
         renderPillars();
         renderFloorTiles();
+
+        generateObstacles();
     }
 }

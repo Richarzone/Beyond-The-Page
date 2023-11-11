@@ -325,6 +325,7 @@ MonoBehaviour:
     m_Bits: 512
   enemyAnimator: {fileID: 2711245258587204492}
   deathTime: 2.5
+  parent: {fileID: 0}
   damageAnimPivot: {fileID: 2711245257933587161}
   damageNormalAnim: {fileID: 9040294145958886370, guid: 1edc9e31f955aa1449956235e03e6b64, type: 3}
   damageCritAnim: {fileID: 6862093440302700443, guid: 01952e8881515d24b8da2151365912c4, type: 3}
@@ -338,8 +339,10 @@ MonoBehaviour:
   hexCanvas: {fileID: 2711245259848504369}
   hexImage: {fileID: 2711245258714212266}
   hexBackground: {fileID: 2711245258390788713}
-  hitboxRange: 0
+  hitboxPosition: {fileID: 0}
   attackDamage: 1
+  hitboxRange: 0
+  hit: 0
   isGrounded: 0
 --- !u!95 &2711245258587204492
 Animator:

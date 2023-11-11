@@ -10,11 +10,10 @@ public class ChicharronSelector : MonoBehaviour
     public Sprite semiFullChicharron;
     public Sprite semiEmptyChicharron;
     public Sprite emptyChicharron;
-    Image chicharronImage;
+    public Image chicharronImage;
 
     private void Awake()
     {
-        chicharronImage = GetComponent<Image>();
     }
 
     public void SetChicharronImage(ChicharronStatus status)

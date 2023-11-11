@@ -76,7 +76,8 @@ public class MainMenuController : MonoBehaviour
         else
         {
             playButton.gameObject.SetActive(true);
-            SceneManager.LoadScene("Game View");
+            //SceneManager.LoadScene("Game View");
+            SceneManager.LoadScene("EnemyTest");
         }
     }
 

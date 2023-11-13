@@ -12,12 +12,14 @@ public class ChicharronSpot : MonoBehaviour
 
     // Solo para testing, habilitar con controles (key: K)
     public bool healing = false;
-
     public void Start()
     {
-        chicharronImage = chicharronPrefab.GetComponent<ChicharronSelector>();
+        GameObject chicharronActual = Instantiate(chicharronPrefab);
+        chicharronActual.transform.SetParent(transform);
+        chicharronImage = chicharronActual.GetComponent<ChicharronSelector>();
         SetChicharron();
     }
+
 
     public void Update()
     {
@@ -32,7 +34,7 @@ public class ChicharronSpot : MonoBehaviour
     public void UseChicharron()
     {
         SetChicharron();
-        if (player.usosChicharron == 0)
+        if (player.usosChicharron == 0 || player.health == player.maxHealth)
         {
             return;
         }

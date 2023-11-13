@@ -8,7 +8,7 @@ public class PlayerInfo : MonoBehaviour
     public static event Action OnPlayerDamage;
     public static event Action OnPlayerDeath;
 
-    public float health, maxHealth = 10f;
+    public int health, maxHealth = 10;
     public int usosChicharron = 3;
 
     private void Start()
@@ -17,7 +17,7 @@ public class PlayerInfo : MonoBehaviour
         usosChicharron = 3;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
         health -= amount;
         OnPlayerDamage?.Invoke();
@@ -27,7 +27,7 @@ public class PlayerInfo : MonoBehaviour
     {
         if (health <= 7.5)
         {
-            health += 2.5f;
+            health += 3;
         } 
         else
         {

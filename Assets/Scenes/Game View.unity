@@ -21113,6 +21113,17 @@ PrefabInstance:
       objectReference: {fileID: 1446434765}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
+--- !u!114 &7058963621326807808 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8226755242302115810, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
+  m_PrefabInstance: {fileID: 7058963621326807807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7112656118529501336
 GameObject:
   m_ObjectHideFlags: 0
@@ -21236,6 +21247,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: selectedClassAbilities
+      value: 
+      objectReference: {fileID: 7058963621326807808}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: changeClass.Array.data[0]
       value: 
       objectReference: {fileID: 2800000, guid: 435c5a9ea9651984ea2f1ae310a6c512, type: 3}
@@ -21251,6 +21266,22 @@ PrefabInstance:
       propertyPath: changeClass.Array.data[3]
       value: 
       objectReference: {fileID: 2800000, guid: 9d1c1321d713b224eb238aa31183aa33, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: changeAbilities.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: changeAbilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: 2898899b8f60fc346b5c8d940e5bdf87, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: changeAbilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 2800000, guid: 96ea056614b5a6b41ae324f8180052b9, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: changeAbilities.Array.data[3]
+      value: 
+      objectReference: {fileID: 2800000, guid: a0ea65a99ce3d254e90a1df65b5d24f6, type: 3}
     - target: {fileID: 8257383118300757611, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: m_RootOrder
       value: 4

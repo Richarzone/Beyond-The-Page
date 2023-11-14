@@ -64,9 +64,13 @@ public class PlayerController : MonoBehaviour
     // [Header("Healing")]
     // [SerializeField] private bool heal;
 
-    [Header("UI Change Image")]
+    [Header("UI Change Image Class")]
     [SerializeField] public Texture[] changeClass;
     [SerializeField] public RawImage selectedClass;
+
+    [Header("UI Change Image Abilities")]
+    [SerializeField] public Texture[] changeAbilities;
+    [SerializeField] public RawImage selectedClassAbilities;
 
     [Header("Scene Manager")]
     [SerializeField] private SceneLoaderManager sceneManager;
@@ -351,15 +355,19 @@ public class PlayerController : MonoBehaviour
         {
             case 0: 
                 selectedClass.texture = changeClass[0];
+                selectedClassAbilities.texture = changeAbilities[0];
                 break;
             case 1:
                 selectedClass.texture = changeClass[1];
+                selectedClassAbilities.texture = changeAbilities[1];
                 break;
             case 2:
                 selectedClass.texture = changeClass[2];
+                selectedClassAbilities.texture = changeAbilities[2];
                 break;
             case 3:
                 selectedClass.texture = changeClass[3];
+                selectedClassAbilities.texture = changeAbilities[3];
                 break;
         }
     }

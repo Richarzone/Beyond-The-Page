@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ProceduralRoom : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class ProceduralRoom : MonoBehaviour
         // Front walls
         for (int i = 0; i < wallCountX; i++)
         {
-            var t = transform.position + new Vector3(-roomSize.x / 2 + wallSize.x * scaleX / 2 + i * scaleX * wallSize.x, 0, -roomSize.y / 2);
+            var t = transform.position + new Vector3(-roomSize.x / 2 + wallSize.x * scaleX / 2 + i * scaleX * wallSize.x, -1, -roomSize.y / 2);
             var r = Quaternion.Euler(0, 180, 0);
 
             colliders.pos = t;
@@ -96,7 +97,7 @@ public class ProceduralRoom : MonoBehaviour
         // Back walls
         for (int i = 0; i < wallCountX; i++)
         {
-            var t = transform.position + new Vector3(-roomSize.x / 2 + wallSize.x * scaleX / 2 + i * scaleX * wallSize.x, 0, roomSize.y / 2);
+            var t = transform.position + new Vector3(-roomSize.x / 2 + wallSize.x * scaleX / 2 + i * scaleX * wallSize.x, -1, roomSize.y / 2);
             var r = transform.rotation;
 
             colliders.pos = t;
@@ -116,7 +117,7 @@ public class ProceduralRoom : MonoBehaviour
         // Left Walls
         for (int i = 0; i < wallCountY; i++)
         {
-            var t = transform.position + new Vector3(-roomSize.x / 2, 0, -roomSize.y / 2 + wallSize.y * scaleY / 2 + i * scaleY * wallSize.y);
+            var t = transform.position + new Vector3(-roomSize.x / 2, -1, -roomSize.y / 2 + wallSize.y * scaleY / 2 + i * scaleY * wallSize.y);
             var r = Quaternion.Euler(0, 90, 0);
 
             colliders.pos = t;
@@ -136,7 +137,7 @@ public class ProceduralRoom : MonoBehaviour
         // Right Walls
         for (int i = 0; i < wallCountY; i++)
         {
-            var t = transform.position + new Vector3(roomSize.x / 2, 0, -roomSize.y / 2 + wallSize.y * scaleY / 2 + i * scaleY * wallSize.y);
+            var t = transform.position + new Vector3(roomSize.x / 2, -1, -roomSize.y / 2 + wallSize.y * scaleY / 2 + i * scaleY * wallSize.y);
             var r = Quaternion.Euler(0, 270, 0);
 
             colliders.pos = t;
@@ -217,7 +218,7 @@ public class ProceduralRoom : MonoBehaviour
             for (int j = 0; j < floorCountY; j++)
             {
 
-                var t = transform.position + new Vector3(-roomSize.x / 2 + floorSize.x * scaleX / 2 + i * scaleX * floorSize.x, 0, -roomSize.y / 2 + floorSize.y * scaleY / 2 + j * scaleY * floorSize.y);
+                var t = transform.position + new Vector3(-roomSize.x / 2 + floorSize.x * scaleX / 2 + i * scaleX * floorSize.x, -1, -roomSize.y / 2 + floorSize.y * scaleY / 2 + j * scaleY * floorSize.y);
                 var r = Quaternion.Euler(90, 0, 0);
 
                 colliders.pos = t;

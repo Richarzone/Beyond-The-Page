@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7577096025649912791}
   - component: {fileID: 6811865023572087922}
   - component: {fileID: 8749487387219648696}
-  - component: {fileID: 7804040582016444554}
+  - component: {fileID: 4404322487863356720}
+  - component: {fileID: 5332408269100587540}
   m_Layer: 0
   m_Name: loungeDesignChair
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7092201964063375725}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -17.177193, y: -0.0000009536743, z: -15.380054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -83,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7804040582016444554
-MeshCollider:
+--- !u!65 &4404322487863356720
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,7 +94,22 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -9177457397579957278, guid: 6ea9077ff96c20f43918e9130bedb0e0, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 7.295953, y: 4, z: 4.1}
+  m_Center: {x: 3.6479764, y: 2, z: 2.05}
+--- !u!208 &5332408269100587540
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092201964063375725}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.6480002, y: 2, z: 2.0500002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 3.6480002, y: 2, z: 2.0500002}
+  m_TimeToStationary: 0.5

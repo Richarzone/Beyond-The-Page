@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1557932597582041562}
   - component: {fileID: 3637241882438919440}
   - component: {fileID: 2958157571963013994}
+  - component: {fileID: 2369066395770828070}
   m_Layer: 0
   m_Name: pottedPlant
   m_TagString: Untagged
@@ -98,6 +99,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3914873980704102052, guid: e5670366e4d3bfb42bc05642ea0e9539, type: 3}
+--- !u!208 &2369066395770828070
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2988956701507339461}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.42900002, y: 0.60800004, z: 0.49500003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.60800004, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6461420898841663229
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,6 +36,10 @@ public class GubGubAttack : GubGubBaseState
 
     public override void Update(GubGubUnit unit)
     {
+        if (unit.CanBeKnocked)
+        {
+            unit.TransitionToState(unit.KnockedState);
+        }
     }
 
     IEnumerator WaitForAnimationOfAttack(GubGubUnit unit, GubGubAttack state, float length)

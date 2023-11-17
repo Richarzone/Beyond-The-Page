@@ -6,6 +6,7 @@ public class GubGubAggro : GubGubBaseState
     {
         MonoBehaviour.print("I am agro");
         unit.SphereRadius = unit.DetectionRadius;
+        unit.Agent.speed = unit.MoveSpeed;
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Walk);
     }
 
@@ -28,7 +29,7 @@ public class GubGubAggro : GubGubBaseState
 
     public override void Update(GubGubUnit unit)
     {
-        unit.Agent.speed = unit.MoveSpeed;
+        
         //Debug.Log(unit.agent.speed);
         unit.Agent.SetDestination(unit.Player.position);
         if (unit.Agent.velocity.x > 0)
@@ -46,6 +47,11 @@ public class GubGubAggro : GubGubBaseState
             unit.TransitionToState(unit.AttackState);
         }
 
+        if (unit.CanBeKnocked)
+        {
+            unit.Agent.ResetPath();
+            unit.TransitionToState(unit.KnockedState);
+        }
         //MonoBehaviour.print(Vector3.Distance(unit.transform.position, unit.agent.destination));
 
     }

@@ -13,15 +13,19 @@ public class GooberAttackMovement : StateMachineBehaviour
             unit = animator.gameObject.GetComponent<GooberUnit>();
         }
 
-        Vector3 direction = unit.Player.position - unit.transform.position;
-        direction.y = 0f;
+        if (!unit.CanBeKnocked)
+        {
+            Vector3 direction = unit.Player.position - unit.transform.position;
+            direction.y = 0f;
 
-        //Debug.Log(direction);
-        //Debug.Log(direction.normalized * unit.attackMagnitude);
-        unit.Agent.velocity = direction.normalized * unit.AttackMagnitude;
-        //Debug.Log(unit.agent.velocity);
-        unit.Agent.SetDestination(unit.Player.position*1.5f);
-        //Debug.Log(unit.agent.pathStatus);
+            //Debug.Log(direction);
+            //Debug.Log(direction.normalized * unit.attackMagnitude);
+            unit.Agent.velocity = direction.normalized * unit.AttackMagnitude;
+            //Debug.Log(unit.agent.velocity);
+            unit.Agent.SetDestination(unit.Player.position * 1.5f);
+            //Debug.Log(unit.agent.pathStatus);
+        }
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -45,7 +49,12 @@ public class GooberAttackMovement : StateMachineBehaviour
             unit = animator.gameObject.GetComponent<GooberUnit>();
         }
         Debug.Log("ONSTATEEXIT");
-        unit.currentState.OnDisable(unit);
+
+        if (!unit.CanBeKnocked)
+        {
+            unit.currentState.OnDisable(unit);
+        }
+        
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

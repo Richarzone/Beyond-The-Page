@@ -37,6 +37,10 @@ public class GooberAttack : GooberBaseState
 
     public override void Update(GooberUnit unit)
     {
+        if (unit.CanBeKnocked)
+        {
+            unit.TransitionToState(unit.KnockedState);
+        }
     }
 
     IEnumerator WaitForAnimationOfAttack(GooberUnit unit, GooberAttack state, float length)

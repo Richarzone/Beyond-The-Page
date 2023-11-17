@@ -43,6 +43,12 @@ public class MusketeerAim : MusketeerBaseState
             unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.FleeState);
         }
+
+        //if (unit.CanBeKnocked)
+        //{
+        //    unit.Agent.ResetPath();
+        //    unit.TransitionToState(unit.KnockedState);
+        //}
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)
@@ -56,6 +62,7 @@ public class MusketeerAim : MusketeerBaseState
     public void ChangeDirection(MusketeerUnit unit)
     {
         unit.SpriteTransform.LookAt(unit.Player, Vector3.up);
+
         if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);

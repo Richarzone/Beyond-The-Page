@@ -9,6 +9,10 @@ public class GooberUnit : MonoBehaviour
     [Header("Object components")]
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody rbody;
+    public Rigidbody Rbody
+    {
+        get { return rbody; }
+    }
     private Transform player;
     public Transform Player
     {
@@ -78,6 +82,10 @@ public class GooberUnit : MonoBehaviour
     }
 
     private EnemyClass enemyClass;
+    public EnemyClass EnemyClass
+    {
+        get { return enemyClass; }
+    }
     private float startingHealth;
     public float StartingHealth
     {
@@ -97,12 +105,27 @@ public class GooberUnit : MonoBehaviour
         }
     }
 
+    private bool canBeKnocked;
+    public bool CanBeKnocked
+    {
+        get { return canBeKnocked; }
+        set { canBeKnocked = value; }
+    }
+
+    private Vector3 force;
+    public Vector3 Force
+    {
+        get { return force; }
+        set { force = value; }
+    }
+
     public GooberBaseState currentState;
 
     public readonly GooberIdle IdleState = new GooberIdle();
     public readonly GooberPatrol PatrolState = new GooberPatrol();
     public readonly GooberAggro AggroState = new GooberAggro();
     public readonly GooberAttack AttackState = new GooberAttack();
+    public readonly GooberKnocked KnockedState = new GooberKnocked();
 
     // Start is called before the first frame update
     void Awake()
@@ -115,18 +138,27 @@ public class GooberUnit : MonoBehaviour
     private void Start()
     {
         startingHealth = enemyClass.CurrentHealth;
+        canBeKnocked = enemyClass.CanBeKnocked;
+        force = enemyClass.Force;
     }
 
     // Update is called once per frame
     void Update()
     {
         currentHealth = enemyClass.CurrentHealth;
+        canBeKnocked = enemyClass.CanBeKnocked;
+        force = enemyClass.Force;
         colliders = Physics.OverlapSphere(transform.position, sphereRadius, playerLayer);
         foreach (Collider collider in colliders)
         {
             player = collider.gameObject.transform;
         }
         currentState.Update(this);
+    }
+
+    private void LateUpdate()
+    {
+        currentState.LateUpdate(this);
     }
 
     void OnTriggerEnter(Collider other)

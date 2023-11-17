@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class Nova : AbilityClass
@@ -157,10 +158,16 @@ public class Nova : AbilityClass
         {
             if ((1 << hitCollider.gameObject.layer) == characterClass.GetEnemyLayer().value)
             {
+                hitCollider.GetComponent<EnemyClass>().CanBeKnocked = true;
+                //hitCollider.attachedRigidbody.isKinematic = false;
+                //hitCollider.GetComponent<NavMeshAgent>().enabled = false;
+
                 float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
 
                 Vector3 direction = (hitCollider.transform.position - transform.position).normalized;
-                hitCollider.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x * novaPushForce, direction.y + novaRiseForce, direction.z * novaPushForce), ForceMode.Force);
+                Debug.Log("APPLIED FORCE");
+                //hitCollider.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x * novaPushForce, direction.y + novaRiseForce, direction.z * novaPushForce), ForceMode.Force);
+                hitCollider.GetComponent<EnemyClass>().Force = new Vector3(direction.x * novaPushForce, direction.y + novaRiseForce, direction.z * novaPushForce);
 
                 if (distance <= novaCriticalRange)
                 {

@@ -46,6 +46,21 @@ public class EnemyClass : MonoBehaviour
             return currentHealth;
         }
     }
+
+    private bool canBeKnocked;
+    public bool CanBeKnocked
+    {
+        get { return canBeKnocked; }
+        set { canBeKnocked = value; }
+    }
+
+    private Vector3 force;
+    public Vector3 Force
+    {
+        get { return force; }
+        set { force = value; }
+    }
+
     public bool isGrounded;
     private int hexLevel;
 
@@ -88,19 +103,18 @@ public class EnemyClass : MonoBehaviour
         Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
-            damageAnimPivot.SetParent(null);
+            //damageAnimPivot.SetParent(null);
             enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
             enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
             enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
-            Debug.Log(enemyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
             if (parent != null)
             {
-                Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
                 Destroy(parent, deathTime);
             }
             else
             {
-                Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
                 Destroy(gameObject, deathTime);
             }
         }

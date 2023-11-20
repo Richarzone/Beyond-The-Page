@@ -41,12 +41,18 @@ public class GubGubPatrol : GubGubBaseState
         {
             unit.SphereRadius = 100f;
         }
-       
+
 
         //if (unit.agent.velocity.magnitude <= 0.15f)
         //{
         //    unit.TransitionToState(unit.IdleState);
         //}
+
+        if (unit.CanBeKnocked)
+        {
+            unit.Agent.ResetPath();
+            unit.TransitionToState(unit.KnockedState);
+        }
     }
 
     public override void LateUpdate(GubGubUnit unit)

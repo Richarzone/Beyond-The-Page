@@ -46,6 +46,12 @@ public class GooberPatrol : GooberBaseState
         //{
         //    unit.TransitionToState(unit.IdleState);
         //}
+
+        if (unit.CanBeKnocked)
+        {
+            unit.Agent.ResetPath();
+            unit.TransitionToState(unit.KnockedState);
+        }
     }
 
     public override void LateUpdate(GooberUnit unit)

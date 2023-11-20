@@ -12,6 +12,11 @@ public class MusketeerUnit : MonoBehaviour
     {
         get { return animator; }
     }
+    [SerializeField] private Rigidbody rbody;
+    public Rigidbody Rbody
+    {
+        get { return rbody; }
+    }
     [SerializeField] private Transform spriteTransform;
     public Transform SpriteTransform
     {
@@ -116,6 +121,10 @@ public class MusketeerUnit : MonoBehaviour
     }
 
     private EnemyClass enemyClass;
+    public EnemyClass EnemyClass
+    {
+        get { return enemyClass; }
+    }
     private float startingHealth;
     public float StartingHealth
     {
@@ -143,6 +152,20 @@ public class MusketeerUnit : MonoBehaviour
         set { colliders = value; }
     }
 
+    private bool canBeKnocked;
+    public bool CanBeKnocked
+    {
+        get { return canBeKnocked; }
+        set { canBeKnocked = value; }
+    }
+
+    private Vector3 force;
+    public Vector3 Force
+    {
+        get { return force; }
+        set { force = value; }
+    }
+
     public MusketeerBaseState currentState;
     public MusketeerBaseState currentDirection;
 
@@ -156,6 +179,7 @@ public class MusketeerUnit : MonoBehaviour
     public readonly MusketeerBackLeft BLeftState = new MusketeerBackLeft();
     public readonly MusketeerFrontLeft FLeftState = new MusketeerFrontLeft();
     public readonly MusketeerBackRight BRightState = new MusketeerBackRight();
+    public readonly MusketeerKnocked KnockedState = new MusketeerKnocked();
 
 
     // Start is called before the first frame update
@@ -175,6 +199,8 @@ public class MusketeerUnit : MonoBehaviour
     private void Start()
     {
         startingHealth = enemyClass.CurrentHealth;
+        canBeKnocked = enemyClass.CanBeKnocked;
+        force = enemyClass.Force;
     }
 
     private void FixedUpdate()
@@ -191,6 +217,8 @@ public class MusketeerUnit : MonoBehaviour
     void Update()
     {
         currentHealth = enemyClass.CurrentHealth;
+        canBeKnocked = enemyClass.CanBeKnocked;
+        force = enemyClass.Force;
         currentState.Update(this);
     }
 

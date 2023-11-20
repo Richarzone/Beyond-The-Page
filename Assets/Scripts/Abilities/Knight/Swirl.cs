@@ -137,9 +137,10 @@ public class Swirl : AbilityClass
         {
             if ((1 << hitCollider.gameObject.layer) == characterClass.GetEnemyLayer().value)
             {
+                hitCollider.GetComponent<EnemyClass>().CanBeKnocked = true;
                 Vector3 direction = (hitCollider.transform.position - transform.position).normalized;
-                hitCollider.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x * -swirlPushForce, direction.y + swirlRiseForce, direction.z * -swirlPushForce), ForceMode.Force);
-
+                //hitCollider.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x * -swirlPushForce, direction.y + swirlRiseForce, direction.z * -swirlPushForce), ForceMode.Force);
+                hitCollider.GetComponent<EnemyClass>().Force = new Vector3(direction.x * -swirlPushForce, direction.y + swirlRiseForce, direction.z * -swirlPushForce);
                 hitCollider.GetComponent<EnemyClass>().Damage(swirlAttackDamage, swirlAttackDamage);
             }
         }

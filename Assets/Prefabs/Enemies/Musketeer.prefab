@@ -220,7 +220,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2711245258587204487}
   serializedVersion: 2
-  m_Mass: 85
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2711245258587204492}
+  rbody: {fileID: 2711245258587204482}
   spriteTransform: {fileID: 2711245259416933131}
   agent: {fileID: 2711245258587204481}
   billboard: {fileID: 2711245259321588111}
@@ -293,7 +294,7 @@ MonoBehaviour:
     m_Bits: 64
   firePivot: {fileID: 2711245259564724224}
   projectile: {fileID: 351001629929396286, guid: 7c083df4fab12403b88ed8415ae71294, type: 3}
-  projectileVelocity: 15
+  projectileVelocity: 20
   patrolPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

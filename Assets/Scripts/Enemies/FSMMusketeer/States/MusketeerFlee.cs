@@ -34,6 +34,12 @@ public class MusketeerFlee : MusketeerBaseState
             unit.Agent.SetDestination(fleeDirection);
             ChangeDirection(unit);
         }
+
+        if (unit.CanBeKnocked)
+        {
+            unit.Agent.ResetPath();
+            unit.TransitionToState(unit.KnockedState);
+        }
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

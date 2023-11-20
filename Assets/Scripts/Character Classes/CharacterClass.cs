@@ -59,6 +59,15 @@ public class CharacterClass : MonoBehaviour
         yield return null;
     }
 
+    public void ChangeIcons()
+    {
+        foreach(AbilityClass abilityClass in abilities)
+        {
+            abilityClass.ChangeIcon();
+        }
+    }
+
+
     #region Inputs
     public void AttackInput(bool input)
     {

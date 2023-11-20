@@ -68,10 +68,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Texture[] changeClass;
     [SerializeField] public RawImage selectedClass;
 
-    [Header("UI Change Image Abilities")]
-    [SerializeField] public Texture[] changeAbilities;
-    [SerializeField] public RawImage selectedClassAbilities;
-
     [Header("Scene Manager")]
     [SerializeField] private SceneLoaderManager sceneManager;
     /*[Header("UI")]
@@ -347,28 +343,25 @@ public class PlayerController : MonoBehaviour
             currentCharacterClass.gameObject.SetActive(false);
             currentCharacterClass = characterClasses[currentClass].GetComponent<CharacterClass>();
             currentCharacterClass.gameObject.SetActive(true);
+            currentCharacterClass.ChangeIcons();
 
             StartCoroutine(CharacterChangeCooldown());
-        }
 
-        switch (character)
-        {
-            case 0: 
-                selectedClass.texture = changeClass[0];
-                selectedClassAbilities.texture = changeAbilities[0];
-                break;
-            case 1:
-                selectedClass.texture = changeClass[1];
-                selectedClassAbilities.texture = changeAbilities[1];
-                break;
-            case 2:
-                selectedClass.texture = changeClass[2];
-                selectedClassAbilities.texture = changeAbilities[2];
-                break;
-            case 3:
-                selectedClass.texture = changeClass[3];
-                selectedClassAbilities.texture = changeAbilities[3];
-                break;
+            switch (character)
+            {
+                case 0:
+                    selectedClass.texture = changeClass[0];
+                    break;
+                case 1:
+                    selectedClass.texture = changeClass[1];
+                    break;
+                case 2:
+                    selectedClass.texture = changeClass[2];
+                    break;
+                case 3:
+                    selectedClass.texture = changeClass[3];
+                    break;
+            }
         }
     }
 

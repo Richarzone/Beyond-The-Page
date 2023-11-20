@@ -76,8 +76,11 @@ public class Nova : AbilityClass
         yield return new WaitForSeconds(novaBuffer);
 
         NovaDamage();
-
+        
+        
         yield return new WaitForSeconds(novaDownTime);
+       
+        
 
         // End the animation of the ability
         characterClass.BlockMovement = false;
@@ -85,6 +88,8 @@ public class Nova : AbilityClass
         characterClass.BlockClassChange = false;
         characterClass.BlockAbilities = false;
         characterClass.BlockDodge = false;
+
+        CallCooldown();
 
         yield return new WaitForSeconds(abilityCooldown);
 

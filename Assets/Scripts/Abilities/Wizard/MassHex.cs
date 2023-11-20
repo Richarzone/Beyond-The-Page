@@ -85,6 +85,8 @@ public class MassHex : AbilityClass
 
         ApplyHex(hexInstance.gameObject);
 
+        CallCooldown();
+
         yield return new WaitForSeconds(abilityCooldown);
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())

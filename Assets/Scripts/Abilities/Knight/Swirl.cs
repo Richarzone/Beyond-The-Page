@@ -77,6 +77,8 @@ public class Swirl : AbilityClass
         characterClass.BlockAbilities = false;
         characterClass.BlockDodge = false;
 
+        CallCooldown();
+
         yield return new WaitForSeconds(abilityCooldown);
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())

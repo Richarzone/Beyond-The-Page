@@ -99,6 +99,8 @@ public partial class ClosingAct : AbilityClass
             characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
         }
 
+        CallCooldown();
+
         yield return new WaitForSeconds(abilityCooldown);
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())

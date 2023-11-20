@@ -58,6 +58,8 @@ public class SpinAttack : AbilityClass
 
         characterClass.GetAnimator().SetTrigger("Spin Exit");
 
+        CallCooldown();
+
         yield return new WaitForSeconds(abilityCooldown);
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())

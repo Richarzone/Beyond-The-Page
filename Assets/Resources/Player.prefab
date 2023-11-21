@@ -2247,6 +2247,10 @@ MonoBehaviour:
   dodgeSpeed: 25
   dodgeDuration: 0.3
   dodgeCooldown: 1.5
+  changeClass: []
+  selectedClass: {fileID: 0}
+  changeAbilities: []
+  selectedClassAbilities: {fileID: 0}
   sceneManager: {fileID: 0}
 --- !u!54 &8257383118300757609
 Rigidbody:

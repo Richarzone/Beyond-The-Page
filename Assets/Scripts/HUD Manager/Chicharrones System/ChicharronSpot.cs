@@ -7,7 +7,7 @@ using UnityEngine;
 public class ChicharronSpot : MonoBehaviour
 {
     public GameObject chicharronPrefab;
-    public PlayerInfo player;
+    public PlayerController player;
     ChicharronSelector chicharronImage;
 
     // Solo para testing, habilitar con controles (key: K)
@@ -34,29 +34,29 @@ public class ChicharronSpot : MonoBehaviour
     public void UseChicharron()
     {
         SetChicharron();
-        if (player.usosChicharron == 0 || player.health == player.maxHealth)
+        if (player.usosChicharrones == 0 || player.playerHealth == player.playerMaxHealth)
         {
             return;
         }
         player.UseChicharron();
-        Debug.Log("Chicharron: " + player.usosChicharron);
+        Debug.Log("Chicharron: " + player.usosChicharrones);
     }
 
     public void SetChicharron()
     {
-        if (player.usosChicharron == 0)
+        if (player.usosChicharrones == 0)
         {
             chicharronImage.SetChicharronImage(ChicharronStatus.Empty);
         }
-        else if (player.usosChicharron == 1)
+        else if (player.usosChicharrones == 1)
         {
             chicharronImage.SetChicharronImage(ChicharronStatus.SemiEmpty);
         }
-        else if (player.usosChicharron == 2)
+        else if (player.usosChicharrones == 2)
         {
             chicharronImage.SetChicharronImage(ChicharronStatus.SemiFull);
         }
-        else if (player.usosChicharron == 3)
+        else if (player.usosChicharrones == 3)
         {
             chicharronImage.SetChicharronImage(ChicharronStatus.Full);
         }

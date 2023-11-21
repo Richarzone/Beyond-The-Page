@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] protected LayerMask enemyLayer;
     [SerializeField] protected LayerMask playerLayer;
     [SerializeField] protected bool ignoreEnemyLayer;
-    [SerializeField] protected float attackDamage;
+    [SerializeField] protected int attackDamage;
 
     protected float baseDamage;
     protected float calculatedDamge;

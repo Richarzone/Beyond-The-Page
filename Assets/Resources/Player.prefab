@@ -17264,7 +17264,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8257383118300757611}
   - component: {fileID: 8257383118300757608}
-  - component: {fileID: 1426472893}
   - component: {fileID: 8257383118300757609}
   - component: {fileID: 8257383118300757610}
   - component: {fileID: 8257383118300757623}
@@ -17312,7 +17311,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   playerHealth: 10
-  infiniteHealth: 1
+  infiniteHealth: 0
   movementSpeed: 7
   characterClasses:
   - {fileID: 8257383117958539483}
@@ -17337,21 +17336,6 @@ MonoBehaviour:
   selectedClass: {fileID: 0}
   currentBuff: {fileID: 0}
   sceneManager: {fileID: 0}
---- !u!114 &1426472893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8257383118300757612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b420e28d1c216a4b934621717dac233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 10
-  usosChicharron: 3
 --- !u!54 &8257383118300757609
 Rigidbody:
   m_ObjectHideFlags: 0

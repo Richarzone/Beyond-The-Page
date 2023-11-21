@@ -41,7 +41,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Settings")]
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private float playerHealth;
+    [SerializeField] public int playerMaxHealth = 10;
+    [SerializeField] public int playerHealth;
+    [SerializeField] public int usosChicharrones = 3;
+
     [SerializeField] private bool infiniteHealth;
     [SerializeField] private float movementSpeed;
     [SerializeField] private List<GameObject> characterClasses = new List<GameObject>();
@@ -142,6 +145,8 @@ public class PlayerController : MonoBehaviour
         gameOverAction.started += GameOver;*/
 
         //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
+
+        playerHealth = playerMaxHealth;
     }
 
     private void OnEnable()
@@ -451,7 +456,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Enemy Hit Damage
-    public void DamagePlayer(float damageValue)
+    public void DamagePlayer(int damageValue)
     {
 
         if (!infiniteHealth)
@@ -479,6 +484,19 @@ public class PlayerController : MonoBehaviour
             Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
             Destroy(gameObject);
         }
+    }
+
+    public void UseChicharron()
+    {
+        if (playerHealth <= 7)
+        {
+            playerHealth += 3;
+        }
+        else
+        {
+            playerHealth = playerMaxHealth;
+        }
+        usosChicharrones--;
     }
 
     private GameObject DamageAnimationInstance(float damageValue)

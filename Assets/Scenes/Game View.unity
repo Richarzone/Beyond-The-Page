@@ -861,6 +861,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &843801976 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+  m_PrefabInstance: {fileID: 8257383118431199335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a10d5f381cfa749823989b603cfe00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &913487527 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1871664337314013731, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
@@ -1341,17 +1352,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &1426472893 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1426472893, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
-  m_PrefabInstance: {fileID: 8257383118431199335}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b420e28d1c216a4b934621717dac233, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1438547702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +1871,11 @@ PrefabInstance:
     - target: {fileID: 7058963619674291468, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1426472893}
+      objectReference: {fileID: 843801976}
+    - target: {fileID: 7058963619674291469, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 260
+      objectReference: {fileID: 0}
     - target: {fileID: 7058963620360029336, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1967,7 +1971,11 @@ PrefabInstance:
     - target: {fileID: 7058963621278142816, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
       propertyPath: playerHealth
       value: 
-      objectReference: {fileID: 1426472893}
+      objectReference: {fileID: 843801976}
+    - target: {fileID: 7058963621278142817, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 891
+      objectReference: {fileID: 0}
     - target: {fileID: 8616358400647893788, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
       propertyPath: m_FillAmount
       value: 1
@@ -1984,6 +1992,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1426472893, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1686181224606153647, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: skillIcon
       value: 
@@ -2184,5 +2196,6 @@ PrefabInstance:
       propertyPath: imageCooldown
       value: 
       objectReference: {fileID: 299901828}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1426472893, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7f4496eef1706b49baf26572432a84f, type: 3}

@@ -34,7 +34,7 @@ public class EnemyClass : MonoBehaviour
 
     [Header("Hitboxes")]
     [SerializeField] private Transform hitboxPosition;
-    [SerializeField] private float attackDamage;
+    [SerializeField] private int attackDamage;
     [SerializeField] private float hitboxRange;
     [SerializeField] private bool hit;
 

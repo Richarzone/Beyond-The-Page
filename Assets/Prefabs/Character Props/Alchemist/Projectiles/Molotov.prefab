@@ -9796,7 +9796,8 @@ MonoBehaviour:
   impactVFX: {fileID: 215889011096606785, guid: 4928cbde90086e44690c6f0ab304bbfb, type: 3}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
+  ignoreEnemyLayer: 0
 --- !u!136 &2295723513667265347
 CapsuleCollider:
   m_ObjectHideFlags: 0

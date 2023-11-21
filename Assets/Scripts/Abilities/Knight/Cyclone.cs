@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Swirl : AbilityClass
+public class Cyclone : AbilityClass
 {
     [Header("Swirl")]
     [SerializeField] private ParticleSystem swirlVFX;

@@ -42,11 +42,13 @@ public class CharacterClass : MonoBehaviour
     protected bool isDashing;
 
     private AbilityManager abilityManager;
+    private float damageMultiplier;
 
     private void Start()
     {
         abilityManager = transform.parent.GetComponent<AbilityManager>();
         animator = GetComponent<Animator>();
+        damageMultiplier = 0f;
     }
 
     virtual protected void Attack()
@@ -67,6 +69,13 @@ public class CharacterClass : MonoBehaviour
         }
     }
 
+
+    public IEnumerator ConcoctionBuff(float buffDuration, float damageBuff)
+    {
+        damageMultiplier += damageBuff;
+        yield return new WaitForSeconds(buffDuration);
+        damageMultiplier -= damageBuff;
+    }
 
     #region Inputs
     public void AttackInput(bool input)
@@ -147,7 +156,7 @@ public class CharacterClass : MonoBehaviour
 
     public float AttackDamage()
     {
-        return attackDamage;
+        return attackDamage + (attackDamage * abilityManager.GetPlayerController().DamageMultiplier()) + (attackDamage * damageMultiplier);
     }
 
     public float AbilityCooldown()
@@ -242,5 +251,7 @@ public class CharacterClass : MonoBehaviour
     {
         blockClassChange = true;
     }
+
+    
     #endregion
 }

@@ -90,7 +90,7 @@ public class WizardClass : CharacterClass
         GameObject instance = Instantiate(projectilePrefab, pivot.position, Quaternion.identity);
         instance.transform.LookAt(targetPosition, Vector3.up);
         instance.GetComponent<Rigidbody>().velocity = direction * projectileVelocity;
-        instance.GetComponent<Projectile>().SetDamage(damage, damage);
+        instance.GetComponent<Projectile>().SetDamage(AttackDamage(), damage);
     }
 
     // Set projectile direction

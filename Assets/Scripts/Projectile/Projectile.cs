@@ -67,9 +67,11 @@ public class Projectile : MonoBehaviour
         impactAudioSource.PlayOneShot(impactSound);
 
         Destroy(impactPoint, impactSound.length);*/
+
         if (hasImpactVFX)
         {
             ParticleSystem impact = Instantiate(impactVFX, new Vector3(transform.position.x, 0.2f, transform.position.z), impactVFX.transform.rotation);
+            Debug.Log(impact.main.duration);
             Destroy(impact.gameObject, impact.main.duration + impact.main.duration);
         }
 

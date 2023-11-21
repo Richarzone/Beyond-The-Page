@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     // References
     private Rigidbody rb;
     private CapsuleCollider playerCollider;
+    private AudioSource audioSource;
 
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private InputAction character2Action = new InputAction();
     private InputAction character3Action = new InputAction();
     private InputAction character4Action = new InputAction();
+    private InputAction buffAction = new InputAction();
 
     // private InputAction healingAction = new InputAction();
 
@@ -69,7 +71,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public RawImage selectedClass;
 
     [Header("Scene Manager")]
+    [SerializeField] private BuffClass currentBuff;
+
     [SerializeField] private SceneLoaderManager sceneManager;
+
+    private float damageMultiplier;
+    private float movementSpeedMultiplier;
+    private float cooldownReductionMultiplier;
+
     /*[Header("UI")]
     [SerializeField] private GameObject classMenu;*/
 
@@ -80,6 +89,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
 
         moveAction = playerInput.actions["Movement"];
         moveAction.performed += context => movement = context.ReadValue<Vector2>();
@@ -122,6 +132,9 @@ public class PlayerController : MonoBehaviour
         character4Action = playerInput.actions["Character 4"];
         character4Action.started += context => ChageClass(context, 3);
 
+        buffAction = playerInput.actions["Buff"];
+        buffAction.started += UseBuff;
+
         /*victoryAction = playerInput.actions["Victory"];
         victoryAction.started += Victory;
 
@@ -147,6 +160,7 @@ public class PlayerController : MonoBehaviour
         character4Action.Enable();
 
         // healingAction.Enable();
+        buffAction.Enable();
     }
 
     private void OnDisable()
@@ -165,6 +179,7 @@ public class PlayerController : MonoBehaviour
         character4Action.Disable();
 
         // healingAction.Disable();
+        buffAction.Disable();
     }
 
     private void Start()
@@ -176,6 +191,10 @@ public class PlayerController : MonoBehaviour
 
         characterClasses[currentClass].SetActive(true);
         currentCharacterClass = characterClasses[currentClass].GetComponent<CharacterClass>();
+
+        damageMultiplier = 0f;
+        movementSpeedMultiplier = 0f;
+        cooldownReductionMultiplier = 0f;
     }
 
     private void Update()
@@ -333,7 +352,52 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region Change Class
+    #region Buffs
+    private void UseBuff(InputAction.CallbackContext context)
+    {
+        if (currentBuff != null)
+        {
+            StartCoroutine(UseBuffCoroutine(currentBuff));
+            currentBuff = null;
+        }
+    }
+
+    private IEnumerator UseBuffCoroutine(BuffClass buff)
+    {
+        audioSource.PlayOneShot(buff.GetSoundEffect());
+
+        switch (buff.GetBuffType())
+        {
+            case BuffClass.BuffType.Damage:
+                damageMultiplier += buff.GetEffectPercentage();
+                yield return new WaitForSeconds(buff.GetEffectDuration());
+                damageMultiplier -= buff.GetEffectPercentage();
+                break;
+            case BuffClass.BuffType.Cooldown:
+                cooldownReductionMultiplier += buff.GetEffectPercentage();
+                yield return new WaitForSeconds(buff.GetEffectDuration());
+                cooldownReductionMultiplier -= buff.GetEffectPercentage();
+                break;
+            case BuffClass.BuffType.Speed:
+                movementSpeed += buff.GetEffectPercentage();
+                yield return new WaitForSeconds(buff.GetEffectDuration());
+                movementSpeed -= buff.GetEffectPercentage();
+                break;
+        }
+    }
+
+    private void ApplyBuff(ref float statValue)
+    {
+        statValue += currentBuff.GetEffectPercentage();
+    }
+
+    private void ResetBuff(ref float statValue)
+    {
+        statValue -= currentBuff.GetEffectPercentage();
+    }
+    #endregion
+
+    #region Class Events
     private void ChageClass(InputAction.CallbackContext context, int character)
     {
         if (!currentCharacterClass.BlockClassChange)
@@ -378,6 +442,11 @@ public class PlayerController : MonoBehaviour
         character2Action.Enable();
         character3Action.Enable();
         character4Action.Enable();
+    }
+
+    public void StartConcotionBuff(float durationBuff, float damageBuff)
+    {
+        StartCoroutine(currentCharacterClass.ConcoctionBuff(durationBuff, damageBuff));
     }
     #endregion
 
@@ -434,6 +503,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Properties
     public Rigidbody GetRigidBody()
     {
         return rb;
@@ -443,6 +513,32 @@ public class PlayerController : MonoBehaviour
     {
         return playerCollider;
     }
+
+    public float DamageMultiplier()
+    {
+        return damageMultiplier;
+    }
+
+    public float MovementSpeedMultiplier()
+    {
+        return movementSpeedMultiplier;
+    }
+
+    public float CooldownMultiplierMultiplier()
+    {
+        return cooldownReductionMultiplier;
+    }
+
+    public CharacterClass CurrentCharacterClass()
+    {
+        return currentCharacterClass;
+    }
+
+    public void SetCurrentBuff(BuffClass value)
+    {
+        currentBuff = value;
+    }
+    #endregion
 
     /*private void Victory(InputAction.CallbackContext context)
     {

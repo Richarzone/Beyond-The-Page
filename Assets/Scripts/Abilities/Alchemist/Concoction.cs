@@ -5,6 +5,8 @@ using UnityEngine;
 public class Concoction : AbilityClass
 {
     [SerializeField] private GameObject concoctionPrefab;
+    [SerializeField] private float damageBuffMultiplier;
+    [SerializeField] private float buffDuration;
 
     public override void UseAbility()
     {
@@ -28,9 +30,16 @@ public class Concoction : AbilityClass
         }
 
         GameObject twinSpellInstance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
+
+        ConcoctionBuff buffEfect = twinSpellInstance.GetComponent<ConcoctionBuff>();
+        buffEfect.SetDamageValue(damageBuffMultiplier);
+        buffEfect.SetBuffDuration(buffDuration);
+
         twinSpellInstance.transform.parent = characterClass.GetVFXPivot();
 
         characterClass.GetAbilityManager().LastUsedSkill = this;
+
+        CallCooldown();
 
         yield return new WaitForSeconds(abilityCooldown);
 
@@ -45,6 +54,11 @@ public class Concoction : AbilityClass
     public override IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
     {
         GameObject twinSpellInstance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
+        
+        ConcoctionBuff buffEfect = twinSpellInstance.GetComponent<ConcoctionBuff>();
+        buffEfect.SetDamageValue(damageBuffMultiplier);
+        buffEfect.SetBuffDuration(buffDuration);
+
         twinSpellInstance.transform.parent = characterClass.GetVFXPivot();
 
         yield return null;

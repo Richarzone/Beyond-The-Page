@@ -91,12 +91,18 @@ public class CardVolley : AbilityClass
                 {
                     Shoot();
                 }
+                else
+                {
+                    target = null;
+                }
             }
 
             currentDuration -= Time.deltaTime;
-
+            
             yield return null;
         }
+
+        target = null;
 
         cardVolleyVFXInstance.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         Destroy(cardVolleyVFXInstance.gameObject, cardVolleyVFXInstance.main.duration + cardVolleyVFXInstance.main.startLifetime.constant);
@@ -109,6 +115,8 @@ public class CardVolley : AbilityClass
         Cursor.visible = true;
 
         characterClass.GetAbilityManager().LastUsedSkill = this;
+
+        CallCooldown();
 
         yield return new WaitForSeconds(abilityCooldown);
 

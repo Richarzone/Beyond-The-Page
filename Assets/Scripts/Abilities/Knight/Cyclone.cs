@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Swirl : AbilityClass
+public class Cyclone : AbilityClass
 {
     [Header("Swirl")]
     [SerializeField] private ParticleSystem swirlVFX;
@@ -76,6 +76,8 @@ public class Swirl : AbilityClass
         characterClass.BlockClassChange = false;
         characterClass.BlockAbilities = false;
         characterClass.BlockDodge = false;
+
+        CallCooldown();
 
         yield return new WaitForSeconds(abilityCooldown);
 

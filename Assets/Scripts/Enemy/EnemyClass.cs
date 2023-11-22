@@ -34,7 +34,7 @@ public class EnemyClass : MonoBehaviour
 
     [Header("Hitboxes")]
     [SerializeField] private Transform hitboxPosition;
-    [SerializeField] private float attackDamage;
+    [SerializeField] private int attackDamage;
     [SerializeField] private float hitboxRange;
     [SerializeField] private bool hit;
 
@@ -67,11 +67,7 @@ public class EnemyClass : MonoBehaviour
     private void Awake()
     {
         currentHealth = health;
-    }
-
-    void Start()
-    {
-        damageMultiplyer = 1f;
+        damageMultiplyer = 0f;
 
         hexCanvas.SetActive(true);
         hexAnimator = hexCanvas.GetComponent<Animator>();
@@ -79,7 +75,7 @@ public class EnemyClass : MonoBehaviour
 
     public void Damage(float applyDamage, float damageValue)
     {
-        float trueDamage = applyDamage * damageMultiplyer;
+        float trueDamage = applyDamage + (damageValue * damageMultiplyer);
 
         if (!infiniteHealth)
         {
@@ -141,7 +137,7 @@ public class EnemyClass : MonoBehaviour
     {
         if (hexLevel < 3)
         {
-            damageMultiplyer = 1f + (hex + (hex * increment) * hexLevel);
+            damageMultiplyer = hex + (hex * increment) * hexLevel;
             hexImage.material = hexLevels[hexLevel];
             hexLevel++;
 
@@ -161,7 +157,7 @@ public class EnemyClass : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         hexAnimator.Play("Hex Exit");
-        damageMultiplyer = 1f;
+        damageMultiplyer = 0f;
         hexLevel = 0;
     }
     

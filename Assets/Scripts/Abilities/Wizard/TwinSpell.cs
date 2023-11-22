@@ -49,6 +49,8 @@ public partial class TwinSpell : AbilityClass
 
             characterClass.GetAbilityManager().LastUsedSkill = this;
 
+            CallCooldown();
+
             yield return new WaitForSeconds(abilityCooldown);
 
             if (characterClass.GetAbilityManager().BlockAbilitySlots())

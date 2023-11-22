@@ -6,7 +6,7 @@ using static HeartSelector;
 public class HealthBar : MonoBehaviour
 {
     public GameObject heartPrefab;
-    public PlayerInfo playerHealth;
+    public PlayerController playerHealth;
 
     List<HeartSelector> hearts = new List<HeartSelector>();
 
@@ -25,7 +25,7 @@ public class HealthBar : MonoBehaviour
     {
         for (int i = 0; i < hearts.Count; i++)
         {
-            int currentHealthInHearts = (int)Mathf.Clamp(playerHealth.health - (i * 2), 0, 2);
+            int currentHealthInHearts = (int)Mathf.Clamp(playerHealth.playerHealth - (i * 2), 0, 2);
             hearts[i].SetHeartImage((HeartStatus)currentHealthInHearts);
         }
     }
@@ -50,8 +50,8 @@ public class HealthBar : MonoBehaviour
     {
         ClearHearts();
 
-        float maxHealthRemainder = playerHealth.maxHealth % 2;
-        int heartsToMake = (int)((playerHealth.maxHealth / 2) + maxHealthRemainder);
+        float maxHealthRemainder = playerHealth.playerMaxHealth % 2;
+        int heartsToMake = (int)((playerHealth.playerMaxHealth / 2) + maxHealthRemainder);
 
         for (int i = 0; i < heartsToMake; i++)
         {

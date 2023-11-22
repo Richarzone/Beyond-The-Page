@@ -18,33 +18,20 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     public Button createRoomBtn;
     public Button joinRoomBtn;
     public Button backBtn;
+    //public InputField roomInputField;
 
     [Header("Lobby")]
     public Button startGameBtn;
 
-    public TextMeshProUGUI playerTextList;
+    //public TextMeshProUGUI playerTextList;
 
     [Header("ManagerObject")]
     public GameObject managerObject;
 
     [Header("Select Character")]
-    [SerializeField] private Button playButtonCharacterSelect;
-
-    [SerializeField] private GameObject felixButton;
-    [SerializeField] private GameObject sophieButton;
-
-    [SerializeField] private Sprite felixPruebaSprite;
-    [SerializeField] private Sprite sophiePruebaSprite;
-
-    [SerializeField] private bool felixSelected = false;
-    [SerializeField] private bool sophieSelected = false;
-
-    private Image felixImage;
-    private Button felixInfoButton;
-    private Image sophieImage;
-    private Button sophieInfoButton;
-    private Sprite felixSprite;
-    private Sprite sophieSprite;
+    public List<PlayerItem> PlayerItemsList = new List<PlayerItem>();
+    public PlayerItem playerItemPrefab;
+    public Transform playerItemParent;
 
     public override void OnConnectedToMaster()
     {
@@ -55,7 +42,8 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     public void JoinRoom(TMP_InputField _roomName)
     {
         NetworkManager.instance.JoinRoom(_roomName.text);
-        photonView.RPC("UpdatePlayerInfo", RpcTarget.All);
+        photonView.RPC("UpdatePlayerList", RpcTarget.All);
+        UpdatePlayerList();
     }
 
     public void CreateRoom(TMP_InputField _roomName)
@@ -64,14 +52,33 @@ public class MenuUIController : MonoBehaviourPunCallbacks
         mainWindow.SetActive(false);
 
         NetworkManager.instance.CreateRoom(_roomName.text);
-        photonView.RPC("UpdatePlayerInfo", RpcTarget.All);
+        //NetworkManager.instance.CreateRoom(_roomName.text, new RoomOptions() { MaxPlayers = 2, BroadcastPropsChangeToAll = true });
+        photonView.RPC("UpdatePlayerList", RpcTarget.All);
+        UpdatePlayerList();
     }
+    
+    /*public void CreateRoom()
+    {
+        if (roomInputField.text.Length >= 1)
+        {
+            lobbyWindow.SetActive(true);
+            mainWindow.SetActive(false);
+
+            //NetworkManager.instance.CreateRoom(_roomName.text);
+            PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() { MaxPlayers = 2, BroadcastPropsChangeToAll = true });
+            photonView.RPC("UpdatePlayerList", RpcTarget.All);
+            UpdatePlayerList();
+        }
+    }*/
 
     public override void OnJoinedRoom()
     {
         lobbyWindow.SetActive(true);
         mainWindow.SetActive(false);
-        photonView.RPC("UpdatePlayerInfo", RpcTarget.All);
+        photonView.RPC("UpdatePlayerList", RpcTarget.All);
+        UpdatePlayerList();
+
+
     }
 
     public void GetPlayerName(TMP_InputField _playerName)
@@ -80,13 +87,51 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void UpdatePlayerInfo()
+    /*public void UpdatePlayerInfo()
     {
         playerTextList.text = "";
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             playerTextList.text += player.NickName + "\n";
         }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            startGameBtn.interactable = true;
+        }
+        else
+        {
+            startGameBtn.interactable = false;
+        }
+    }*/
+
+    void UpdatePlayerList()
+    {
+        foreach (PlayerItem item in PlayerItemsList)
+        {
+            Destroy(item.gameObject);
+        }
+        PlayerItemsList.Clear();
+
+        if (PhotonNetwork.CurrentRoom == null)
+        {
+            return;
+        }
+
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            PlayerItem newPlayerItem = Instantiate(playerItemPrefab, playerItemParent);
+            newPlayerItem.SetPlayerInfo(player.Value);
+
+            if (player.Value == PhotonNetwork.LocalPlayer)
+            {
+                newPlayerItem.ApplyLocalChanges();
+            }
+
+            PlayerItemsList.Add(newPlayerItem);
+        }
+
+
+        // Start Button
         if (PhotonNetwork.IsMasterClient)
         {
             startGameBtn.interactable = true;
@@ -103,6 +148,9 @@ public class MenuUIController : MonoBehaviourPunCallbacks
 
         lobbyWindow.SetActive(false);
         mainWindow.SetActive(true);
+        UpdatePlayerList();
+
+
     }
 
     public void PressBack()
@@ -114,60 +162,9 @@ public class MenuUIController : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        lobbyWindow.SetActive(false);
-        //characterWindow.SetActive(true);
         NetworkManager.instance.photonView.RPC("LoadScene", RpcTarget.All, "Game View");
     }
 
-    // Funciones Character Select
-    // Se inician las imagenes predeterminadas de los botones de Felix y Sophie
-    private void Start()
-    {
-        /*Cursor.visible = false;
-        startButtonAnimator = startButton.GetComponent<Animator>();*/
-        //felixButton.spriteState = sprStateFelix;
-        felixImage = felixButton.GetComponent<Image>();
-        felixInfoButton = felixButton.GetComponent<Button>();
-        sophieImage = sophieButton.GetComponent<Image>();
-        sophieInfoButton = sophieButton.GetComponent<Button>();
-
-    }
-
-    public void FelixButton()
-    {
-        felixSelected = true;
-        sophieSelected = false;
-
-        playButtonCharacterSelect.gameObject.SetActive(true);
-        felixImage.sprite = felixInfoButton.spriteState.pressedSprite;
-        sophieImage.sprite = sophiePruebaSprite;
-    }
-
-    public void SophieButton()
-    {
-        felixSelected = false;
-        sophieSelected = true;
-
-        playButtonCharacterSelect.gameObject.SetActive(true);
-        sophieImage.sprite = sophieInfoButton.spriteState.pressedSprite;
-        felixImage.sprite = felixPruebaSprite;
-    }
-
-    // Play button character select que envia al juego
-    public void PressPlayCharacterSelect()
-    {
-        //StartCoroutine(GameStart());
-        //sceneManager.LoadNextScene();
-        if (felixSelected == false && sophieSelected == false)
-        {
-            playButtonCharacterSelect.gameObject.SetActive(false);
-        }
-        else
-        {
-            playButtonCharacterSelect.gameObject.SetActive(true);
-            //NetworkManager.instance.photonView.RPC("LoadScene", RpcTarget.All, "Game View");
-        }
-    }
 
 
 }

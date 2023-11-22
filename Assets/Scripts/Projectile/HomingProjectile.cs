@@ -36,7 +36,6 @@ public class HomingProjectile : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
             rb.velocity = transform.forward * projectileVelocity;
         }
-        
     }
 
     private IEnumerator LifeTime()
@@ -45,7 +44,7 @@ public class HomingProjectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if ((1 << collision.gameObject.layer) == enemyLayer.value && target == collision.transform && !ignoreEnemyLayer)
         {
@@ -59,38 +58,15 @@ public class HomingProjectile : MonoBehaviour
 
             Destroy(gameObject);
         }
-
-        /*Collider[] hitColliders = Physics.OverlapSphere(transform.position, splashRange);
-
-        foreach (Collider collider in hitColliders)
-        {
-            if (collider.tag == "Enemy")
-            {
-                Destroy(collider.gameObject);
-            }
-        }
-
-        float pitch = Random.Range(0.85f, 1.15f);
-        float volume = Random.Range(0.6f, 0.7f);
-
-        GameObject impactPoint = new GameObject("Impact Sound");
-
-        AudioSource impactAudioSource = impactPoint.AddComponent<AudioSource>();
-        impactAudioSource.pitch = pitch;
-        impactAudioSource.volume = volume;
-        impactAudioSource.PlayOneShot(impactSound);
-
-        Destroy(impactPoint, impactSound.length);*/
-
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if ((1 << other.gameObject.layer) == enemyLayer.value)
         {
             other.GetComponent<EnemyClass>().Damage(calculatedDamge, baseDamage);
         }
-    }
+    }*/
 
     public void SetDamage(float applyDamage, float damage)
     {

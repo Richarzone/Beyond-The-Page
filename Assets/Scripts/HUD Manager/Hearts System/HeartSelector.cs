@@ -9,6 +9,11 @@ public class HeartSelector : MonoBehaviour
     public Sprite fullHeart;
     public Sprite halfHeart;
     public Sprite emptyHeart;
+
+    [Header("BuffHearts")]
+    public Sprite buffHalfHeart;
+    public Sprite buffFullHeart;
+
     Image heartImage;
 
     private void Awake()
@@ -29,6 +34,12 @@ public class HeartSelector : MonoBehaviour
             case HeartStatus.Full:
                 heartImage.sprite = fullHeart;
                 break;
+            case HeartStatus.ExtraHalf:
+                heartImage.sprite = buffHalfHeart;
+                break;
+            case HeartStatus.ExtraFull:
+                heartImage.sprite = buffFullHeart;
+                break;
         }
     }
 }
@@ -37,5 +48,7 @@ public enum HeartStatus
 {
     Empty = 0,
     Half = 1,
-    Full = 2
+    Full = 2,
+    ExtraHalf = 3,
+    ExtraFull = 4
 }

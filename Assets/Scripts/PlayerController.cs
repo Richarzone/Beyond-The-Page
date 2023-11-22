@@ -41,8 +41,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Settings")]
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] public int playerMaxHealth = 10;
-    [SerializeField] public int playerHealth;
+    [SerializeField] public int maxHealth = 10;
+    [SerializeField] public int health;
+    [SerializeField] public int extraHealth = 0;
     [SerializeField] public int usosChicharrones = 3;
 
     [SerializeField] private bool infiniteHealth;
@@ -146,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
         //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
 
-        playerHealth = playerMaxHealth;
+        health = maxHealth;
     }
 
     private void OnEnable()
@@ -458,10 +459,30 @@ public class PlayerController : MonoBehaviour
     #region Enemy Hit Damage
     public void DamagePlayer(int damageValue)
     {
-
         if (!infiniteHealth)
         {
-            playerHealth -= damageValue;
+            // Verify if there is extra hearts and apply the damage
+            if (extraHealth > 0)
+            {
+                int auxDamageValue = damageValue - extraHealth;
+                extraHealth -= damageValue;
+                
+                if (extraHealth <= 0)
+                {
+                    extraHealth = 0;
+                }
+
+                if (auxDamageValue < 0)
+                {
+                    auxDamageValue = 0;
+                }
+
+                health -= auxDamageValue;
+            }
+            else
+            {
+                health -= damageValue;
+            }
         }
 
         // Spawn damage effect
@@ -478,7 +499,7 @@ public class PlayerController : MonoBehaviour
 
         Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
 
-        if (playerHealth <= 0)
+        if (health <= 0)
         {
             damageAnimPivot.SetParent(null);
             Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
@@ -488,13 +509,13 @@ public class PlayerController : MonoBehaviour
 
     public void UseChicharron()
     {
-        if (playerHealth <= 7)
+        if (health <= 7)
         {
-            playerHealth += 3;
+            health += 3;
         }
         else
         {
-            playerHealth = playerMaxHealth;
+            health = maxHealth;
         }
         usosChicharrones--;
     }

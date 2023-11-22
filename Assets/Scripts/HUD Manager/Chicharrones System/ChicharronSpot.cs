@@ -34,7 +34,7 @@ public class ChicharronSpot : MonoBehaviour
     public void UseChicharron()
     {
         SetChicharron();
-        if (player.usosChicharrones == 0 || player.playerHealth == player.playerMaxHealth)
+        if (player.usosChicharrones == 0 || player.health == player.maxHealth)
         {
             return;
         }

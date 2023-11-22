@@ -112,3 +112,5 @@ MonoBehaviour:
   fullHeart: {fileID: 21300000, guid: e5c0285442a44904b8211be07ea34eff, type: 3}
   halfHeart: {fileID: 21300000, guid: 77ab5fe84872578409e089d0264ccbaa, type: 3}
   emptyHeart: {fileID: 21300000, guid: d2ede58852107044caf29571d482a4c2, type: 3}
+  buffHalfHeart: {fileID: 21300000, guid: 162110150b69ac74298a407ae5925640, type: 3}
+  buffFullHeart: {fileID: 21300000, guid: 3014c88ddda5c2644870c8667bc4cb05, type: 3}

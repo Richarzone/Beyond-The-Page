@@ -212,6 +212,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
+      propertyPath: health
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
+      propertyPath: infiniteHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941290083360925828, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
+      propertyPath: m_Name
+      value: Goober
+      objectReference: {fileID: 0}
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -255,18 +267,6 @@ PrefabInstance:
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
-      propertyPath: health
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
-      propertyPath: infiniteHealth
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3941290083360925828, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
-      propertyPath: m_Name
-      value: Goober
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68c790e778c5040019ce81976df15f46, type: 3}
@@ -1981,6 +1981,10 @@ PrefabInstance:
       value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 7058963621278142816, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 843801976}
+    - target: {fileID: 7058963621278142816, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 843801976}
@@ -2112,6 +2116,10 @@ PrefabInstance:
       propertyPath: selectedClass
       value: 
       objectReference: {fileID: 424892325}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: playerMaxHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8257383118300757611, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: m_RootOrder
       value: 4

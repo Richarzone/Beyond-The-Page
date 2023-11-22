@@ -6,61 +6,120 @@ using static HeartSelector;
 public class HealthBar : MonoBehaviour
 {
     public GameObject heartPrefab;
-    public PlayerController playerHealth;
+    public PlayerController player;
 
-    List<HeartSelector> hearts = new List<HeartSelector>();
+    private int refreshIndicator = 10;
+
+    public bool button = false;
+
+    public List<HeartSelector> hearts = new List<HeartSelector>();
 
     public void Awake()
     {
-        DrawHeartsType(2);
+        DrawHearts(2);
     }
 
     // REMOVE WHEN WE FIND WHEN THE PLAYER IS ATTACKED< IT SHOULD BE CALLED THERE
     public void Update()
     {
-        UpdateHearts();
-    }
-
-    public void UpdateHearts()
-    {
-        for (int i = 0; i < hearts.Count; i++)
+        if ((player.health + player.extraHealth) != refreshIndicator)
         {
-            int currentHealthInHearts = (int)Mathf.Clamp(playerHealth.playerHealth - (i * 2), 0, 2);
-            hearts[i].SetHeartImage((HeartStatus)currentHealthInHearts);
+            UpdateHearts();
+            UpdateExtraHearts();
+
+            refreshIndicator = player.health + player.extraHealth;
+        }
+        
+        
+        // Extra Buff Hearts Created
+        if (button)
+        {
+            DrawExtraHearts(2);
+            button = false;
         }
     }
 
-    public void CreateHeartType(int num)
+    public void DrawExtraHearts(int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            player.extraHealth += 2;
+            CreateHeartType(4);
+        }
+        refreshIndicator = player.health + player.extraHealth;
+    }
+
+    public void DrawHearts(int num)
+    {
+        ClearHearts();
+        float maxHealthRemainder = player.maxHealth % 2;
+        int heartsToMake = (int)((player.maxHealth / 2) + maxHealthRemainder);
+
+        for (int i = 0; i < heartsToMake; i++)
+        {
+            CreateHeartType(num);
+        }
+    }
+
+    private void UpdateHearts()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            int currentHealthInHearts = (int)Mathf.Clamp(player.health - (i * 2), 0, 2);    
+            hearts[i].SetHeartImage((HeartStatus)currentHealthInHearts);
+            
+        }
+    }
+
+    public void UpdateExtraHearts()
+    {
+        for (int i = 5; i < hearts.Count; i++)
+        {
+            int currentHealthInHearts = (int)Mathf.Clamp(player.extraHealth - ((i - 5) * 2), 0, 2);
+            if (currentHealthInHearts == 0)
+            {
+                Destroy(hearts[i].gameObject);
+                hearts.RemoveAt(i);
+            }
+            else
+            {
+                hearts[i].SetHeartImage((HeartStatus)currentHealthInHearts + 2);
+            }
+        }
+    }
+
+
+    private void CreateHeartType(int num)
     {
         GameObject newHeart = Instantiate(heartPrefab);
         newHeart.transform.SetParent(transform);
         HeartSelector heartComponent = newHeart.GetComponent<HeartSelector>();
 
         if (num == 0)
+        {
             heartComponent.SetHeartImage(HeartStatus.Empty);
+        }
         else if (num == 1)
+        {
             heartComponent.SetHeartImage(HeartStatus.Half);
+        }
         else if (num == 2)
+        {
             heartComponent.SetHeartImage(HeartStatus.Full);
+        }
+        else if (num == 3)
+        {
+            heartComponent.SetHeartImage(HeartStatus.ExtraHalf);
+        }
+        else if (num == 4)
+        {
+            heartComponent.SetHeartImage(HeartStatus.ExtraFull);
+        }
         heartComponent.transform.localScale = Vector3.one;
         hearts.Add(heartComponent);
     }
 
-    public void DrawHeartsType(int num)
-    {
-        ClearHearts();
-
-        float maxHealthRemainder = playerHealth.playerMaxHealth % 2;
-        int heartsToMake = (int)((playerHealth.playerMaxHealth / 2) + maxHealthRemainder);
-
-        for (int i = 0; i < heartsToMake; i++)
-        {
-            CreateHeartType(num);
-        }
-
-    }
-
-    public void ClearHearts()
+    private void ClearHearts()
     {
         foreach (Transform t in transform)
         {

@@ -294,6 +294,7 @@ MonoBehaviour:
     m_Bits: 64
   firePivot: {fileID: 2711245259564724224}
   projectile: {fileID: 351001629929396286, guid: 7c083df4fab12403b88ed8415ae71294, type: 3}
+  smokeVFX: {fileID: 3025283884743722484, guid: 3708c1ffdd9dd4b9c91585b6062e6f65, type: 3}
   projectileVelocity: 20
   patrolPoints:
   - {x: 0, y: 0, z: 0}

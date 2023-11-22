@@ -91,6 +91,7 @@ public class MusketeerUnit : MonoBehaviour
         get { return firePivot; }
     }
     [SerializeField] private GameObject projectile;
+    [SerializeField] private ParticleSystem smokeVFX;
     [SerializeField] private float projectileVelocity;
     private Vector3 targetPosition;
     private Vector3 direction;
@@ -317,6 +318,8 @@ public class MusketeerUnit : MonoBehaviour
 
     public void InstantiateProjectile(Transform pivot, Transform player, Vector3 direction)
     {
+        ParticleSystem VFXinstance = Instantiate(smokeVFX, pivot);
+        Destroy(VFXinstance.gameObject, VFXinstance.main.duration + VFXinstance.main.startLifetime.constant);
         GameObject instance = Instantiate(projectile, pivot.position, Quaternion.identity);
         instance.transform.LookAt(player, Vector3.up);
         instance.GetComponent<Rigidbody>().velocity = direction * projectileVelocity;

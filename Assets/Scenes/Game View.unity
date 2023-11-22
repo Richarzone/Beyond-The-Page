@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -212,18 +212,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
-      propertyPath: health
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
-      propertyPath: infiniteHealth
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3941290083360925828, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
-      propertyPath: m_Name
-      value: Goober
-      objectReference: {fileID: 0}
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -234,7 +222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.77
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_LocalPosition.z
@@ -267,6 +255,18 @@ PrefabInstance:
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
+      propertyPath: health
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941290083360925827, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
+      propertyPath: infiniteHealth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941290083360925828, guid: 75822715409ec7b409709ba62f934ec5, type: 3}
+      propertyPath: m_Name
+      value: Goober
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68c790e778c5040019ce81976df15f46, type: 3}
@@ -988,12 +988,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 555149806962274110, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: roomSize.x
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 555149806962274110, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: roomSize.y
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 555149806962274110, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
+      propertyPath: spawnPositions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 555149806962274110, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
+      propertyPath: spawnPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 1540372612}
+    - target: {fileID: 555149806962274110, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
+      propertyPath: spawnPositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 942635669}
     - target: {fileID: 555149806962274112, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: m_Name
       value: Wall Generation Script
@@ -1008,15 +1020,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 555149806962274113, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.87453467
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 555149806962274113, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 555149806962274113, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 555149806962274113, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
       propertyPath: m_LocalRotation.w

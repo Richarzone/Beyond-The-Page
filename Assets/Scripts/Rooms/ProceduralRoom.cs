@@ -17,6 +17,8 @@ public class ProceduralRoom : MonoBehaviour
     private List<Colliders> rightTiles;
     private List<Colliders> innerTiles;
 
+    private float spawnPos;
+
     [SerializeField] private GameObject wall;
     [SerializeField] private GameObject wallB;
     [SerializeField] private GameObject pillar;
@@ -25,6 +27,7 @@ public class ProceduralRoom : MonoBehaviour
     [SerializeField] private GameObject[] innerObstaclesPrefab;
     [SerializeField] private GameObject[] cornerObstaclesPrefab;
     [SerializeField] private GameObject[] wallObstaclesPrefab;
+    [SerializeField] private GameObject[] spawnPositions;
 
     [Serializable]
     private struct RoomSize
@@ -62,8 +65,6 @@ public class ProceduralRoom : MonoBehaviour
 
     void createWalls()
     {
-        UnityEngine.Random.InitState(42);
-
         colliders = new Colliders();
         wallListN = new List<Colliders>();
         wallListNB = new List<Colliders>();
@@ -73,7 +74,8 @@ public class ProceduralRoom : MonoBehaviour
         float scaleX = (roomSize.x / wallCountX) / wallSize.x;
         float scaleY = (roomSize.y / wallCountY) / wallSize.y;
 
-        
+        spawnPos = UnityEngine.Random.Range(0, wallCountX);
+
         // Front walls
         for (int i = 0; i < wallCountX; i++)
         {
@@ -84,7 +86,12 @@ public class ProceduralRoom : MonoBehaviour
             colliders.rot = r;
 
             var rand = UnityEngine.Random.Range(0, 3);
-            if (rand <= 1)
+
+            if (i == (int) spawnPos)
+            {
+                Debug.Log("Set spawn in coord: " + i);
+            }
+            else if (rand <= 1)
             {
                 wallListN.Add(colliders);
             }
@@ -161,7 +168,7 @@ public class ProceduralRoom : MonoBehaviour
         pillarList = new List<Colliders>();
 
         // Bottom Left pillar
-        var t = transform.position + new Vector3(-roomSize.x / 2, 0, -roomSize.y / 2);
+        var t = transform.position + new Vector3(-roomSize.x / 2, -1, -roomSize.y / 2);
         var r = transform.rotation;
 
         colliders.pos = t;
@@ -170,7 +177,7 @@ public class ProceduralRoom : MonoBehaviour
         pillarList.Add(colliders);
 
         // Bottom Right pillar
-        t = transform.position + new Vector3(roomSize.x / 2, 0, -roomSize.y / 2);
+        t = transform.position + new Vector3(roomSize.x / 2, -1, -roomSize.y / 2);
         r = Quaternion.Euler(0, 270, 0);
 
         colliders.pos = t;
@@ -179,7 +186,7 @@ public class ProceduralRoom : MonoBehaviour
         pillarList.Add(colliders);
 
         // Top Left pillar
-        t = transform.position + new Vector3(-roomSize.x / 2, 0, roomSize.y / 2);
+        t = transform.position + new Vector3(-roomSize.x / 2, -1, roomSize.y / 2);
         r = Quaternion.Euler(0, 90, 0);
 
         colliders.pos = t;
@@ -188,7 +195,7 @@ public class ProceduralRoom : MonoBehaviour
         pillarList.Add(colliders);
 
         // Top Right pillar
-        t = transform.position + new Vector3(roomSize.x / 2, 0, roomSize.y / 2);
+        t = transform.position + new Vector3(roomSize.x / 2, -1, roomSize.y / 2);
         r = Quaternion.Euler(0, 180, 0);
 
         colliders.pos = t;
@@ -335,7 +342,12 @@ public class ProceduralRoom : MonoBehaviour
         for (int i = 0; i < lowerTiles.Count; i++)
         {
             float chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 50f)
+            if (i == (int) spawnPos)
+            {
+                spawnPositions[0].transform.position = lowerTiles[i].pos;
+                Debug.Log("Set spawn position in coord: " + i);
+            }
+            else if (chance <= 50f)
             {
                 GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
                 GameObject obstacle = Instantiate(prefab, transform);
@@ -361,7 +373,7 @@ public class ProceduralRoom : MonoBehaviour
         for (int i = 0; i < innerTiles.Count; i++)
         {
             float chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 50f)
+            if (chance <= 40f)
             {
                 GameObject prefab = innerObstaclesPrefab[UnityEngine.Random.Range(0, innerObstaclesPrefab.Length)];
                 GameObject obstacle = Instantiate(prefab, transform);

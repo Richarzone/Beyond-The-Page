@@ -74,6 +74,11 @@ public class MainMenuController : MonoBehaviour
         bestiaryScreen.SetActive(true);
     }
 
+    public void PressExit()
+    {
+        Application.Quit();
+    }
+
     public void PressPlay()
     {
         //StartCoroutine(GameStart());

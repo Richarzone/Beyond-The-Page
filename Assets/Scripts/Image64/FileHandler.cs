@@ -14,7 +14,7 @@ public class FileHandler : MonoBehaviour
     [SerializeField] private bool isLocal = true;
     [SerializeField] private bool fileValidation;
     [SerializeField] private string JSONFile = "EnemyCard.json";
-    [SerializeField] private string filePath = "/Scripts/";
+    [SerializeField] private string filePath = "/Scripts/Image64/";
     public ImgSet arrayImg;
 
     private void Awake()

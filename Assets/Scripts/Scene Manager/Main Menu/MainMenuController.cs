@@ -13,13 +13,16 @@ public class MainMenuController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject characterSelectScreen;
+    [SerializeField] private GameObject bestiaryScreen;
     [SerializeField] private Button MultiplayerButton;
     [SerializeField] private Button SingleplayerButton;
     [SerializeField] private Button OptionsButton;
     [SerializeField] private Button ExitButton;
     [SerializeField] private Button playButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button backBestiary;
 
+    [Header("Character Select")]
     [SerializeField] private GameObject felixButton;
     [SerializeField] private GameObject sophieButton;
 
@@ -65,6 +68,12 @@ public class MainMenuController : MonoBehaviour
         characterSelectScreen.SetActive(true);
     }
 
+    public void PressBestiary()
+    {
+        startScreen.SetActive(false);
+        bestiaryScreen.SetActive(true);
+    }
+
     public void PressPlay()
     {
         //StartCoroutine(GameStart());
@@ -98,13 +107,19 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    public void PressBack()
+    public void PressBackCharacterSelect()
     {
         startScreen.SetActive(true);
         characterSelectScreen.SetActive(false);
 
         //felixSelected.SetActive(false);
         //sophieSelected.SetActive(false);
+    }
+
+    public void PressBackBestiary()
+    {
+        startScreen.SetActive(true);
+        bestiaryScreen.SetActive(false);
     }
 
     public void FelixButton()

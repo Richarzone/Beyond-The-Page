@@ -224,6 +224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goober
       objectReference: {fileID: 0}
+    - target: {fileID: 1825902910480546279, guid: 68c790e778c5040019ce81976df15f46, type: 3}
+      propertyPath: audio
+      value: 
+      objectReference: {fileID: 935235557}
     - target: {fileID: 3041454049353039734, guid: 68c790e778c5040019ce81976df15f46, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -314,6 +318,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &597169778 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8257383118300757612, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+  m_PrefabInstance: {fileID: 8257383118431199335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &597169779
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597169778}
+  m_Enabled: 1
 --- !u!114 &598493560 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3363821481320629073, guid: 15180171dcc7e9547aa60e0e68191c9e, type: 3}
@@ -604,7 +621,6 @@ GameObject:
   m_Component:
   - component: {fileID: 800018391}
   - component: {fileID: 800018390}
-  - component: {fileID: 800018389}
   - component: {fileID: 800018393}
   - component: {fileID: 800018392}
   m_Layer: 0
@@ -614,14 +630,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &800018389
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800018388}
-  m_Enabled: 1
 --- !u!20 &800018390
 Camera:
   m_ObjectHideFlags: 0
@@ -866,7 +874,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
   m_PrefabInstance: {fileID: 8257383118431199335}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 597169778}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59a10d5f381cfa749823989b603cfe00, type: 3}
@@ -883,6 +891,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &935235557 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3523436561624762677, guid: 68c790e778c5040019ce81976df15f46, type: 3}
+  m_PrefabInstance: {fileID: 185160739}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &942635669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,4 +2231,5 @@ PrefabInstance:
       objectReference: {fileID: 299901828}
     m_RemovedComponents:
     - {fileID: 1426472893, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+    - {fileID: 1426472892, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7f4496eef1706b49baf26572432a84f, type: 3}

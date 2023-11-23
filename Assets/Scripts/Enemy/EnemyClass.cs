@@ -38,6 +38,7 @@ public class EnemyClass : MonoBehaviour
     [SerializeField] private float hitboxRange;
     [SerializeField] private bool hit;
 
+    
     private float currentHealth;
     public float CurrentHealth 
     { 
@@ -63,6 +64,9 @@ public class EnemyClass : MonoBehaviour
 
     public bool isGrounded;
     private int hexLevel;
+
+    [Header("SFX")]
+    [SerializeField] private AudioSource audio;
 
     private void Awake()
     {
@@ -99,6 +103,7 @@ public class EnemyClass : MonoBehaviour
         Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
+            audio.Play();
             //damageAnimPivot.SetParent(null);
             enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
             enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;

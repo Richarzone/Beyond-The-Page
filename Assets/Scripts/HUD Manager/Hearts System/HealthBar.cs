@@ -10,7 +10,7 @@ public class HealthBar : MonoBehaviour
 
     private int refreshIndicator = 10;
 
-    public bool button = false;
+    public bool extraHeartsBoolean = false;
 
     public List<HeartSelector> hearts = new List<HeartSelector>();
 
@@ -19,7 +19,6 @@ public class HealthBar : MonoBehaviour
         DrawHearts(2);
     }
 
-    // REMOVE WHEN WE FIND WHEN THE PLAYER IS ATTACKED< IT SHOULD BE CALLED THERE
     public void Update()
     {
         if ((player.health + player.extraHealth) != refreshIndicator)
@@ -31,11 +30,11 @@ public class HealthBar : MonoBehaviour
         }
         
         
-        // Extra Buff Hearts Created
-        if (button)
+        // Extra Hearts Auxiliary boolean extraHeartsBoolean
+        if (extraHeartsBoolean)
         {
             DrawExtraHearts(2);
-            button = false;
+            extraHeartsBoolean = false;
         }
     }
 

@@ -76,7 +76,7 @@ public class AbilityClass : MonoBehaviour
 
     protected void CallCooldown()
     {
-        characterClass.GetAbilityManager().AbilityCoroutineManager(CooldownCoroutine());
+        characterClass.GetAbilityManager().AbilityCoroutineManager(CooldownUICoroutine());
     }
 
     public virtual IEnumerator TwinSpellCoroutine(CharacterClass character, TwinSpell ability)
@@ -84,7 +84,7 @@ public class AbilityClass : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator CooldownCoroutine()
+    public IEnumerator CooldownUICoroutine()
     {
         cooldownTimer = abilityCooldown;
         textCooldown.gameObject.SetActive(true);
@@ -96,6 +96,7 @@ public class AbilityClass : MonoBehaviour
             imageCooldown.fillAmount = cooldownTimer / abilityCooldown;
             yield return null;
         }
+
         textCooldown.gameObject.SetActive(false);
         imageCooldown.fillAmount = 0.0f;
     }

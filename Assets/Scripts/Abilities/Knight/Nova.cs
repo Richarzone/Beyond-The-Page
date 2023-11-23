@@ -78,11 +78,8 @@ public class Nova : AbilityClass
 
         NovaDamage();
         
-        
         yield return new WaitForSeconds(novaDownTime);
        
-        
-
         // End the animation of the ability
         characterClass.BlockMovement = false;
         characterClass.BlockRotation = false;

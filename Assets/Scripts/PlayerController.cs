@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SceneLoaderManager sceneManager;
 
     private float damageMultiplier;
-    private float movementSpeedMultiplier;
+    private float attackSpeedMultiplier;
     private float cooldownReductionMultiplier;
 
     /*[Header("UI")]
@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
         currentCharacterClass = characterClasses[currentClass].GetComponent<CharacterClass>();
 
         damageMultiplier = 0f;
-        movementSpeedMultiplier = 0f;
+        attackSpeedMultiplier = 1f;
         cooldownReductionMultiplier = 0f;
     }
 
@@ -356,6 +356,13 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
+
+    private void UnlockAllSkills()
+    {
+        skill1Action.Enable();
+        skill2Action.Enable();
+        skill3Action.Enable();
+    }
     #endregion
 
     #region Buffs
@@ -385,22 +392,14 @@ public class PlayerController : MonoBehaviour
                 cooldownReductionMultiplier -= buff.GetEffectPercentage();
                 break;
             case BuffClass.BuffType.Speed:
-                movementSpeed += buff.GetEffectPercentage();
+                attackSpeedMultiplier += buff.GetEffectPercentage();
                 yield return new WaitForSeconds(buff.GetEffectDuration());
-                movementSpeed -= buff.GetEffectPercentage();
+                attackSpeedMultiplier -= buff.GetEffectPercentage();
                 break;
         }
     }
 
-    private void ApplyBuff(ref float statValue)
-    {
-        statValue += currentBuff.GetEffectPercentage();
-    }
-
-    private void ResetBuff(ref float statValue)
-    {
-        statValue -= currentBuff.GetEffectPercentage();
-    }
+    
     #endregion
 
     #region Class Events
@@ -558,9 +557,9 @@ public class PlayerController : MonoBehaviour
         return damageMultiplier;
     }
 
-    public float MovementSpeedMultiplier()
+    public float AttackSpeedMultiplier()
     {
-        return movementSpeedMultiplier;
+        return attackSpeedMultiplier;
     }
 
     public float CooldownMultiplierMultiplier()

@@ -67,7 +67,7 @@ public class AbilityClass : MonoBehaviour
         cooldownTimer = abilityCooldown;
     }
 
-    protected void ResetCooldown()
+    public void ResetCooldown()
     {
         isCooldown = false;
         textCooldown.gameObject.SetActive(false);
@@ -109,6 +109,11 @@ public class AbilityClass : MonoBehaviour
     public bool GetSkillInput()
     {
         return skillInput;
+    }
+
+    public void UnlockSkill()
+    {
+        blockSkill = false;
     }
 
     public void ActiveSkill(bool active)

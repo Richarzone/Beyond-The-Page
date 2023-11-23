@@ -40,6 +40,8 @@ public class AlchemistClass : CharacterClass
             // Refresh the time between attacks
             timeBetweenAttacks -= Time.deltaTime;
         }
+
+        Debug.Log(attackSpeed * AttackSpeed());
     }
 
     protected override void Attack()
@@ -47,7 +49,7 @@ public class AlchemistClass : CharacterClass
         if (timeBetweenAttacks <= 0f)
         {
             StartCoroutine(DelayAttack());
-            timeBetweenAttacks = 1 / attackSpeed;
+            timeBetweenAttacks = 1 / (attackSpeed * AttackSpeed());
         }
     }
 

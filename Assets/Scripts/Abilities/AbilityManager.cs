@@ -13,7 +13,7 @@ public class AbilityManager : MonoBehaviour
     [SerializeField] private AbilityClass lastUsedSkill;
 
     private PlayerController playerController;
-
+    
     private void Start()
     {
         playerController = transform.parent.GetComponent<PlayerController>();

@@ -38,6 +38,8 @@ public class WizardClass : CharacterClass
             // Refresh the time between attacks
             timeBetweenAttacks -= Time.deltaTime;
         }
+
+        Debug.Log(attackSpeed * AttackSpeed());
     }
 
     protected override void Attack()
@@ -48,8 +50,8 @@ public class WizardClass : CharacterClass
         {
             SetDirection();
             InstantiateProjectile(basicAttackProjectile, firePivot, projectileVelocity, direction, attackDamage);
-            
-            timeBetweenAttacks = 1 / attackSpeed;
+
+            timeBetweenAttacks = 1 / (attackSpeed * AttackSpeed());
         }
     }
 

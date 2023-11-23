@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// CHECK: ------ CHANGE THE REFERENCE OF THE SKILL ICONS UI ELEMENT TO THIS CLASS TO REDUCE NUMBER OF REFERENCES ------
+
 public class CharacterClass : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
@@ -13,6 +15,7 @@ public class CharacterClass : MonoBehaviour
     [Header("Basic Attack")]
     [SerializeField] protected float attackDamage;
     [SerializeField] protected float attackSpeed;
+    protected float attackSpeedMultiplier;
 
     [Header("Abilities")]
     [SerializeField] protected float abilityCooldown;
@@ -49,6 +52,7 @@ public class CharacterClass : MonoBehaviour
         abilityManager = transform.parent.GetComponent<AbilityManager>();
         animator = GetComponent<Animator>();
         damageMultiplier = 0f;
+        //attackSpeedMultiplier = 1f;
     }
 
     virtual protected void Attack()
@@ -69,12 +73,26 @@ public class CharacterClass : MonoBehaviour
         }
     }
 
-
     public IEnumerator ConcoctionBuff(float buffDuration, float damageBuff)
     {
         damageMultiplier += damageBuff;
         yield return new WaitForSeconds(buffDuration);
         damageMultiplier -= damageBuff;
+    }
+
+    public void ResetCharacter()
+    {
+        blockAttack = false;
+        blockMovement = false;
+        blockRotation = false;
+        BlockAbilities = false;
+        blockClassChange = false;
+        blockDodge = false;
+
+        foreach (AbilityClass ability in abilities)
+        {
+
+        }
     }
 
     #region Inputs
@@ -157,6 +175,11 @@ public class CharacterClass : MonoBehaviour
     public float AttackDamage()
     {
         return attackDamage + (attackDamage * abilityManager.GetPlayerController().DamageMultiplier()) + (attackDamage * damageMultiplier);
+    }
+
+    public float AttackSpeed()
+    {
+        return abilityManager.GetPlayerController().AttackSpeedMultiplier();
     }
 
     public float AbilityCooldown()

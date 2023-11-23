@@ -26,7 +26,7 @@ public class KnightClass : CharacterClass
         if (timeBetweenAttacks <= 0f)
         {
             animator.SetTrigger("Attack");
-            timeBetweenAttacks = 1 / attackSpeed;
+            timeBetweenAttacks = 1 / (attackSpeed * AttackSpeed());
         }
     }
 

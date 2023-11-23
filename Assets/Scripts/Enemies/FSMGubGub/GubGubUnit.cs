@@ -126,6 +126,9 @@ public class GubGubUnit : MonoBehaviour
     public readonly GubGubAttack AttackState = new GubGubAttack();
     public readonly GubGubKnocked KnockedState = new GubGubKnocked();
 
+    [Header("SFX")]
+    public AudioSource[] gubgubsSFX;
+
     // Start is called before the first frame update
     void Awake()
     {

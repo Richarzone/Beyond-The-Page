@@ -51,8 +51,7 @@ public class HealthBar : MonoBehaviour
     public void DrawHearts(int num)
     {
         ClearHearts();
-        float maxHealthRemainder = player.maxHealth % 2;
-        int heartsToMake = (int)((player.maxHealth / 2) + maxHealthRemainder);
+        int heartsToMake = (int)((player.maxHealth / 2) + (player.maxHealth % 2));
 
         for (int i = 0; i < heartsToMake; i++)
         {

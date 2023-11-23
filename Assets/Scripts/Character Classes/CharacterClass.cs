@@ -91,7 +91,7 @@ public class CharacterClass : MonoBehaviour
 
         foreach (AbilityClass ability in abilities)
         {
-
+            ability.UnlockSkill();
         }
     }
 
@@ -185,6 +185,11 @@ public class CharacterClass : MonoBehaviour
     public float AbilityCooldown()
     {
         return abilityCooldown;
+    }
+
+    public List<AbilityClass> GetAbilities()
+    {
+        return abilities;
     }
 
     public bool BlockAttack

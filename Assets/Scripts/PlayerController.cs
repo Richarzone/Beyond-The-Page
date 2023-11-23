@@ -356,12 +356,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void UnlockAllSkills()
-    {
-        skill1Action.Enable();
-        skill2Action.Enable();
-        skill3Action.Enable();
-    }
     #endregion
 
     #region Buffs
@@ -372,6 +366,25 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(UseBuffCoroutine(currentBuff));
             currentBuff = null;
         }
+    }
+
+    private void ResetAllCooldowns()
+    {
+        currentCharacterClass.GetAbilityManager().StopAllCoroutines();
+        
+        foreach (AbilityClass ability in currentCharacterClass.GetAbilities())
+        {
+            ability.ResetCooldown();   
+        }
+
+        foreach (GameObject characterClass in characterClasses)
+        {
+            characterClass.GetComponent<CharacterClass>().ResetCharacter();
+        }
+
+        skill1Action.Enable();
+        skill2Action.Enable();
+        skill3Action.Enable();
     }
 
     private IEnumerator UseBuffCoroutine(BuffClass buff)
@@ -386,9 +399,7 @@ public class PlayerController : MonoBehaviour
                 damageMultiplier -= buff.GetEffectPercentage();
                 break;
             case BuffClass.BuffType.Cooldown:
-                cooldownReductionMultiplier += buff.GetEffectPercentage();
-                yield return new WaitForSeconds(buff.GetEffectDuration());
-                cooldownReductionMultiplier -= buff.GetEffectPercentage();
+                ResetAllCooldowns();
                 break;
             case BuffClass.BuffType.Speed:
                 attackSpeedMultiplier += buff.GetEffectPercentage();

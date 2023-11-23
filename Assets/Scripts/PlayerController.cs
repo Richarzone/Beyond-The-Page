@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Cinemachine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private InputAction character3Action = new InputAction();
     private InputAction character4Action = new InputAction();
     private InputAction buffAction = new InputAction();
+    private InputAction pauseAction = new InputAction();
 
     // private InputAction healingAction = new InputAction();
 
@@ -77,6 +79,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BuffClass currentBuff;
 
     [SerializeField] private SceneLoaderManager sceneManager;
+
+    [Header("UI Pause Menu")]
+    [SerializeField] public GameObject GameCanvas;
+    [SerializeField] public GameObject PauseCanvas;
+    public bool isPaused = false;
+    public int MainMenuSceneIndex;
 
     private float damageMultiplier;
     private float attackSpeedMultiplier;
@@ -137,6 +145,9 @@ public class PlayerController : MonoBehaviour
 
         buffAction = playerInput.actions["Buff"];
         buffAction.started += UseBuff;
+
+        pauseAction = playerInput.actions["Pause"];
+        pauseAction.started += PauseMenu;
 
         /*victoryAction = playerInput.actions["Victory"];
         victoryAction.started += Victory;
@@ -597,4 +608,31 @@ public class PlayerController : MonoBehaviour
     {
         sceneManager.LoadGameOverScene();
     }*/
+
+
+    //Pause menu logic
+
+    public void MainMenu()
+    {
+        SceneManager.LoadSceneAsync(MainMenuSceneIndex);
+        //Time.timeScale = 1;
+        isPaused = false;
+
+    }
+
+    public void PauseMenu(InputAction.CallbackContext context)
+    {
+        PauseCanvas.SetActive(true);
+        GameCanvas.SetActive(false);
+        //Time.timeScale = 0;
+        isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        PauseCanvas.SetActive(false);
+        GameCanvas.SetActive(true);
+        //Time.timeScale = 1;
+        isPaused = false;
+    }
 }

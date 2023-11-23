@@ -2298,6 +2298,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8511293825328508544, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8965724119572540944, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: skillIcon
       value: 

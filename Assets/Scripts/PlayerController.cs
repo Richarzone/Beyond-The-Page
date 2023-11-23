@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public int health;
     [SerializeField] public int extraHealth = 0;
     [SerializeField] public int usosChicharrones = 3;
-
     [SerializeField] private bool infiniteHealth;
     [SerializeField] private float movementSpeed;
     [SerializeField] private List<GameObject> characterClasses = new List<GameObject>();

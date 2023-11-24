@@ -419,8 +419,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
-    
     #endregion
 
     #region Class Events
@@ -437,7 +435,7 @@ public class PlayerController : MonoBehaviour
 
             StartCoroutine(CharacterChangeCooldown());
 
-            switch (character)
+            /*switch (character)
             {
                 case 0:
                     selectedClass.texture = changeClass[0];
@@ -451,7 +449,7 @@ public class PlayerController : MonoBehaviour
                 case 3:
                     selectedClass.texture = changeClass[3];
                     break;
-            }
+            }*/
         }
     }
 

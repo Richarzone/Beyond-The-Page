@@ -38,7 +38,7 @@ public class Stun : AbilityClass
         blockSkill = true;
 
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
-        abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
+        abilityCanvas.transform.localScale = (Vector3.one * stunAOE) * 2;
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
 
@@ -56,7 +56,7 @@ public class Stun : AbilityClass
             distance = Mathf.Min(distance, stunRange / 2f);
             Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 0.01f, newHitPosition.z);
+            abilityCanvas.transform.position = new Vector3(newHitPosition.x, -0.9f, newHitPosition.z);
 
             yield return null;
         }
@@ -96,7 +96,7 @@ public class Stun : AbilityClass
         ability.SkillLock();
 
         abilityRangeIndicator.gameObject.transform.localScale = new Vector3(stunRange, stunRange, stunRange);
-        abilityCanvas.transform.localScale = new Vector3(stunAOE, stunAOE, stunAOE);
+        abilityCanvas.transform.localScale = (Vector3.one * stunAOE) * 2;
         abilityCanvas.enabled = true;
         abilityRangeIndicator.enabled = true;
 
@@ -114,7 +114,7 @@ public class Stun : AbilityClass
             distance = Mathf.Min(distance, stunRange / 2f);
             Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 0.01f, newHitPosition.z);
+            abilityCanvas.transform.position = new Vector3(newHitPosition.x, -0.9f, newHitPosition.z);
 
             yield return null;
         }
@@ -151,6 +151,9 @@ public class Stun : AbilityClass
     private void InstantiateProjectileTarget(GameObject projectilePrefab, Transform pivot, float projectileVelocity, Vector3 direction)
     {
         GameObject instance = Instantiate(projectilePrefab, new Vector3(pivot.position.x, pivot.position.y + 0.5f, pivot.position.z), Quaternion.identity);
+        Projectile projectileInstance = instance.GetComponent<Projectile>();
+        projectileInstance.SetAOERange(stunAOE);
+        projectileInstance.SetInstanceOwner(characterClass);
         instance.GetComponent<Rigidbody>().velocity = direction * projectileVelocity;
     }
 

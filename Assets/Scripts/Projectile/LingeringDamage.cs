@@ -9,6 +9,7 @@ public class LingeringDamage : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float duration;
     [SerializeField] private LayerMask enemyMask;
+    private CharacterClass instanceOwner;
 
     private float damageTime;
     private bool durationOver;
@@ -31,9 +32,7 @@ public class LingeringDamage : MonoBehaviour
             Damage();
             damageTime = 1 / timeBetweenDamage;
         }
-
     }
-
 
     private void Damage()
     {
@@ -41,8 +40,15 @@ public class LingeringDamage : MonoBehaviour
 
         foreach (Collider hitCollider in hitColliders)
         {
-            hitCollider.GetComponent<EnemyClass>().Damage(damage, damage);
+            hitCollider.GetComponent<EnemyClass>().Damage(damage +
+                                                         (damage * instanceOwner.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                         (damage * instanceOwner.GetConcoctionDamageMultiplier()), damage);
         }
+    }
+
+    public void SetInstanceOwner(CharacterClass value)
+    {
+        instanceOwner = value;
     }
 
     private IEnumerator LifeTime()

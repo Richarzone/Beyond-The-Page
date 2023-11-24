@@ -12,7 +12,7 @@ public class WeaponCollisionDetection : MonoBehaviour
     {
         if ((1 << other.gameObject.layer) == enemyLayer.value && !blockNormalDamage)
         {
-            other.GetComponent<EnemyClass>().Damage(characterClass.AttackDamage(), characterClass.AttackDamage());
+            other.GetComponent<EnemyClass>().Damage(characterClass.CurrentAttackDamage(), characterClass.AttackDamage());
         }
     }
 

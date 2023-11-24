@@ -79,12 +79,13 @@ public class SpinAttack : AbilityClass
         character.BlockAbilities = true;
         character.BlockDodge = true;
 
+        float currentDuration = spinAttackDuration;
+
         GameObject twinSpellInstance = Instantiate(twinSpellObject, character.GetVFXPivot().position, twinSpellObject.transform.rotation);
         twinSpellInstance.transform.parent = character.GetVFXPivot();
         
         TickDamageAOE damageComponent = twinSpellInstance.GetComponent<TickDamageAOE>();
         damageComponent.SetDamage(spinAttackDamage);
-        damageComponent.SetApplyDamage(spinAttackDamage);
         damageComponent.SetRange(spinAttackRange);
 
         // Instantiate VFX
@@ -92,7 +93,14 @@ public class SpinAttack : AbilityClass
         vfxSpinInstance.transform.parent = character.GetVFXPivot();
         Destroy(vfxSpinInstance.gameObject, vfxSpinInstance.main.duration + vfxSpinInstance.main.startLifetime.constant);
 
-        yield return new WaitForSeconds(spinAttackDuration);
+        while (currentDuration > 0)
+        {
+            damageComponent.SetApplyDamage(spinAttackDamage +
+                    (spinAttackDamage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                    (spinAttackDamage * characterClass.GetConcoctionDamageMultiplier()));
+            currentDuration -= Time.deltaTime;
+            yield return null;
+        }
 
         // End the animation of the ability
         character.BlockAttack = false;
@@ -113,7 +121,9 @@ public class SpinAttack : AbilityClass
         {
             if ((1 << hitCollider.gameObject.layer) == characterClass.GetEnemyLayer().value)
             {
-                hitCollider.GetComponent<EnemyClass>().Damage(spinAttackDamage, spinAttackDamage);
+                hitCollider.GetComponent<EnemyClass>().Damage(spinAttackDamage + 
+                                                             (spinAttackDamage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                             (spinAttackDamage * characterClass.GetConcoctionDamageMultiplier()), spinAttackDamage);
             }
         }
     }

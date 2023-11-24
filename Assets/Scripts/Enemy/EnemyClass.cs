@@ -100,7 +100,6 @@ public class EnemyClass : MonoBehaviour
 
         Destroy(pivotInsatnce, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
 
-        Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
             audio.Play();
@@ -119,7 +118,6 @@ public class EnemyClass : MonoBehaviour
                 Destroy(gameObject, deathTime);
             }
         }
-        
     }
 
     private GameObject DamageAnimationInstance(float applyDamage, float damageValue)

@@ -185,7 +185,9 @@ public partial class ClosingAct : AbilityClass
 
         foreach (RaycastHit hit in hits)
         {
-            hit.collider.GetComponent<EnemyClass>().Damage(currentDamage, currentDamage);
+            hit.collider.GetComponent<EnemyClass>().Damage(currentDamage +
+                                                          (currentDamage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                          (currentDamage * characterClass.GetConcoctionDamageMultiplier()), currentDamage);
 
             if (Mathf.Floor(currentDamage * 0.25f) >= minimumDamage)
             {

@@ -217,7 +217,10 @@ public class CardVolley : AbilityClass
         instance.transform.LookAt(target, Vector3.up);
 
         HomingProjectile instanceProjectile = instance.GetComponent<HomingProjectile>();
-        instanceProjectile.SetDamage(damage, damage);
+        instanceProjectile.SetDamage(damage +
+                                    (damage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                    (damage * characterClass.GetConcoctionDamageMultiplier()), damage);
+
         instanceProjectile.SetVelocity(projectileVelocity);
         instanceProjectile.SetOrigin(firePivot);
         instanceProjectile.SetTarget(target);

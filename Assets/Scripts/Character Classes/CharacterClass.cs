@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// CHECK: ------ CHANGE THE REFERENCE OF THE SKILL ICONS UI ELEMENT TO THIS CLASS TO REDUCE NUMBER OF REFERENCES ------
+// TODO: ------ CHANGE THE REFERENCE OF THE SKILL ICONS UI ELEMENT TO THIS CLASS TO REDUCE NUMBER OF REFERENCES ------
 
 public class CharacterClass : MonoBehaviour
 {
@@ -172,9 +172,14 @@ public class CharacterClass : MonoBehaviour
         return abilityManager;
     }
 
-    public float AttackDamage()
+    public float CurrentAttackDamage()
     {
         return attackDamage + (attackDamage * abilityManager.GetPlayerController().DamageMultiplier()) + (attackDamage * damageMultiplier);
+    }
+
+    public float AttackDamage()
+    {
+        return attackDamage;
     }
 
     public float AttackSpeed()
@@ -185,6 +190,11 @@ public class CharacterClass : MonoBehaviour
     public float AbilityCooldown()
     {
         return abilityCooldown;
+    }
+
+    public float GetConcoctionDamageMultiplier()
+    {
+        return damageMultiplier;
     }
 
     public List<AbilityClass> GetAbilities()

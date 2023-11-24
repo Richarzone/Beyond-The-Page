@@ -103,7 +103,17 @@ MonoBehaviour:
   impactVFX: {fileID: 7670252166518671331, guid: eee73da64d4b6c543933a0daa7d1a70c, type: 3}
   enemyLayer:
     serializedVersion: 2
+    m_Bits: 512
+  playerLayer:
+    serializedVersion: 2
     m_Bits: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  ignoreEnemyLayer: 1
+  attackDamage: 0
+  isLingering: 0
+  isExplosive: 1
 --- !u!136 &4021235789227330401
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -112,7 +122,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6667204804044315698}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 1.5
   m_Height: 2

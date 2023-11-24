@@ -9,11 +9,6 @@ public class TickDamageAOE : MonoBehaviour
     [SerializeField] private float range;
     private float applyDamage;
 
-    private void Start()
-    {
-        applyDamage = damage;
-    }
-
     private void AOETickDamage()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);

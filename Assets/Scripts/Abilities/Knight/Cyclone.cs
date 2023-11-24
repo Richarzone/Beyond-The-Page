@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class Cyclone : AbilityClass
 {
-    [Header("Swirl")]
-    [SerializeField] private ParticleSystem swirlVFX;
-    [SerializeField] private float swirlAttackDamage;
-    [SerializeField] private float swirlAttackRange;
-    [SerializeField] private float swirlPushForce;
-    [SerializeField] private float swirlRiseForce;
-    [SerializeField] private float swirlBuffer;
-    [SerializeField] private float swirlDownTime;
+    [Header("Cyclone")]
+    [SerializeField] private ParticleSystem cycloneVFX;
+    [SerializeField] private float cycloneAttackDamage;
+    [SerializeField] private float cycloneAttackRange;
+    [SerializeField] private float cyclonePushForce;
+    [SerializeField] private float cycloneRiseForce;
+    [SerializeField] private float cycloneBuffer;
+    [SerializeField] private float cycloneDownTime;
 
     [Header("UI")]
     [SerializeField] private Image abilityRangeIndicator;
@@ -34,7 +34,7 @@ public class Cyclone : AbilityClass
         // Lock the use of the habilities
         blockSkill = true;
 
-        abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
+        abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * cycloneAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
         characterClass.BlockClassChange = true;
@@ -61,16 +61,16 @@ public class Cyclone : AbilityClass
 
         characterClass.GetAbilityManager().LastUsedSkill = this;
 
-        yield return new WaitForSeconds(swirlBuffer);
+        yield return new WaitForSeconds(cycloneBuffer);
 
         SwirlDamage();
 
         // Instantiate VFX
-        ParticleSystem vfxSpinInstance = Instantiate(swirlVFX, characterClass.GetVFXPivot().position, swirlVFX.transform.rotation);
+        ParticleSystem vfxSpinInstance = Instantiate(cycloneVFX, characterClass.GetVFXPivot().position, cycloneVFX.transform.rotation);
         vfxSpinInstance.transform.parent = characterClass.GetVFXPivot();
         Destroy(vfxSpinInstance.gameObject, vfxSpinInstance.main.duration + vfxSpinInstance.main.startLifetime.constant);
 
-        yield return new WaitForSeconds(swirlDownTime);
+        yield return new WaitForSeconds(cycloneDownTime);
 
         // End the animation of the ability
         characterClass.BlockClassChange = false;
@@ -93,7 +93,7 @@ public class Cyclone : AbilityClass
     {
         ability.SkillLock();
 
-        abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * swirlAttackRange) * 2;
+        abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * cycloneAttackRange) * 2;
         abilityRangeIndicator.enabled = true;
 
         character.BlockClassChange = true;
@@ -112,16 +112,16 @@ public class Cyclone : AbilityClass
 
         Cursor.visible = true;
 
-        yield return new WaitForSeconds(swirlBuffer);
+        yield return new WaitForSeconds(cycloneBuffer);
 
         SwirlDamage();
 
         // Instantiate VFX
-        ParticleSystem vfxSpinInstance = Instantiate(swirlVFX, character.GetVFXPivot().position, swirlVFX.transform.rotation);
+        ParticleSystem vfxSpinInstance = Instantiate(cycloneVFX, character.GetVFXPivot().position, cycloneVFX.transform.rotation);
         vfxSpinInstance.transform.parent = character.GetVFXPivot();
         Destroy(vfxSpinInstance.gameObject, vfxSpinInstance.main.duration + vfxSpinInstance.main.startLifetime.constant);
 
-        yield return new WaitForSeconds(swirlDownTime);
+        yield return new WaitForSeconds(cycloneDownTime);
 
         // End the animation of the ability
         character.BlockClassChange = false;
@@ -131,7 +131,7 @@ public class Cyclone : AbilityClass
     // Damage Event
     private void SwirlDamage()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, swirlAttackRange);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, cycloneAttackRange);
 
         foreach (Collider hitCollider in hitColliders)
         {
@@ -140,8 +140,10 @@ public class Cyclone : AbilityClass
                 hitCollider.GetComponent<EnemyClass>().CanBeKnocked = true;
                 Vector3 direction = (hitCollider.transform.position - transform.position).normalized;
                 //hitCollider.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x * -swirlPushForce, direction.y + swirlRiseForce, direction.z * -swirlPushForce), ForceMode.Force);
-                hitCollider.GetComponent<EnemyClass>().Force = new Vector3(direction.x * -swirlPushForce, direction.y + swirlRiseForce, direction.z * -swirlPushForce);
-                hitCollider.GetComponent<EnemyClass>().Damage(swirlAttackDamage, swirlAttackDamage);
+                hitCollider.GetComponent<EnemyClass>().Force = new Vector3(direction.x * -cyclonePushForce, direction.y + cycloneRiseForce, direction.z * -cyclonePushForce);
+                hitCollider.GetComponent<EnemyClass>().Damage(cycloneAttackDamage +
+                                                             (cycloneAttackDamage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                             (cycloneAttackDamage * characterClass.GetConcoctionDamageMultiplier()), cycloneAttackDamage);
             }
         }
     }
@@ -151,6 +153,6 @@ public class Cyclone : AbilityClass
         Color yellow = Color.yellow;
         yellow.a = 0.5f;
         Gizmos.color = yellow;
-        Gizmos.DrawSphere(transform.parent.position, swirlAttackRange);
+        Gizmos.DrawSphere(transform.parent.position, cycloneAttackRange);
     }
 }

@@ -11,6 +11,12 @@ public partial class TwinSpell : AbilityClass
     [SerializeField] private float nullTwinSpellBuffer;
     private bool skillLock = false;
 
+   /* protected override void Start()
+    {
+        base.Start();
+        //characterClass.GetAbilityManager().LastUsedSkill = this;
+    }*/
+
     public override void UseAbility()
     {
         if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
@@ -26,32 +32,20 @@ public partial class TwinSpell : AbilityClass
     // Add vfx for null twin spell
     private IEnumerator AbilityCoroutine()
     {
-        if (characterClass.GetAbilityManager().LastUsedSkill != null || characterClass.GetAbilityManager().LastUsedSkill != this)
+        if (characterClass.GetAbilityManager().LastUsedSkill == null || characterClass.GetAbilityManager().LastUsedSkill == this)
         {
             blockSkill = true;
-
-            characterClass.GetAbilityManager().AbilityCoroutineManager(characterClass.GetAbilityManager().LastUsedSkill.TwinSpellCoroutine(characterClass, this));
 
             ParticleSystem vfxTwinSpellInstance = Instantiate(twinSpellVFX, characterClass.GetVFXPivot().position, twinSpellVFX.transform.rotation);
             vfxTwinSpellInstance.transform.parent = characterClass.GetVFXPivot();
             Destroy(vfxTwinSpellInstance.gameObject, vfxTwinSpellInstance.main.duration + vfxTwinSpellInstance.main.startLifetime.constant);
-
-            // Return null until skill used
-            while (skillLock)
-            {
-                yield return null; 
-            }
 
             if (characterClass.GetAbilityManager().BlockAbilitySlots())
             {
                 characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
             }
 
-            characterClass.GetAbilityManager().LastUsedSkill = this;
-
-            CallCooldown();
-
-            yield return new WaitForSeconds(abilityCooldown);
+            yield return new WaitForSeconds(nullTwinSpellBuffer);
 
             if (characterClass.GetAbilityManager().BlockAbilitySlots())
             {
@@ -64,12 +58,28 @@ public partial class TwinSpell : AbilityClass
         {
             blockSkill = true;
 
+            characterClass.GetAbilityManager().AbilityCoroutineManager(characterClass.GetAbilityManager().LastUsedSkill.TwinSpellCoroutine(characterClass, this));
+
+            ParticleSystem vfxTwinSpellInstance = Instantiate(twinSpellVFX, characterClass.GetVFXPivot().position, twinSpellVFX.transform.rotation);
+            vfxTwinSpellInstance.transform.parent = characterClass.GetVFXPivot();
+            Destroy(vfxTwinSpellInstance.gameObject, vfxTwinSpellInstance.main.duration + vfxTwinSpellInstance.main.startLifetime.constant);
+
+            // Return null until skill used
+            while (skillLock)
+            {
+                yield return null;
+            }
+
             if (characterClass.GetAbilityManager().BlockAbilitySlots())
             {
                 characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
             }
 
-            yield return new WaitForSeconds(nullTwinSpellBuffer);
+            characterClass.GetAbilityManager().LastUsedSkill = this;
+
+            CallCooldown();
+
+            yield return new WaitForSeconds(abilityCooldown);
 
             if (characterClass.GetAbilityManager().BlockAbilitySlots())
             {

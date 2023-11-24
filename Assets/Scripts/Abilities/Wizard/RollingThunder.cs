@@ -144,7 +144,9 @@ public class RollingThunder : AbilityClass
         GameObject instance = Instantiate(projectilePrefab, pivot.position, Quaternion.identity);
         instance.transform.LookAt(targetPosition, Vector3.up);
         instance.GetComponent<Rigidbody>().velocity = direction * projectileVelocity;
-        instance.GetComponent<Projectile>().SetDamage(damage, damage);
+        instance.GetComponent<Projectile>().SetDamage(damage +
+                                                     (damage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                     (damage * characterClass.GetConcoctionDamageMultiplier()), damage);
     }
 
     // Set projectile direction

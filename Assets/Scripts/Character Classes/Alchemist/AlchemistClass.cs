@@ -40,8 +40,6 @@ public class AlchemistClass : CharacterClass
             // Refresh the time between attacks
             timeBetweenAttacks -= Time.deltaTime;
         }
-
-        Debug.Log(attackSpeed * AttackSpeed());
     }
 
     protected override void Attack()

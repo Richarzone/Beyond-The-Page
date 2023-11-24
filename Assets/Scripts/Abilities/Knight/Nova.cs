@@ -167,17 +167,21 @@ public class Nova : AbilityClass
                 float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
 
                 Vector3 direction = (hitCollider.transform.position - transform.position).normalized;
-                Debug.Log("APPLIED FORCE");
+                
                 //hitCollider.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x * novaPushForce, direction.y + novaRiseForce, direction.z * novaPushForce), ForceMode.Force);
                 hitCollider.GetComponent<EnemyClass>().Force = new Vector3(direction.x * novaPushForce, direction.y + novaRiseForce, direction.z * novaPushForce);
 
                 if (distance <= novaCriticalRange)
                 {
-                    hitCollider.GetComponent<EnemyClass>().Damage(novaCriticalDamage, novaNormalDamage);
+                    hitCollider.GetComponent<EnemyClass>().Damage(novaCriticalDamage +
+                                                                 (novaCriticalDamage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                                 (novaCriticalDamage * characterClass.GetConcoctionDamageMultiplier()), novaNormalDamage);
                 }
                 else if (distance >= novaCriticalRange)
                 {
-                    hitCollider.GetComponent<EnemyClass>().Damage(novaNormalDamage, novaNormalDamage);
+                    hitCollider.GetComponent<EnemyClass>().Damage(novaNormalDamage +
+                                                                 (novaNormalDamage * characterClass.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                                                 (novaNormalDamage * characterClass.GetConcoctionDamageMultiplier()), novaNormalDamage);
                 }
             }
         }

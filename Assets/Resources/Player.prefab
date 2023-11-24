@@ -16942,13 +16942,13 @@ MonoBehaviour:
   textCooldown: {fileID: 8723580876449732181}
   skillIcon: {fileID: 4449791596434620873}
   skillSprite: {fileID: 21300000, guid: 8135d7994277c024d9847a3ea73b6554, type: 3}
-  swirlVFX: {fileID: 6475842847667516704, guid: d9e5accc760f2ab48861f64c3b3a4191, type: 3}
-  swirlAttackDamage: 2
-  swirlAttackRange: 6
-  swirlPushForce: 250
-  swirlRiseForce: 400
-  swirlBuffer: 0.1
-  swirlDownTime: 0.3
+  cycloneVFX: {fileID: 6475842847667516704, guid: d9e5accc760f2ab48861f64c3b3a4191, type: 3}
+  cycloneAttackDamage: 2
+  cycloneAttackRange: 6
+  cyclonePushForce: 250
+  cycloneRiseForce: 400
+  cycloneBuffer: 0.1
+  cycloneDownTime: 0.3
   abilityRangeIndicator: {fileID: 8257383117258004985}
 --- !u!114 &8257383117958539431
 MonoBehaviour:

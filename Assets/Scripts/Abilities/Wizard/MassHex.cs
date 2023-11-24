@@ -58,7 +58,7 @@ public class MassHex : AbilityClass
             distance = Mathf.Min(distance, hexRange / 2f);
             abilityTargetPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(abilityTargetPosition.x, 0.01f, abilityTargetPosition.z);
+            abilityCanvas.transform.position = new Vector3(abilityTargetPosition.x, -0.9f, abilityTargetPosition.z);
 
             yield return null;
         }
@@ -120,7 +120,7 @@ public class MassHex : AbilityClass
             distance = Mathf.Min(distance, hexRange / 2f);
             abilityTargetPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(abilityTargetPosition.x, 0.01f, abilityTargetPosition.z);
+            abilityCanvas.transform.position = new Vector3(abilityTargetPosition.x, -0.9f, abilityTargetPosition.z);
 
             yield return null;
         }

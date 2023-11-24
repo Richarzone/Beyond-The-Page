@@ -29,7 +29,7 @@ public class AbilityClass : MonoBehaviour
 
     protected CharacterClass characterClass;
 
-    protected void Start()
+    protected virtual void Start()
     {
         textCooldown.gameObject.SetActive(false);
         imageCooldown.fillAmount = 0.0f;

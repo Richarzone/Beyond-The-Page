@@ -56,7 +56,7 @@ public class Molotov : AbilityClass
             distance = Mathf.Min(distance, molotovRange / 2f);
             Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 0.01f, newHitPosition.z);
+            abilityCanvas.transform.position = new Vector3(newHitPosition.x, -0.9f, newHitPosition.z);
 
             yield return null;
         }
@@ -114,7 +114,7 @@ public class Molotov : AbilityClass
             distance = Mathf.Min(distance, molotovRange / 2f);
             Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 0.01f, newHitPosition.z);
+            abilityCanvas.transform.position = new Vector3(newHitPosition.x, -0.9f, newHitPosition.z);
 
             yield return null;
         }
@@ -151,6 +151,7 @@ public class Molotov : AbilityClass
     private void InstantiateProjectileTarget(GameObject projectilePrefab, Transform pivot, float projectileVelocity, Vector3 direction)
     {
         GameObject instance = Instantiate(projectilePrefab, new Vector3(pivot.position.x, pivot.position.y + 0.5f, pivot.position.z), Quaternion.identity);
+        instance.GetComponent<Projectile>().SetInstanceOwner(characterClass);
         instance.GetComponent<Rigidbody>().velocity = direction * projectileVelocity;
     }
 

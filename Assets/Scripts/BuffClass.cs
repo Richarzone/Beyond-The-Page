@@ -14,6 +14,7 @@ public class BuffClass : MonoBehaviour
     [SerializeField] private BuffType buffType;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private AudioClip soundEffect;
+    [SerializeField] private GameObject buffVFX;
     [SerializeField] private float effectPercentage;
     [SerializeField] private float effectDuration;
 
@@ -25,6 +26,11 @@ public class BuffClass : MonoBehaviour
     public AudioClip GetSoundEffect()
     {
         return soundEffect;
+    }
+
+    public GameObject GetBuffVFX()
+    {
+        return buffVFX;
     }
 
     public float GetEffectPercentage()

@@ -1,7 +1,13 @@
 fileFormatVersion: 2
 guid: eb329113852f0804091cec81a199a0c0
 ScriptedImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -9068732801947649175
+    second: boxing_0
+  - first:
+      213: 3242849448262914307
+    second: boxing_1
   externalObjects: {}
   serializedVersion: 2
   userData: 
@@ -92,18 +98,18 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
-  - name: Layer 1
+  - name: boxing_0
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 4
-      width: 2800
-      height: 1354
-    spriteID: 1c57db44d77241649aa6ccde678457f9
+      x: 1
+      y: 1
+      width: 970
+      height: 1236
+    spriteID: 96b3af89093652280800000000000000
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -113,7 +119,29 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 1, y: 1}
+  - name: boxing_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 1239
+      y: 337
+      width: 1566
+      height: 1022
+    spriteID: 30158cf446ae00d20800000000000000
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 1239, y: 337}
   platformSettings: []
   mosaicLayers: 1
   documentPivot: {x: 0, y: 0}

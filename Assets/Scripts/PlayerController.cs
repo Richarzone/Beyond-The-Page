@@ -75,16 +75,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Texture[] changeClass;
     [SerializeField] public RawImage selectedClass;
 
-    [Header("Scene Manager")]
+    [Header("Buff")]
     [SerializeField] private BuffClass currentBuff;
-
-    [SerializeField] private SceneLoaderManager sceneManager;
+    [SerializeField] private Transform buffVFXpivot;
 
     [Header("UI Pause Menu")]
     [SerializeField] public GameObject GameCanvas;
     [SerializeField] public GameObject PauseCanvas;
     public bool isPaused = false;
     public int MainMenuSceneIndex;
+
+    [SerializeField] private SceneLoaderManager sceneManager;
 
     private float damageMultiplier;
     private float attackSpeedMultiplier;
@@ -381,8 +382,6 @@ public class PlayerController : MonoBehaviour
 
     private void ResetAllCooldowns()
     {
-        currentCharacterClass.GetAbilityManager().StopAllCoroutines();
-        
         foreach (AbilityClass ability in currentCharacterClass.GetAbilities())
         {
             ability.ResetCooldown();   
@@ -401,6 +400,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator UseBuffCoroutine(BuffClass buff)
     {
         audioSource.PlayOneShot(buff.GetSoundEffect());
+
+        currentCharacterClass.GetAbilityManager().StopAllCoroutines();
+        GameObject buffVFXInstance = Instantiate(currentBuff.GetBuffVFX(), buffVFXpivot.position, Quaternion.identity);
+        buffVFXInstance.transform.parent = buffVFXpivot;
+        Destroy(buffVFXInstance, 5f);
 
         switch (buff.GetBuffType())
         {

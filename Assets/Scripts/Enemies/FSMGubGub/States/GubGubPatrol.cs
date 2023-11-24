@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -5,24 +6,25 @@ using UnityEngine.UIElements;
 public class GubGubPatrol : GubGubBaseState
 {
     private Vector3 destination;
-
+    private IEnumerator coroutine;
     public override void EnterState(GubGubUnit unit)
     {
-        MonoBehaviour.print("I am  patrolling");
         destination = RandomDirection(unit, unit.MoveRadius);
+        unit.Agent.SetDestination(destination);
+        coroutine = NewPath(unit);
+        unit.StartCoroutine(coroutine);
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Walk);
     }
 
     public override void Update(GubGubUnit unit)
     {
-        unit.Agent.SetDestination(destination);
-        //MonoBehaviour.print(unit.agent.velocity.magnitude);
         unit.AudioOnPatrol();
         if (unit.Agent.velocity.x > 0)
         {
             unit.Sprite.flipX = true;
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
+                unit.StopCoroutine(coroutine);
                 unit.TransitionToState(unit.IdleState);
             }
         }
@@ -31,12 +33,14 @@ public class GubGubPatrol : GubGubBaseState
             unit.Sprite.flipX = false;
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
+                unit.StopCoroutine(coroutine);
                 unit.TransitionToState(unit.IdleState);
             }
         }
 
         if(unit.Player != null)
         {
+            unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.AggroState);
         }
         else if(unit.StartingHealth != unit.CurrentHealth)
@@ -44,15 +48,10 @@ public class GubGubPatrol : GubGubBaseState
             unit.SphereRadius = 100f;
         }
 
-
-        //if (unit.agent.velocity.magnitude <= 0.15f)
-        //{
-        //    unit.TransitionToState(unit.IdleState);
-        //}
-
         if (unit.CanBeKnocked)
         {
             unit.Agent.ResetPath();
+            unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.KnockedState);
         }
     }
@@ -88,5 +87,13 @@ public class GubGubPatrol : GubGubBaseState
 
     public override void OnDisable(GubGubUnit unit)
     {
+    }
+
+    IEnumerator NewPath(GubGubUnit unit)
+    {
+        yield return new WaitForSeconds(5f);
+        unit.Agent.ResetPath();
+        destination = RandomDirection(unit, unit.MoveRadius);
+        unit.Agent.SetDestination(destination);
     }
 }

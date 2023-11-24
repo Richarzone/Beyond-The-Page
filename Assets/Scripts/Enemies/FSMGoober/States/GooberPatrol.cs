@@ -1,28 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 public class GooberPatrol : GooberBaseState
 {
     private Vector3 destination;
-
+    private IEnumerator coroutine;
     public override void EnterState(GooberUnit unit)
     {
-        MonoBehaviour.print("I am  patrolling");
         destination = RandomDirection(unit, unit.MoveRadius);
+        unit.Agent.SetDestination(destination);
+        coroutine = NewPath(unit);
+        unit.StartCoroutine(coroutine);
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Walk);
     }
 
     public override void Update(GooberUnit unit)
     {
-        unit.Agent.SetDestination(destination);
-        //MonoBehaviour.print(unit.agent.velocity.magnitude);
         unit.AudioOnPatrol();
         if (unit.Agent.velocity.x > 0)
         {
             unit.Sprite.flipX = true;
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
+                unit.StopCoroutine(coroutine);
                 unit.TransitionToState(unit.IdleState);
             }
         }
@@ -31,12 +33,14 @@ public class GooberPatrol : GooberBaseState
             unit.Sprite.flipX = false;
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
+                unit.StopCoroutine(coroutine);
                 unit.TransitionToState(unit.IdleState);
             }
         }
 
         if (unit.Player != null)
         {
+            unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.AggroState);
         }
         else if (unit.StartingHealth != unit.CurrentHealth)
@@ -44,14 +48,10 @@ public class GooberPatrol : GooberBaseState
             unit.SphereRadius = 100f;
         }
 
-        //if (unit.agent.velocity.magnitude <= 0.15f)
-        //{
-        //    unit.TransitionToState(unit.IdleState);
-        //}
-
         if (unit.CanBeKnocked)
         {
             unit.Agent.ResetPath();
+            unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.KnockedState);
         }
     }
@@ -66,11 +66,6 @@ public class GooberPatrol : GooberBaseState
 
     public override void OnTriggerEnter(GooberUnit unit, Collider collider)
     {
-        //if (collider.CompareTag("Player"))
-        //{
-        //    unit.Player = collider.gameObject.transform;
-        //    unit.TransitionToState(unit.AggroState);
-        //}
     }
 
     public Vector3 RandomDirection(GooberUnit unit, float moveRadius)
@@ -93,4 +88,11 @@ public class GooberPatrol : GooberBaseState
     {
     }
 
+    IEnumerator NewPath(GooberUnit unit)
+    {
+        yield return new WaitForSeconds(5f);
+        unit.Agent.ResetPath();
+        destination = RandomDirection(unit, unit.MoveRadius);
+        unit.Agent.SetDestination(destination);
+    }
 }

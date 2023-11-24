@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     private int attempts = 3;
-    private int enemyAmount;
+    
     private bool allPlayersAlive;
     private int roomsCleared;
     private int room = 0;
@@ -14,26 +15,38 @@ public class GameManager : MonoBehaviour
     [Header("Room Generation")]
     [SerializeField] private GameObject roomGeneration;
 
-    [Header("Enemy Prefabs")]
-    [SerializeField] private GameObject musketeer;
-    [SerializeField] private GameObject goober;
-    [SerializeField] private GameObject gubGub;
-    [SerializeField] private GameObject devil;
+    //[Header("Enemy Prefabs")]
+    //[SerializeField] private GameObject musketeer;
+    //[SerializeField] private GameObject goober;
+    //[SerializeField] private GameObject gubGub;
+    //[SerializeField] private GameObject devil;
 
-    [SerializeField] private float spawnHeight;
+    [SerializeField] private int difficulty;
+    public int Difficulty
+    {
+        get { return difficulty; }
+        set { difficulty = value; }
+    }
 
-    private float difficulty;
-    private float roomSize;
-    private float creditConstant;
-    private float creditNumber;
-    private float gooberWeight;
-    private float gubgubWeight;
-    private float musketeerWeight;
-    private float devilWeight;
-    private float gooberPercent;
-    private float gubgubPercent;
-    private float musketeerPercent;
-    private float devilPercent;
+    private int enemyCredits;
+    public int EnemyCredits
+    {
+        get { return enemyCredits; }
+        set { enemyCredits = value; }
+    }
+
+    private int roomSize;
+    public int RoomSize
+    {
+        get { return roomSize; }
+    }
+
+    [SerializeField] private int enemyAmount;
+    public int EnemyAmount
+    {
+        get { return enemyAmount; }
+        set { enemyAmount = value; }
+    }
 
     private void Awake()
     {
@@ -45,25 +58,74 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        Instantiate(roomGeneration, transform);
+
+        //difficulty = (int)DifficultyEnum.baby;
+        //Random.InitState(System.DateTime.Now.Millisecond);
+        roomSize = Random.Range(0, 3);
+
+        switch (roomSize)
+        {
+            case (int)RoomSizeEnum.small:
+                enemyCredits = (int)MaxEnemyCreditsEnum.small;
+                break;
+            case (int)RoomSizeEnum.medium:
+                enemyCredits = (int)MaxEnemyCreditsEnum.medium;
+                break;
+            case (int)RoomSizeEnum.large:
+                enemyCredits = (int)MaxEnemyCreditsEnum.large;
+                break;
+        }
     }
 
     private void Start()
     {
-        
     }
 
-    public enum MaxEnemyCredits
+    private void Update()
     {
-        small = 12, medium = 25, large = 35 
+        //if (playerHealth <= 0)
+        //{
+
+        //}
+
+        if (enemyAmount == 0)
+        {
+            GetComponentInChildren<ProceduralRoom>().generateRoom();
+        }
     }
 
-    public enum EnemyValues
+    public enum RoomSizeEnum
     {
-        goober = 1, gubGub = 2, musketeer = 3, devil = 4
+        small = 0, medium = 1, large = 2
     }
 
-    public enum Difficulty
+    public enum MaxEnemyCreditsEnum
+    {
+        small = 12, medium = 25, large = 35
+    }
+
+    public enum DifficultyEnum
     {
         baby = 40, easy = 70, medium = 90, hard = 100
+    }
+
+    public void SetRoomSize()
+    {
+        roomSize = Random.Range(0, 3);
+
+        switch (roomSize)
+        {
+            case (int)RoomSizeEnum.small:
+                enemyCredits = (int)MaxEnemyCreditsEnum.small;
+                break;
+            case (int)RoomSizeEnum.medium:
+                enemyCredits = (int)MaxEnemyCreditsEnum.medium;
+                break;
+            case (int)RoomSizeEnum.large:
+                enemyCredits = (int)MaxEnemyCreditsEnum.large;
+                break;
+        }
     }
 }

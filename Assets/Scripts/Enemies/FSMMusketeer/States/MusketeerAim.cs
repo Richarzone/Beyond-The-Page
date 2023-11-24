@@ -9,7 +9,6 @@ public class MusketeerAim : MusketeerBaseState
 
     public override void EnterState(MusketeerUnit unit)
     {
-        Debug.Log("Aiming at player");
         unit.BillboardMusketeer.lerpInt = 3;
         unit.SpriteTransform.localPosition = aimPosition;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Aim);
@@ -21,7 +20,6 @@ public class MusketeerAim : MusketeerBaseState
     {
         unit.transform.LookAt(unit.Player, Vector3.up);
         ChangeDirection(unit);
-        //unit.Agent.SetDestination(unit.Player.position);
 
         if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.PursueRadius)
         {
@@ -29,9 +27,6 @@ public class MusketeerAim : MusketeerBaseState
             unit.TransitionToState(unit.AggroState);
             unit.SphereRadius = unit.AttackRadius;
         }
-
-        //unit.spriteRotation.LookAt(unit.player, Vector3.up);
-        //unit.spriteRotation.eulerAngles = unit.player.position;
 
     }
 
@@ -44,11 +39,6 @@ public class MusketeerAim : MusketeerBaseState
             unit.TransitionToState(unit.FleeState);
         }
 
-        //if (unit.CanBeKnocked)
-        //{
-        //    unit.Agent.ResetPath();
-        //    unit.TransitionToState(unit.KnockedState);
-        //}
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

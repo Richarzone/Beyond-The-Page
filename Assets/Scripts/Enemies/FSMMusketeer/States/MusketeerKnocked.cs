@@ -7,7 +7,6 @@ public class MusketeerKnocked : MusketeerBaseState
     private bool falling;
     public override void EnterState(MusketeerUnit unit)
     {
-        Debug.Log("KNOCKED");
         falling = false;
         unit.Agent.ResetPath();
         unit.Rbody.isKinematic = false;

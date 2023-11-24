@@ -9,7 +9,6 @@ public class GubGubIdle : GubGubBaseState
     public override void EnterState(GubGubUnit unit)
     {
         timer = 0f;
-        MonoBehaviour.print("I am  idle");
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Idle);
     }
 

@@ -9,7 +9,6 @@ public class GooberIdle : GooberBaseState
     public override void EnterState(GooberUnit unit)
     {
         timer = 0f;
-        MonoBehaviour.print("I am  idle");
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Idle);
     }
 

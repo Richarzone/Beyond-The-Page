@@ -16,7 +16,6 @@ public class MusketeerShoot : MusketeerBaseState
     public override void EnterState(MusketeerUnit unit)
     {
         executeCoroutine = true;
-        Debug.Log("I shot.");
         unit.AudioOnAttack();
         Debug.Log(unit.AimHelper);
         unit.SetDirection(unit.Player);
@@ -41,15 +40,12 @@ public class MusketeerShoot : MusketeerBaseState
     {
         if (rotate)
         {
-            //ChangeDirection(unit);
             lookPos = unit.Player.position - unit.transform.position;
             lookPos.y = 0;
-            //lookOnLook = Quaternion.LookRotation(unit.Player.position - unit.transform.position);
             lookOnLook = Quaternion.LookRotation(lookPos);
             unit.transform.rotation = Quaternion.Slerp(unit.transform.rotation, lookOnLook, Time.deltaTime);
             ReturnToAim(unit);
             unit.SpriteTransform.rotation = Quaternion.Slerp(unit.SpriteTransform.rotation, lookOnLookSprite, Time.deltaTime);
-            //ReturnToAim(unit);
             if (unit.CanBeKnocked)
             {
                 unit.Agent.ResetPath();
@@ -61,7 +57,6 @@ public class MusketeerShoot : MusketeerBaseState
 
     public override void OnDisable(MusketeerUnit unit)
     {
-        //unit.TransitionToState(unit.AimState);
         rotate = true;
         Debug.Log(executeCoroutine);
         if (executeCoroutine)
@@ -69,7 +64,6 @@ public class MusketeerShoot : MusketeerBaseState
             unit.StartCoroutine(WaitForAim(unit, unit.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
             executeCoroutine = false;
         }
-        Debug.Log("DISABLED SHOOT");
     }
 
     public void ReturnToAim(MusketeerUnit unit)

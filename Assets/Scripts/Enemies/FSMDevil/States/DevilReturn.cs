@@ -7,7 +7,6 @@ public class DevilReturn : DevilBaseState
 
     public override void EnterState(DevilUnit unit)
     {
-        Debug.Log("I am returning.");
         unit.Agent.speed = unit.WalkSpeed;
         unit.Agent.isStopped = false;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Walk);
@@ -18,13 +17,10 @@ public class DevilReturn : DevilBaseState
         unit.Agent.SetDestination(unit.AggroArea.transform.position);
         ChangeDirection(unit);
 
-        //Debug.Log(Vector3.Distance(unit.transform.position, unit.AggroArea.transform.position));
         if(Vector3.Distance(unit.transform.position, unit.AggroArea.transform.position) < 0.5f)
         {
             unit.Agent.ResetPath();
-            Debug.Log(unit.Agent.hasPath);
             unit.transform.rotation = Quaternion.identity;
-            //Debug.Log(unit.transform.rotation);
             if (unit.transform.localRotation == Quaternion.identity)
             {
                 unit.TransitionToState(unit.IdleState);

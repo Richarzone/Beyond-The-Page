@@ -4,7 +4,6 @@ public class GooberAggro : GooberBaseState
 {
     public override void EnterState(GooberUnit unit)
     {
-        MonoBehaviour.print("I am agro");
         unit.SphereRadius = unit.DetectionRadius;
         unit.Agent.speed = unit.MoveSpeed;
         unit.SetAnimatorTrigger(GooberUnit.AnimatorTriggerStates.Walk);
@@ -32,7 +31,6 @@ public class GooberAggro : GooberBaseState
 
     public override void Update(GooberUnit unit)
     {
-        //Debug.Log(unit.agent.speed);
         unit.Agent.SetDestination(unit.Player.position);
         if (unit.Agent.velocity.x > 0)
         {
@@ -45,7 +43,6 @@ public class GooberAggro : GooberBaseState
 
         if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= unit.AttackRadius)
         {
-            //unit.agent.isStopped = true;
             unit.CancelInvoke("MovementAudio");
             unit.TransitionToState(unit.AttackState);
         }
@@ -56,7 +53,6 @@ public class GooberAggro : GooberBaseState
             unit.Agent.ResetPath();
             unit.TransitionToState(unit.KnockedState);
         }
-        //MonoBehaviour.print(Vector3.Distance(unit.transform.position, unit.agent.destination));
 
     }
 }

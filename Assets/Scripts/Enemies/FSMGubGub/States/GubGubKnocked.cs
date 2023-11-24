@@ -7,7 +7,6 @@ public class GubGubKnocked : GubGubBaseState
     private bool falling;
     public override void EnterState(GubGubUnit unit)
     {
-        Debug.Log("KNOCKED");
         falling = false;
         unit.Agent.ResetPath();
         unit.Rbody.isKinematic = false;

@@ -5,10 +5,7 @@ public class GooberAttack : GooberBaseState
 {
     public override void EnterState(GooberUnit unit)
     {
-        MonoBehaviour.print("I am attacking");
-        //unit.agent.isStopped = false;
         unit.Agent.speed = 3.5f;
-        //unit.Agent.SetDestination(unit.transform.position);
         unit.Agent.isStopped = true;
         unit.Agent.ResetPath();
         unit.Agent.isStopped = false;
@@ -27,7 +24,6 @@ public class GooberAttack : GooberBaseState
 
     public override void OnDisable(GooberUnit unit)
     {
-        //unit.StartCoroutine(WaitForAnimationOfAttack(unit, this, 1f));
         unit.TransitionToState(unit.AggroState);
     }
 
@@ -45,9 +41,6 @@ public class GooberAttack : GooberBaseState
 
     IEnumerator WaitForAnimationOfAttack(GooberUnit unit, GooberAttack state, float length)
     {
-        //unit.agent.SetDestination(playerPosition);
-        //yield return new WaitForSeconds(length/2);
-        //unit.agent.velocity = playerPosition;
         yield return new WaitForSeconds(length);
 
         unit.TransitionToState(unit.AggroState);

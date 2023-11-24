@@ -7,7 +7,6 @@ public class GooberKnocked : GooberBaseState
     private bool falling;
     public override void EnterState(GooberUnit unit)
     {
-        Debug.Log("KNOCKED");
         falling = false;
         unit.Agent.ResetPath();
         unit.Rbody.isKinematic = false;

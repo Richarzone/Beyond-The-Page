@@ -100,6 +100,7 @@ public class EnemyClass : MonoBehaviour
         if (currentHealth <= 0)
         {
             //damageAnimPivot.SetParent(null);
+            GameManager.Instance.EnemyAmount--;
             enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
             enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
             enemyAnimator.GetComponent<Animator>().SetTrigger("Death");

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -195,17 +196,17 @@ public class MusketeerUnit : MonoBehaviour
         audioPlayer = GetComponent<AudioSource>();
         sphereRadius = attackRadius;
         enemyClass = GetComponent<EnemyClass>();
-        NavMeshPath path = new NavMeshPath();
         patrolIndex = 0;
         billboardMusketeer = billboard.GetComponent<BillboardMusketeer>();
         //agent.autoBraking = false;
-        CalculatePatrolPath(path);
         TransitionToState(IdleState);
         TransitionToDirection(FRightState);
     }
 
     private void Start()
     {
+        NavMeshPath path = new NavMeshPath();
+        CalculatePatrolPath(path);
         startingHealth = enemyClass.CurrentHealth;
         canBeKnocked = enemyClass.CanBeKnocked;
         force = enemyClass.Force;

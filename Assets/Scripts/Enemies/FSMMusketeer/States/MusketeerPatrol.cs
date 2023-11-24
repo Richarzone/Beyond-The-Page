@@ -5,7 +5,6 @@ public class MusketeerPatrol : MusketeerBaseState
     public Vector3 unitDirection;
     public override void EnterState(MusketeerUnit unit)
     {
-        Debug.Log("I am patroling");
         if (unit.PatrolIndex == 8)
         {
             unit.PatrolIndex = 0;
@@ -24,7 +23,6 @@ public class MusketeerPatrol : MusketeerBaseState
     {
         if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
         {
-            Debug.Log("REACHEDPOINT");
             unit.PatrolIndex++;
             unit.TransitionToState(unit.IdleState);
 
@@ -50,13 +48,6 @@ public class MusketeerPatrol : MusketeerBaseState
 
     public override void OnTriggerEnter(MusketeerUnit unit, Collider collider)
     {
-        //if (collider.CompareTag("Player"))
-        //{
-        //    unit.agent.isStopped = true;
-        //    unit.player = collider.gameObject.transform;
-        //    unit.TransitionToState(unit.AimState);
-        //    unit.sphereCollider.radius = unit.fleeRadius;
-        //}
     }
 
     public void ChangeDirection(MusketeerUnit unit)

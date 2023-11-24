@@ -15,7 +15,6 @@ public class DevilAttack1 : DevilBaseState
         startPos = unit.transform.rotation;
         aim = true;
         timeCount = 0f;
-        Debug.Log("I am attacking.");
         unit.Agent.isStopped = true;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Attack1);
         unit.StartCoroutine(WaitForAim(unit, unit.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
@@ -23,13 +22,10 @@ public class DevilAttack1 : DevilBaseState
 
     public override void Update(DevilUnit unit)
     {
-        //Debug.Log(aim);
         if (aim)
         {
-            //Debug.Log("looking at player");
             lookRotation = Quaternion.LookRotation(unit.Player.position - unit.transform.position, Vector3.up) * Quaternion.Euler(unit.OffsetRotate);
             
-            //Debug.Log("LOOKROTATION" + lookRotation.eulerAngles);
             timeCount += Time.deltaTime;
         }
         unit.transform.rotation = Quaternion.Slerp(startPos, lookRotation, timeCount);
@@ -53,8 +49,6 @@ public class DevilAttack1 : DevilBaseState
     public override void OnDisable(DevilUnit unit)
     {
         unit.StartCoroutine(WaitForAnimationOfAttack(unit, unit.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
-        //unit.transform.LookAt(unit.Player);
-        Debug.Log(unit.Animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
     }
 
     IEnumerator WaitForAim(DevilUnit unit, float length)

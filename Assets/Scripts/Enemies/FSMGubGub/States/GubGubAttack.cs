@@ -5,10 +5,7 @@ public class GubGubAttack : GubGubBaseState
 {
     public override void EnterState(GubGubUnit unit)
     {
-        MonoBehaviour.print("I am attacking");
-        //unit.agent.isStopped = false;
         unit.Agent.speed = 3.5f;
-        //unit.Agent.SetDestination(unit.transform.position);
         unit.Agent.isStopped = true;
         unit.Agent.ResetPath();
         unit.Agent.isStopped = false;
@@ -26,7 +23,6 @@ public class GubGubAttack : GubGubBaseState
 
     public override void OnDisable(GubGubUnit unit)
     {
-        //unit.StartCoroutine(WaitForAnimationOfAttack(unit, this, 1f));
         unit.TransitionToState(unit.AggroState);
     }
 
@@ -44,9 +40,6 @@ public class GubGubAttack : GubGubBaseState
 
     IEnumerator WaitForAnimationOfAttack(GubGubUnit unit, GubGubAttack state, float length)
     {
-        //unit.agent.SetDestination(playerPosition);
-        //yield return new WaitForSeconds(length/2);
-        //unit.agent.velocity = playerPosition;
         yield return new WaitForSeconds(length);
 
         unit.TransitionToState(unit.AggroState);

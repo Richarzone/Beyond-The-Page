@@ -8,22 +8,15 @@ public class DevilAggro : DevilBaseState
     public override void EnterState(DevilUnit unit)
     {
         unit.SpriteTransform.rotation = unit.transform.rotation;
-        Debug.Log("I am pursuing.");
-        //unit.SpriteTransform.localPosition = aimPosition;
         unit.Agent.speed = unit.WalkSpeed;
         unit.Agent.isStopped = false;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Walk);
-        //if (unit.fromAttack)
-        //{
-        //    unit.BillboardComponent.t = 0;
-        //}
     }
 
     public override void Update(DevilUnit unit)
     {
         unit.Agent.SetDestination(unit.Player.position);
         ChangeDirection(unit);
-        //Debug.Log(unit.Colliders.Length);
     }
 
     public override void LateUpdate(DevilUnit unit)

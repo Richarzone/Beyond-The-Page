@@ -8,7 +8,6 @@ public class DevilIdle : DevilBaseState
     public override void EnterState(DevilUnit unit)
     {
         unit.Agent.isStopped = true;
-        Debug.Log("I am idle.");
         timer = 0f;
         unit.SetAnimatorTrigger(DevilUnit.AnimatorTriggerStates.Idle);
     }

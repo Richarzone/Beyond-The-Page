@@ -49,7 +49,6 @@ public class GooberAttackMovement : StateMachineBehaviour
         {
             unit = animator.gameObject.GetComponent<GooberUnit>();
         }
-        Debug.Log("ONSTATEEXIT");
 
         if (!unit.CanBeKnocked)
         {

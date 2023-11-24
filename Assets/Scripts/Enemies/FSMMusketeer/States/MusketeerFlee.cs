@@ -12,7 +12,6 @@ public class MusketeerFlee : MusketeerBaseState
     {
         unit.Agent.isStopped = false;
         unit.Agent.speed = unit.FleeSpeed;
-        Debug.Log("I am fleeing.");
         unit.SpriteTransform.localRotation = Quaternion.Euler(Vector3.zero);
         unit.SpriteTransform.localPosition = walkPosition;
         unit.BillboardMusketeer.lerpInt = 0;
@@ -21,7 +20,6 @@ public class MusketeerFlee : MusketeerBaseState
 
     public override void Update(MusketeerUnit unit)
     {
-        //Debug.DrawLine(unit.player.position, unit.transform.position, Color.blue, 10f);
         fleeDirection = -(unit.Player.position - unit.transform.position).normalized * 10f;
         if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.AttackRadius)
         {

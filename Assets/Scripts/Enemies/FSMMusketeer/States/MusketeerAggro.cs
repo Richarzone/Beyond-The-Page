@@ -7,7 +7,6 @@ public class MusketeerAggro : MusketeerBaseState
     public override void EnterState(MusketeerUnit unit)
     {
         unit.Agent.speed = unit.PursueSpeed;
-        Debug.Log("I am pursuing.");
         unit.SpriteTransform.localRotation = Quaternion.Euler(Vector3.zero);
         unit.SpriteTransform.localPosition = walkPosition;
         unit.BillboardMusketeer.lerpInt = 0;
@@ -17,7 +16,6 @@ public class MusketeerAggro : MusketeerBaseState
 
     public override void Update(MusketeerUnit unit)
     {
-        //Debug.Log(unit.agent.speed);
         unit.Agent.SetDestination(unit.Player.position);
         ChangeDirection(unit);
     }
@@ -30,12 +28,6 @@ public class MusketeerAggro : MusketeerBaseState
             unit.Agent.isStopped = true;
             unit.TransitionToState(unit.AimState);
         }
-
-        //if (unit.CanBeKnocked)
-        //{
-        //    unit.Agent.ResetPath();
-        //    unit.TransitionToState(unit.KnockedState);
-        //}
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

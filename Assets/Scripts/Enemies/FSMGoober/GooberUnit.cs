@@ -129,7 +129,6 @@ public class GooberUnit : MonoBehaviour
 
     [Header("SFX")]
     private AudioSource audioPlayer;
-    // [SerializeField] private AudioClip gooberMovement;
     [SerializeField] private AudioClip gooberAttack;
     [SerializeField] private AudioClip gooberDeath;
     private float startingTime = 0f;
@@ -198,6 +197,7 @@ public class GooberUnit : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
+
     public void OnDeath()
     {
         if (currentState == AggroState)

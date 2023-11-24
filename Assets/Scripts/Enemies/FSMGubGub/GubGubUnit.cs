@@ -128,7 +128,6 @@ public class GubGubUnit : MonoBehaviour
 
     [Header("SFX")]
     private AudioSource audioPlayer;
-    // [SerializeField] private AudioClip gubgubMovement;
     [SerializeField] private AudioClip gubgubAttack;
     [SerializeField] private AudioClip gubgubDeath;
     private float startingTime = 0f;

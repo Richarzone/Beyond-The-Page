@@ -17,6 +17,7 @@ public class MusketeerShoot : MusketeerBaseState
     {
         executeCoroutine = true;
         Debug.Log("I shot.");
+        unit.AudioOnAttack();
         Debug.Log(unit.AimHelper);
         unit.SetDirection(unit.Player);
         unit.InstantiateProjectile(unit.FirePivot, unit.Player, unit.Direction);

@@ -169,6 +169,7 @@ public class MusketeerUnit : MonoBehaviour
 
     public MusketeerBaseState currentState;
     public MusketeerBaseState currentDirection;
+    public Vector3[] patrolPoints;
 
     public readonly MusketeerIdle IdleState = new MusketeerIdle();
     public readonly MusketeerPatrol PatrolState = new MusketeerPatrol();
@@ -182,10 +183,16 @@ public class MusketeerUnit : MonoBehaviour
     public readonly MusketeerBackRight BRightState = new MusketeerBackRight();
     public readonly MusketeerKnocked KnockedState = new MusketeerKnocked();
 
+    [Header("SFX")]
+    private AudioSource audioPlayer;
+    [SerializeField] private AudioClip musketeerAttack;
+    // [SerializeField] private AudioClip musketeerDeath;
+    private float startingTime = 0f;
 
     // Start is called before the first frame update
     void Awake()
     {
+        audioPlayer = GetComponent<AudioSource>();
         sphereRadius = attackRadius;
         enemyClass = GetComponent<EnemyClass>();
         NavMeshPath path = new NavMeshPath();
@@ -262,7 +269,6 @@ public class MusketeerUnit : MonoBehaviour
         animator.SetInteger("direction", (int)state);
     }
 
-    public Vector3[] patrolPoints;
     void CalculatePatrolPath(NavMeshPath path)
     {
         int firstDirection = Random.Range(0, 4);
@@ -339,6 +345,48 @@ public class MusketeerUnit : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, sphereRadius);
+    }
+
+    public void OnDeath()
+    {
+        AudioOnDeath();
+    }
+
+    public void AudioOnDeath()
+    {
+        // audioPlayer.PlayOneShot(musketeerDeath, 1);
+    }
+
+    public void AudioOnAttack()
+    {
+        audioPlayer.PlayOneShot(musketeerAttack, 1);
+    }
+
+    public void AudioOnAggro()
+    {
+        // InvokeRepeating("MovementAudio", 0, 1.5f);
+    }
+
+    public void AudioOnPatrol()
+    {
+        MovementAudio();
+    }
+
+    private void MovementAudio()
+    {
+        float durationTime = 0.5f; // 300 milliseconds
+        float endTime = startingTime + durationTime;
+
+        if (endTime > audioPlayer.clip.length)
+        {
+            endTime = audioPlayer.clip.length;
+            startingTime = 0f;
+        }
+
+        audioPlayer.time = startingTime;
+        audioPlayer.SetScheduledEndTime(endTime);
+        audioPlayer.PlayScheduled(AudioSettings.dspTime);
+        startingTime = endTime;
     }
 
 }

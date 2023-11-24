@@ -127,11 +127,16 @@ public class GubGubUnit : MonoBehaviour
     public readonly GubGubKnocked KnockedState = new GubGubKnocked();
 
     [Header("SFX")]
-    public AudioSource[] gubgubsSFX;
+    private AudioSource audioPlayer;
+    // [SerializeField] private AudioClip gubgubMovement;
+    [SerializeField] private AudioClip gubgubAttack;
+    [SerializeField] private AudioClip gubgubDeath;
+    private float startingTime = 0f;
 
     // Start is called before the first frame update
     void Awake()
     {
+        audioPlayer = GetComponent<AudioSource>();
         sphereRadius = detectionRadius;
         enemyClass = GetComponent<EnemyClass>();
         TransitionToState(IdleState);
@@ -191,5 +196,50 @@ public class GubGubUnit : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sphereRadius);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+    public void OnDeath()
+    {
+        if (currentState == AggroState)
+        {
+            CancelInvoke("MovementAudio");
+        }
+
+        AudioOnDeath();
+    }
+
+    private void AudioOnDeath()
+    {
+        audioPlayer.PlayOneShot(gubgubDeath, 1);
+    }
+    public void AudioOnAttack()
+    {
+        audioPlayer.PlayOneShot(gubgubAttack, 1);
+    }
+
+    public void AudioOnAggro()
+    {
+        InvokeRepeating("MovementAudio", 0, 1.5f);
+    }
+
+    public void AudioOnPatrol()
+    {
+        MovementAudio();
+    }
+
+    private void MovementAudio()
+    {
+        float durationTime = 0.015f; // 15 milliseconds
+        float endTime = startingTime + durationTime;
+
+        if (endTime > audioPlayer.clip.length)
+        {
+            endTime = audioPlayer.clip.length;
+            startingTime = 0f;
+        }
+
+        audioPlayer.time = startingTime;
+        audioPlayer.SetScheduledEndTime(endTime);
+        audioPlayer.PlayScheduled(AudioSettings.dspTime);
+        startingTime = endTime;
     }
 }

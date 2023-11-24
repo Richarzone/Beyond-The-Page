@@ -5,14 +5,10 @@ using UnityEngine.UIElements;
 public class GubGubPatrol : GubGubBaseState
 {
     private Vector3 destination;
-    private AudioSource audio;
-    private float startingTime = 0f;
-    public float durationTime = 0.015f; // 15 milliseconds
 
     public override void EnterState(GubGubUnit unit)
     {
         MonoBehaviour.print("I am  patrolling");
-        audio = unit.gubgubsSFX[0];
         destination = RandomDirection(unit, unit.MoveRadius);
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Walk);
     }
@@ -21,7 +17,7 @@ public class GubGubPatrol : GubGubBaseState
     {
         unit.Agent.SetDestination(destination);
         //MonoBehaviour.print(unit.agent.velocity.magnitude);
-        nextAudio();
+        unit.AudioOnPatrol();
         if (unit.Agent.velocity.x > 0)
         {
             unit.Sprite.flipX = true;
@@ -92,28 +88,5 @@ public class GubGubPatrol : GubGubBaseState
 
     public override void OnDisable(GubGubUnit unit)
     {
-    }
-
-    void nextAudio()
-    {
-        // Calculate the end time for the desired audio clip
-        float endTime = startingTime + durationTime;
-
-        // Check if the end time exceeds the audio clip length
-        if (endTime > audio.clip.length)
-        {
-            endTime = audio.clip.length;
-            startingTime = 0f;
-        }
-
-        // Set the time range for the audio clip
-        audio.time = startingTime;
-        audio.SetScheduledEndTime(endTime);
-
-        // Play the audio within the specified time range
-        audio.PlayScheduled(AudioSettings.dspTime);
-
-        // Update the starting time for the next iteration
-        startingTime = endTime;
     }
 }

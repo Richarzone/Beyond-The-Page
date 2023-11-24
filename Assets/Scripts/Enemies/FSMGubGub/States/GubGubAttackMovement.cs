@@ -25,7 +25,7 @@ public class GubGubAttackMovement : StateMachineBehaviour
             //Debug.Log(unit.agent.velocity);
             unit.Agent.SetDestination(unit.Player.position * 1.5f);
             //Debug.Log(unit.agent.pathStatus);
-            unit.gubgubsSFX[1].Play();
+            unit.AudioOnAttack();
         }
     }
 

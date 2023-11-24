@@ -128,11 +128,16 @@ public class GooberUnit : MonoBehaviour
     public readonly GooberKnocked KnockedState = new GooberKnocked();
 
     [Header("SFX")]
-    public AudioSource[] goobersSFX;
+    private AudioSource audioPlayer;
+    // [SerializeField] private AudioClip gooberMovement;
+    [SerializeField] private AudioClip gooberAttack;
+    [SerializeField] private AudioClip gooberDeath;
+    private float startingTime = 0f;
 
     // Start is called before the first frame update
     void Awake()
     {
+        audioPlayer = GetComponent<AudioSource>();
         sphereRadius = detectionRadius;
         enemyClass = GetComponent<EnemyClass>();
         TransitionToState(IdleState);
@@ -180,7 +185,7 @@ public class GooberUnit : MonoBehaviour
         currentState.EnterState(this);
     }
 
-    public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Attack = 2, Death = 3}
+    public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Attack = 2, Death = 3 }
     public void SetAnimatorTrigger(AnimatorTriggerStates state)
     {
         animator.SetInteger("anim", (int)state);
@@ -192,5 +197,50 @@ public class GooberUnit : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sphereRadius);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+    public void OnDeath()
+    {
+        if (currentState == AggroState)
+        {
+            CancelInvoke("MovementAudio");
+        }
+
+        AudioOnDeath();
+    }
+
+    public void AudioOnDeath()
+    {
+        audioPlayer.PlayOneShot(gooberDeath, 1);
+    }
+    public void AudioOnAttack()
+    {
+        audioPlayer.PlayOneShot(gooberAttack, 1);
+    }
+
+    public void AudioOnAggro()
+    {
+        InvokeRepeating("MovementAudio", 0, 1.5f);  
+    }
+
+    public void AudioOnPatrol()
+    {
+        MovementAudio();
+    }
+
+    private void MovementAudio()
+    {
+        float durationTime = 0.015f; // 15 milliseconds
+        float endTime = startingTime + durationTime;
+
+        if (endTime > audioPlayer.clip.length)
+        {
+            endTime = audioPlayer.clip.length;
+            startingTime = 0f;
+        }
+
+        audioPlayer.time = startingTime;
+        audioPlayer.SetScheduledEndTime(endTime);
+        audioPlayer.PlayScheduled(AudioSettings.dspTime);
+        startingTime = endTime;
     }
 }

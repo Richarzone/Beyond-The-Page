@@ -2,16 +2,13 @@ using UnityEngine;
 
 public class GubGubAggro : GubGubBaseState
 {
-    private AudioSource audio;
     public override void EnterState(GubGubUnit unit)
     {
-        MonoBehaviour.print("I am agro");
+        MonoBehaviour.print("I am aggro");
         unit.SphereRadius = unit.DetectionRadius;
         unit.Agent.speed = unit.MoveSpeed;
         unit.SetAnimatorTrigger(GubGubUnit.AnimatorTriggerStates.Walk);
-        audio = unit.gubgubsSFX[0];
-        audio.loop = true;
-        audio.Play();
+        unit.AudioOnAggro();
     }
 
     public override void LateUpdate(GubGubUnit unit)
@@ -20,12 +17,10 @@ public class GubGubAggro : GubGubBaseState
 
     public override void OnCollisionEnter(GubGubUnit unit, Collision collider)
     {
-
     }
 
     public override void OnDisable(GubGubUnit unit)
     {
-        GubgubAudioStop();
     }
 
     public override void OnTriggerEnter(GubGubUnit unit, Collider collider)
@@ -48,14 +43,14 @@ public class GubGubAggro : GubGubBaseState
 
         if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= unit.AttackRadius)
         {
-            GubgubAudioStop();
+            unit.CancelInvoke("MovementAudio");
             //unit.agent.isStopped = true;
             unit.TransitionToState(unit.AttackState);
         }
 
         if (unit.CanBeKnocked)
         {
-            GubgubAudioStop();
+            unit.CancelInvoke("MovementAudio");
             unit.Agent.ResetPath();
             unit.TransitionToState(unit.KnockedState);
         }
@@ -64,9 +59,5 @@ public class GubGubAggro : GubGubBaseState
     }
 
 
-    public void GubgubAudioStop()
-    {
-        audio.loop = false;
-        audio.Stop();
-    }
+    
 }

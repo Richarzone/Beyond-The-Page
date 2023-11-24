@@ -24,7 +24,7 @@ public class GooberAttackMovement : StateMachineBehaviour
             //Debug.Log(unit.agent.velocity);
             unit.Agent.SetDestination(unit.Player.position * 1.5f);
             //Debug.Log(unit.agent.pathStatus);
-            unit.goobersSFX[1].Play();
+            unit.AudioOnAttack();
         }
 
     }

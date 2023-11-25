@@ -105,6 +105,13 @@ public class GooberUnit : MonoBehaviour
         }
     }
 
+    private bool canBeStuned;
+    public bool CanBeStuned
+    {
+        get { return canBeStuned; }
+        set { canBeStuned = value; }
+    }
+
     private bool canBeKnocked;
     public bool CanBeKnocked
     {
@@ -154,6 +161,7 @@ public class GooberUnit : MonoBehaviour
     {
         currentHealth = enemyClass.CurrentHealth;
         canBeKnocked = enemyClass.CanBeKnocked;
+        canBeStuned = enemyClass.CanBeStuned;
         force = enemyClass.Force;
         colliders = Physics.OverlapSphere(transform.position, sphereRadius, playerLayer);
         foreach (Collider collider in colliders)

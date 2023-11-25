@@ -18,6 +18,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] protected int attackDamage;
     [SerializeField] protected bool isLingering;
     [SerializeField] protected bool isExplosive;
+    [SerializeField] protected bool isStun;
 
     protected float baseDamage;
     protected float calculatedDamge;
@@ -117,9 +118,16 @@ public class Projectile : MonoBehaviour
                 Debug.Log(hitCollider.name);
                 if ((1 << hitCollider.gameObject.layer) == enemyLayer.value)
                 {
-                    hitCollider.GetComponent<EnemyClass>().Damage(attackDamage +
-                                                                 (attackDamage * instanceOwner.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
-                                                                 (attackDamage * instanceOwner.GetConcoctionDamageMultiplier()), attackDamage);
+                    EnemyClass enemyInstance = hitCollider.GetComponent<EnemyClass>();
+
+                    // CONCIDERACION: ------ CHANGE TO OR (||) ------
+                    enemyInstance.CanBeKnocked = true;
+                    enemyInstance.CanBeStuned = true;
+                    enemyInstance.Force = Vector3.zero;
+
+                    enemyInstance.Damage(attackDamage +
+                                        (attackDamage * instanceOwner.GetAbilityManager().GetPlayerController().DamageMultiplier()) +
+                                        (attackDamage * instanceOwner.GetConcoctionDamageMultiplier()), attackDamage);
                 }
             }
 

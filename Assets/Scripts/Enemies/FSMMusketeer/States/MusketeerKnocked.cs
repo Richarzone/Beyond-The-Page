@@ -5,9 +5,11 @@ using UnityEngine;
 public class MusketeerKnocked : MusketeerBaseState
 {
     private bool falling;
+    private bool stuned;
     public override void EnterState(MusketeerUnit unit)
     {
         falling = false;
+        stuned = false;
         unit.Agent.ResetPath();
         unit.Rbody.isKinematic = false;
         unit.Agent.enabled = false;
@@ -16,17 +18,25 @@ public class MusketeerKnocked : MusketeerBaseState
 
     public override void Update(MusketeerUnit unit)
     {
-        Debug.Log(unit.Rbody.velocity.y);
-        if (unit.Rbody.velocity.y == 0 && falling)
+        if (unit.CanBeStuned && !stuned)
         {
-            unit.Rbody.isKinematic = true;
-            unit.Agent.enabled = true;
-            unit.EnemyClass.CanBeKnocked = false;
-            unit.TransitionToState(unit.FleeState);
+            stuned = true;
+            unit.StartCoroutine(Stun(unit));
         }
-        else if (unit.Rbody.velocity.y < 0)
+
+        if (!unit.CanBeStuned)
         {
-            falling = true;
+            if (unit.Rbody.velocity.y == 0 && falling)
+            {
+                unit.Rbody.isKinematic = true;
+                unit.Agent.enabled = true;
+                unit.EnemyClass.CanBeKnocked = false;
+                unit.TransitionToState(unit.AggroState);
+            }
+            else if (unit.Rbody.velocity.y < 0)
+            {
+                falling = true;
+            }
         }
 
         if (unit.CurrentHealth <= 0)
@@ -35,5 +45,17 @@ public class MusketeerKnocked : MusketeerBaseState
             unit.Agent.enabled = true;
             unit.Agent.isStopped = true;
         }
+
+    }
+
+    private IEnumerator Stun(MusketeerUnit unit)
+    {
+        yield return new WaitForSeconds(2f);
+        stuned = false;
+        unit.Rbody.isKinematic = true;
+        unit.Agent.enabled = true;
+        unit.EnemyClass.CanBeKnocked = false;
+        unit.EnemyClass.CanBeStuned = false;
+        unit.TransitionToState(unit.AggroState);
     }
 }

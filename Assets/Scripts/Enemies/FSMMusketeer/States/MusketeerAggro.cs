@@ -6,6 +6,8 @@ public class MusketeerAggro : MusketeerBaseState
 
     public override void EnterState(MusketeerUnit unit)
     {
+        Debug.Log("Aggro");
+
         unit.Agent.speed = unit.PursueSpeed;
         unit.SpriteTransform.localRotation = Quaternion.Euler(Vector3.zero);
         unit.SpriteTransform.localPosition = walkPosition;

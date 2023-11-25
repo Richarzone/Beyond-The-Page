@@ -28,6 +28,8 @@ public class ProceduralRoom : MonoBehaviour
     [SerializeField] private GameObject doorEnter;
     [SerializeField] private GameObject doorExit;
 
+    private GameObject doorInstance;
+
     [SerializeField] private GameObject[] innerObstaclesPrefab;
     [SerializeField] private GameObject[] cornerObstaclesPrefab;
     [SerializeField] private GameObject[] wallObstaclesPrefab;
@@ -92,7 +94,6 @@ public class ProceduralRoom : MonoBehaviour
     private int enemyAmount;
     private bool spawnedObstacle;
 
-    public Material materialTest;
     void createWalls()
     {
         colliders = new Colliders();
@@ -328,7 +329,9 @@ public class ProceduralRoom : MonoBehaviour
         }
 
         Instantiate(doorEnter, doorEnterList[0].pos, doorEnterList[0].rot, parent.transform);
-        Instantiate(doorExit, doorExitList[0].pos, doorEnterList[0].rot, parent.transform);
+        doorInstance = Instantiate(doorExit, doorExitList[0].pos, doorEnterList[0].rot, parent.transform);
+        GameManager.Instance.DoorPosition = doorInstance.transform;
+        doorInstance.GetComponent<BoxCollider>().enabled = false;
     }
 
     void renderPillars()
@@ -387,7 +390,6 @@ public class ProceduralRoom : MonoBehaviour
                 obstacle.transform.position = leftTiles[i].pos;
                 obstacle.transform.rotation = Quaternion.Euler(0, 180, 0);
                 obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
-                obstacle.GetComponent<Renderer>().material = materialTest;
             }
         }
 
@@ -434,7 +436,7 @@ public class ProceduralRoom : MonoBehaviour
             chance = UnityEngine.Random.Range(0f, 100f);
             if (chance <= 65f && enemyCredits != 0 && !spawnedObstacle)
             {
-                chance = UnityEngine.Random.Range(0f, GameManager.Instance.Difficulty);
+                chance = UnityEngine.Random.Range(70f, 90f);
                 if ((chance > 90f && chance <= 100f) && enemyCredits % 4 == 0)
                 {
                     GameObject devilObject = Instantiate(devil, parent.transform);
@@ -474,26 +476,7 @@ public class ProceduralRoom : MonoBehaviour
         rooms[0] = smallRoom;
         rooms[1] = mediumRoom;
         rooms[2] = largeRoom;
-        //parent = new GameObject("Generation");
-        //parent.transform.SetParent(transform);
-        //UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-        //enemyAmount = 0;
-        //roomSize = rooms[GameManager.Instance.RoomSize];
-        //enemyCredits = GameManager.Instance.EnemyCredits;
-        //createWalls();
-        //createPillars();
-        //createFloorTiles();
-
-        //renderWalls();
-        //renderPillars();
-        //renderFloorTiles();
-
-        //generateObstacles();
         players = GameObject.FindGameObjectsWithTag("Player");
-        //for (int i = 0; i < players.Length; i++)
-        //{
-        //    players[i].transform.position = spawnPosition.transform.GetChild(i).position;
-        //}
 
         generateRoom();
     }
@@ -531,18 +514,33 @@ public class ProceduralRoom : MonoBehaviour
         goober = 1, gubGub = 2, musketeer = 3, devil = 4
     }
 
-    //public void Update()
-    //{
-    //    if(GameManager.Instance.EnemyAmount == 0)
-    //    {
+    public void Update()
+    {
+        if (GameManager.Instance.EnemyAmount == 0)
+        {
+            doorInstance.GetComponent<BoxCollider>().enabled = true;
+        }
 
-    //    }
-    //}
+        if (GameManager.Instance.Health <= 0)
+        {
+            GameManager.Instance.ResetHealth();
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].transform.position = spawnPosition.transform.GetChild(i).position;
+            }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Debug.Log("Collision");
-    //    generateRoom();
-    //}
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collision");
+        if (other.gameObject.tag == "Player")
+        {
+            GameManager.Instance.IncreaseDifficulty();
+            generateRoom();
+            
+        }
+    }
 
 }

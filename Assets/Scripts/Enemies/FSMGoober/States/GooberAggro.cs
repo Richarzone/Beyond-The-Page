@@ -21,8 +21,6 @@ public class GooberAggro : GooberBaseState
 
     public override void OnDisable(GooberUnit unit)
     {
-        unit.CancelInvoke("MovementAudio");
-        unit.AudioOnDeath();
     }
 
     public override void OnTriggerEnter(GooberUnit unit, Collider collider)

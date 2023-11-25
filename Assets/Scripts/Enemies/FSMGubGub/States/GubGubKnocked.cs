@@ -5,9 +5,12 @@ using UnityEngine;
 public class GubGubKnocked : GubGubBaseState
 {
     private bool falling;
+    private bool stuned;
     public override void EnterState(GubGubUnit unit)
     {
+        unit.CancelInvoke("MovementAudio");
         falling = false;
+        stuned = false;
         unit.Agent.ResetPath();
         unit.Rbody.isKinematic = false;
         unit.Agent.enabled = false;
@@ -32,17 +35,25 @@ public class GubGubKnocked : GubGubBaseState
 
     public override void Update(GubGubUnit unit)
     {
-        Debug.Log(unit.Rbody.velocity.y);
-        if (unit.Rbody.velocity.y == 0 && falling)
+        if (unit.CanBeStuned && !stuned)
         {
-            unit.Rbody.isKinematic = true;
-            unit.Agent.enabled = true;
-            unit.EnemyClass.CanBeKnocked = false;
-            unit.TransitionToState(unit.AggroState);
+            stuned = true;
+            unit.StartCoroutine(Stun(unit));
         }
-        else if(unit.Rbody.velocity.y < 0)
+
+        if (!unit.CanBeStuned)
         {
-            falling = true;
+            if (unit.Rbody.velocity.y == 0 && falling)
+            {
+                unit.Rbody.isKinematic = true;
+                unit.Agent.enabled = true;
+                unit.EnemyClass.CanBeKnocked = false;
+                unit.TransitionToState(unit.AggroState);
+            }
+            else if (unit.Rbody.velocity.y < 0)
+            {
+                falling = true;
+            }
         }
 
         if (unit.CurrentHealth <= 0)
@@ -52,6 +63,17 @@ public class GubGubKnocked : GubGubBaseState
             unit.Agent.isStopped = true;
         }
 
+    }
+
+    private IEnumerator Stun(GubGubUnit unit)
+    {
+        yield return new WaitForSeconds(2f);
+        stuned = false;
+        unit.Rbody.isKinematic = true;
+        unit.Agent.enabled = true;
+        unit.EnemyClass.CanBeKnocked = false;
+        unit.EnemyClass.CanBeStuned = false;
+        unit.TransitionToState(unit.AggroState);
     }
 
 }

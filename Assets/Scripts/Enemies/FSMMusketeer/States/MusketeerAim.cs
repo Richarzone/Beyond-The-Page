@@ -9,6 +9,7 @@ public class MusketeerAim : MusketeerBaseState
 
     public override void EnterState(MusketeerUnit unit)
     {
+        Debug.Log("Aiming");
         unit.BillboardMusketeer.lerpInt = 3;
         unit.SpriteTransform.localPosition = aimPosition;
         unit.SetAnimatorTrigger(MusketeerUnit.AnimatorTriggerStates.Aim);
@@ -38,6 +39,13 @@ public class MusketeerAim : MusketeerBaseState
             unit.StopCoroutine(coroutine);
             unit.TransitionToState(unit.FleeState);
         }
+
+        //if (unit.CanBeKnocked)
+        //{
+        //    unit.StopCoroutine(coroutine);
+        //    unit.Agent.ResetPath();
+        //    unit.TransitionToState(unit.KnockedState);
+        //}
 
     }
 

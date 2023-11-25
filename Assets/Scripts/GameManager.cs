@@ -1,17 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
     private int attempts = 3;
+    public int Attempts
+    {
+        get { return attempts; }
+        set { attempts = value; }
+    }
     
     private bool allPlayersAlive;
-    private int roomsCleared;
-    private int room = 0;
 
+    private int roomsCleared = 0;
+    public int RoomsCleared
+    {
+        get { return roomsCleared; }
+        set { roomsCleared = value; }
+    }
+    private int room = 1;
+    public int Room
+    {
+        get { return room; }
+        set { room = value; }
+    }
+
+    private float difficultyMultiplier = 1;
     [Header("Room Generation")]
     [SerializeField] private GameObject roomGeneration;
 
@@ -21,8 +40,8 @@ public class GameManager : MonoBehaviour
     //[SerializeField] private GameObject gubGub;
     //[SerializeField] private GameObject devil;
 
-    [SerializeField] private int difficulty;
-    public int Difficulty
+    [SerializeField] private float difficulty;
+    public float Difficulty
     {
         get { return difficulty; }
         set { difficulty = value; }
@@ -48,6 +67,19 @@ public class GameManager : MonoBehaviour
         set { enemyAmount = value; }
     }
 
+    [SerializeField] private int health;
+    public int Health
+    {
+        get { return health; }
+        set { health = value; }
+    }
+
+    private Transform doorPosition;
+    public Transform DoorPosition
+    {
+        get { return doorPosition; }
+        set { doorPosition = value; }
+    }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -61,7 +93,7 @@ public class GameManager : MonoBehaviour
 
         Instantiate(roomGeneration, transform);
 
-        //difficulty = (int)DifficultyEnum.baby;
+        difficulty = (int)DifficultyEnum.baby;
         //Random.InitState(System.DateTime.Now.Millisecond);
         roomSize = Random.Range(0, 3);
 
@@ -85,14 +117,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //if (playerHealth <= 0)
-        //{
+        Mathf.Clamp(difficulty, 0, 100);
 
-        //}
-
-        if (enemyAmount == 0)
+        if(attempts == 0)
         {
-            GetComponentInChildren<ProceduralRoom>().generateRoom();
+            SceneManager.LoadScene("Game Over");
+        }
+        if (health <= 0)
+        {
+            attempts--;
         }
     }
 
@@ -103,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     public enum MaxEnemyCreditsEnum
     {
-        small = 12, medium = 25, large = 35
+        small = 12, medium = 20, large = 25
     }
 
     public enum DifficultyEnum
@@ -127,5 +160,18 @@ public class GameManager : MonoBehaviour
                 enemyCredits = (int)MaxEnemyCreditsEnum.large;
                 break;
         }
+    }
+
+    public void ResetHealth()
+    {
+        health = 10;
+    }
+
+    public void IncreaseDifficulty()
+    {
+        GameManager.Instance.Room++;
+        GameManager.Instance.RoomsCleared++;
+        difficultyMultiplier += 0.025f;
+        difficulty *= difficultyMultiplier;
     }
 }

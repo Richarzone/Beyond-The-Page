@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 targetPosition;
 
+    [SerializeField] private GameObject arrow;
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -202,6 +203,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.Health = health;
         foreach (GameObject characterClass in characterClasses)
         {
             characterClass.SetActive(false);
@@ -234,6 +236,16 @@ public class PlayerController : MonoBehaviour
         if (dodge)
         {
             StartCoroutine(Dodge());
+        }
+
+        if(GameManager.Instance.EnemyAmount == 0)
+        {
+            arrow.SetActive(true);
+            arrow.transform.LookAt(GameManager.Instance.DoorPosition, Vector3.up);
+        }
+        else
+        {
+            arrow.SetActive(false);
         }
     }
 
@@ -440,7 +452,7 @@ public class PlayerController : MonoBehaviour
 
             StartCoroutine(CharacterChangeCooldown());
 
-            /*switch (character)
+            switch (character)
             {
                 case 0:
                     selectedClass.texture = changeClass[0];
@@ -454,7 +466,7 @@ public class PlayerController : MonoBehaviour
                 case 3:
                     selectedClass.texture = changeClass[3];
                     break;
-            }*/
+            }
         }
     }
 
@@ -506,6 +518,8 @@ public class PlayerController : MonoBehaviour
             {
                 health -= damageValue;
             }
+
+            GameManager.Instance.Health = health;
         }
 
         // Spawn damage effect
@@ -524,9 +538,11 @@ public class PlayerController : MonoBehaviour
 
         if (health <= 0)
         {
-            damageAnimPivot.SetParent(null);
-            Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-            Destroy(gameObject);
+            //damageAnimPivot.SetParent(null);
+            //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+            //Destroy(gameObject);
+            health = maxHealth;
+            //GameManager.Instance.Health = health;
         }
     }
 

@@ -56,7 +56,7 @@ public class SparklingPowder : AbilityClass
             distance = Mathf.Min(distance, stunRange / 2f);
             Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, -0.9f, newHitPosition.z);
+            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 1f, newHitPosition.z);
 
             yield return null;
         }
@@ -114,7 +114,7 @@ public class SparklingPowder : AbilityClass
             distance = Mathf.Min(distance, stunRange / 2f);
             Vector3 newHitPosition = transform.position + hitPositionDirection * distance;
 
-            abilityCanvas.transform.position = new Vector3(newHitPosition.x, -0.9f, newHitPosition.z);
+            abilityCanvas.transform.position = new Vector3(newHitPosition.x, 1f, newHitPosition.z);
 
             yield return null;
         }

@@ -10,6 +10,7 @@ public class MusketeerFlee : MusketeerBaseState
     private Vector3 fleeDirection;
     public override void EnterState(MusketeerUnit unit)
     {
+        Debug.Log("Fleeing");
         unit.Agent.isStopped = false;
         unit.Agent.speed = unit.FleeSpeed;
         unit.SpriteTransform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -33,11 +34,11 @@ public class MusketeerFlee : MusketeerBaseState
             ChangeDirection(unit);
         }
 
-        if (unit.CanBeKnocked)
-        {
-            unit.Agent.ResetPath();
-            unit.TransitionToState(unit.KnockedState);
-        }
+        //if (unit.CanBeKnocked)
+        //{
+        //    unit.Agent.ResetPath();
+        //    unit.TransitionToState(unit.KnockedState);
+        //}
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

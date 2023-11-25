@@ -161,6 +161,13 @@ public class MusketeerUnit : MonoBehaviour
         set { canBeKnocked = value; }
     }
 
+    private bool canBeStuned;
+    public bool CanBeStuned
+    {
+        get { return canBeStuned; }
+        set { canBeStuned = value; }
+    }
+
     private Vector3 force;
     public Vector3 Force
     {
@@ -227,6 +234,7 @@ public class MusketeerUnit : MonoBehaviour
     {
         currentHealth = enemyClass.CurrentHealth;
         canBeKnocked = enemyClass.CanBeKnocked;
+        //canBeStuned = enemyClass.CanBeStuned;
         force = enemyClass.Force;
         currentState.Update(this);
     }

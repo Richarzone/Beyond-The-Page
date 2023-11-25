@@ -436,7 +436,7 @@ public class ProceduralRoom : MonoBehaviour
             chance = UnityEngine.Random.Range(0f, 100f);
             if (chance <= 65f && enemyCredits != 0 && !spawnedObstacle)
             {
-                chance = UnityEngine.Random.Range(70f, 90f);
+                chance = UnityEngine.Random.Range(0f, GameManager.Instance.Difficulty);
                 if ((chance > 90f && chance <= 100f) && enemyCredits % 4 == 0)
                 {
                     GameObject devilObject = Instantiate(devil, parent.transform);

@@ -297,6 +297,7 @@ MonoBehaviour:
   projectile: {fileID: 351001629929396286, guid: 7c083df4fab12403b88ed8415ae71294, type: 3}
   smokeVFX: {fileID: 3025283884743722484, guid: 3708c1ffdd9dd4b9c91585b6062e6f65, type: 3}
   projectileVelocity: 20
+  musketeerAttack: {fileID: 8300000, guid: cee73529b2945034e8962483144d5988, type: 3}
   patrolPoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -306,7 +307,6 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  musketeerAttack: {fileID: 8300000, guid: cee73529b2945034e8962483144d5988, type: 3}
 --- !u!114 &2711245258587204486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +378,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a674fb6bbb63b4d4abde7fcf954e1ce7, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -386,10 +386,10 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 30
+  MaxDistance: 25
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -407,15 +407,6 @@ AudioSource:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.81240916
-      value: 0.8301356
-      inSlope: -1.5218815
-      outSlope: -1.5218815
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 1
     - serializedVersion: 3
       time: 0.8339746
       value: 0.18370682

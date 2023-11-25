@@ -7,6 +7,8 @@ using Cinemachine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+// TODO: ------ MAKE GETTERS/SETTERS FOR HEALING CATEGORY ------
+
 public class PlayerController : MonoBehaviour
 {
     // References
@@ -29,9 +31,8 @@ public class PlayerController : MonoBehaviour
     private InputAction character3Action = new InputAction();
     private InputAction character4Action = new InputAction();
     private InputAction buffAction = new InputAction();
+    private InputAction healAction = new InputAction();
     private InputAction pauseAction = new InputAction();
-
-    // private InputAction healingAction = new InputAction();
 
     private InputAction victoryAction = new InputAction();
     private InputAction gameOverAction = new InputAction();
@@ -43,16 +44,20 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Settings")]
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] public int maxHealth = 10;
-    [SerializeField] public int health;
-    [SerializeField] public int extraHealth = 0;
-    [SerializeField] public int usosChicharrones = 3;
     [SerializeField] private bool infiniteHealth;
     [SerializeField] private float movementSpeed;
     [SerializeField] private List<GameObject> characterClasses = new List<GameObject>();
     [SerializeField] private float characterChangeCooldown;
     private CharacterClass currentCharacterClass;
     private int currentClass;
+    
+    [Header("Health")]
+    [SerializeField] public int maxHealth = 10;
+    [SerializeField] public int health;
+    [SerializeField] public int extraHealth = 0;
+    [SerializeField] public int usosChicharrones = 3;
+    [SerializeField] private ParticleSystem healingVFX;
+    [SerializeField] private ChicharronSpot chicharronSpot;
 
     [Header("Damage VFX")]
     [SerializeField] private Transform damageAnimPivot;
@@ -67,17 +72,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dodgeDuration;
     [SerializeField] private float dodgeCooldown;
     private bool isDodging;
-
-    // [Header("Healing")]
-    // [SerializeField] private bool heal;
+    
+    [Header("Buff")]
+    [SerializeField] private BuffClass currentBuff;
+    [SerializeField] private Transform buffVFXpivot;
 
     [Header("UI Change Image Class")]
     [SerializeField] public Texture[] changeClass;
     [SerializeField] public RawImage selectedClass;
-
-    [Header("Buff")]
-    [SerializeField] private BuffClass currentBuff;
-    [SerializeField] private Transform buffVFXpivot;
 
     [Header("UI Pause Menu")]
     [SerializeField] public GameObject GameCanvas;
@@ -125,9 +127,8 @@ public class PlayerController : MonoBehaviour
         skill3Action.started += PressedSkill3;
         skill3Action.canceled += ReleasedSkill3;
 
-        // healingAction = playerInput.actions["Healing Action"];
-        // healingAction.started += PressedSkill3;
-        // healingAction.canceled += ReleasedSkill3;
+        healAction = playerInput.actions["Heal"];
+        healAction.started += Heal;
 
         dodgeAction = playerInput.actions["Dodge"];
         dodgeAction.started += UseDodge;
@@ -529,17 +530,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void UseChicharron()
+    public void Heal(InputAction.CallbackContext context)
     {
-        if (health <= 7)
+        if (health != maxHealth && usosChicharrones > 0)
         {
-            health += 3;
+            if (health <= 7)
+            {
+                health += 3;
+            }
+            else
+            {
+                health = maxHealth;
+            }
+            
+            usosChicharrones--;
+
+            chicharronSpot.UseChicharron();
+
+            ParticleSystem vfxSpinInstance = Instantiate(healingVFX, currentCharacterClass.GetVFXPivot().position, healingVFX.transform.rotation);
+            vfxSpinInstance.transform.parent = currentCharacterClass.GetVFXPivot();
+            Destroy(vfxSpinInstance.gameObject, vfxSpinInstance.main.duration + vfxSpinInstance.main.startLifetime.constant);
         }
-        else
-        {
-            health = maxHealth;
-        }
-        usosChicharrones--;
     }
 
     private GameObject DamageAnimationInstance(float damageValue)

@@ -38,8 +38,15 @@ public class EnemyClass : MonoBehaviour
     [SerializeField] private float hitboxRange;
     [SerializeField] private bool hit;
 
-    
     private float currentHealth;
+
+    private bool canBeStuned;
+    public bool CanBeStuned
+    {
+        get { return canBeStuned; }
+        set { canBeStuned = value; }
+    }
+
     public float CurrentHealth 
     { 
         get
@@ -104,6 +111,7 @@ public class EnemyClass : MonoBehaviour
             enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
             enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
             enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
+
             if (parent != null)
             {
                 //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);

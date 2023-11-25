@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Stun : AbilityClass
+public class SparklingPowder : AbilityClass
 {
     [SerializeField] private Transform firePivot;
 

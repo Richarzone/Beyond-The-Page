@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     // References
     private Rigidbody rb;
     private CapsuleCollider playerCollider;
-    private AudioSource audioSource;
+    private AudioSource audioPlayer;
 
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
@@ -96,12 +96,22 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 targetPosition;
 
+    [Header("SFX")]
+    private bool isPlaying = false;
+    [SerializeField] private AudioClip swordAttack;
+
+    [SerializeField] private AudioClip[] DodgesAudioClips;
+    [SerializeField] private AudioClip[] ShiftAudioClips;
+    [SerializeField] private AudioClip[] QAudioClips;
+    [SerializeField] private AudioClip[] EAudioClips;
+
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
-        audioSource = GetComponent<AudioSource>();
+        audioPlayer = GetComponent<AudioSource>();
 
         moveAction = playerInput.actions["Movement"];
         moveAction.performed += context => movement = context.ReadValue<Vector2>();
@@ -241,6 +251,7 @@ public class PlayerController : MonoBehaviour
         // If the player is dodging cancel all inputs until the dodge is over
         if (isDodging || currentCharacterClass.IsDashing)
         {
+            // Audio for Dashing
             return;
         }
 
@@ -258,6 +269,23 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         rb.AddForce(new Vector3(movement.x, 0f, movement.y) * movementSpeed - rb.velocity, ForceMode.VelocityChange);
+        Debug.Log(rb.velocity + " I'm currently playing: " + isPlaying);
+        if (rb.velocity != Vector3.zero)
+        {
+            if (!audioPlayer.loop)
+            {
+                audioPlayer.loop = true;
+                audioPlayer.Play();
+            }
+        }
+        else
+        {
+            if (audioPlayer.loop)
+            {
+                audioPlayer.loop = false;
+                audioPlayer.Stop();
+            }
+        }
     }
 
     private void Rotation()
@@ -278,6 +306,7 @@ public class PlayerController : MonoBehaviour
     #region Dodge
     private void UseDodge(InputAction.CallbackContext context)
     {
+        audioPlayer.PlayOneShot(DodgesAudioClips[currentClass]);
         StartCoroutine(Dodge());
         currentCharacterClass.DodgeInput(dodgeDuration);
     }
@@ -311,6 +340,7 @@ public class PlayerController : MonoBehaviour
     private void PressedSkill2(InputAction.CallbackContext context)
     {
         currentCharacterClass.Skill2Active();
+        audioPlayer.PlayOneShot(QAudioClips[currentClass]);
     }
 
     private void PressedSkill3(InputAction.CallbackContext context)
@@ -384,7 +414,7 @@ public class PlayerController : MonoBehaviour
     {
         foreach (AbilityClass ability in currentCharacterClass.GetAbilities())
         {
-            ability.ResetCooldown();   
+            ability.ResetCooldown();
         }
 
         foreach (GameObject characterClass in characterClasses)
@@ -399,7 +429,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator UseBuffCoroutine(BuffClass buff)
     {
-        audioSource.PlayOneShot(buff.GetSoundEffect());
+        audioPlayer.PlayOneShot(buff.GetSoundEffect());
 
         currentCharacterClass.GetAbilityManager().StopAllCoroutines();
         GameObject buffVFXInstance = Instantiate(currentBuff.GetBuffVFX(), buffVFXpivot.position, Quaternion.identity);
@@ -488,7 +518,7 @@ public class PlayerController : MonoBehaviour
             {
                 int auxDamageValue = damageValue - extraHealth;
                 extraHealth -= damageValue;
-                
+
                 if (extraHealth <= 0)
                 {
                     extraHealth = 0;
@@ -637,4 +667,6 @@ public class PlayerController : MonoBehaviour
         //Time.timeScale = 1;
         isPaused = false;
     }
+
+
 }

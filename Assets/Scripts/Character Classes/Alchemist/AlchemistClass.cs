@@ -22,6 +22,12 @@ public class AlchemistClass : CharacterClass
     private Vector3 direction;
     private Vector3 targetDirection;
     private float targetRotation;
+    private AudioSource audioPlayer;
+
+    private void Awake()
+    {
+        audioPlayer = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -108,8 +114,8 @@ public class AlchemistClass : CharacterClass
         SetDirection();
 
         yield return new WaitForSeconds(instanceDelay);
-
         InstantiateProjectile(projectile, firePivot, projectileVelocity, direction, attackDamage);
+        audioPlayer.Play();
     }
     #endregion
 }

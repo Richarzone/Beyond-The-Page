@@ -85,8 +85,6 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.NickName = _playerName.text;
     }
-
-    [PunRPC]
     /*public void UpdatePlayerInfo()
     {
         playerTextList.text = "";
@@ -104,12 +102,14 @@ public class MenuUIController : MonoBehaviourPunCallbacks
         }
     }*/
 
+    [PunRPC]
     void UpdatePlayerList()
     {
         foreach (PlayerItem item in PlayerItemsList)
         {
             Destroy(item.gameObject);
         }
+
         PlayerItemsList.Clear();
 
         if (PhotonNetwork.CurrentRoom == null)
@@ -130,7 +130,6 @@ public class MenuUIController : MonoBehaviourPunCallbacks
             PlayerItemsList.Add(newPlayerItem);
         }
 
-
         // Start Button
         if (PhotonNetwork.IsMasterClient)
         {
@@ -145,12 +144,9 @@ public class MenuUIController : MonoBehaviourPunCallbacks
     public void LeaveLobby()
     {
         PhotonNetwork.LeaveRoom();
-
         lobbyWindow.SetActive(false);
         mainWindow.SetActive(true);
         UpdatePlayerList();
-
-
     }
 
     public void PressBack()
@@ -162,7 +158,7 @@ public class MenuUIController : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        NetworkManager.instance.photonView.RPC("LoadScene", RpcTarget.All, "Game View");
+        NetworkManager.instance.photonView.RPC("LoadScene", RpcTarget.All, "EnemyTest");
     }
 
 

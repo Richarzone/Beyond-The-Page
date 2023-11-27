@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Cinemachine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 // TODO: ------ MAKE GETTERS/SETTERS FOR HEALING CATEGORY ------
 
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private CapsuleCollider playerCollider;
     private AudioSource audioSource;
+
+    private PhotonView view;
 
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
@@ -107,66 +110,71 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-        rb = GetComponent<Rigidbody>();
-        playerCollider = GetComponent<CapsuleCollider>();
-        audioSource = GetComponent<AudioSource>();
+        view = GetComponent<PhotonView>();
 
-        moveAction = playerInput.actions["Movement"];
-        moveAction.performed += context => movement = context.ReadValue<Vector2>();
+        if (view.IsMine)
+        {
+            playerInput = GetComponent<PlayerInput>();
+            rb = GetComponent<Rigidbody>();
+            playerCollider = GetComponent<CapsuleCollider>();
+            audioSource = GetComponent<AudioSource>();
 
-        aimAction = playerInput.actions["Aim"];
-        aimAction.performed += context => aim = context.ReadValue<Vector2>();
+            moveAction = playerInput.actions["Movement"];
+            moveAction.performed += context => movement = context.ReadValue<Vector2>();
 
-        attackAction = playerInput.actions["Attack"];
-        attackAction.performed += context => attack = true;
-        attackAction.canceled += context => attack = false;
+            aimAction = playerInput.actions["Aim"];
+            aimAction.performed += context => aim = context.ReadValue<Vector2>();
 
-        skill1Action = playerInput.actions["Skill 1"];
-        skill1Action.started += PressedSkill1;
-        skill1Action.canceled += ReleasedSkill1;
+            attackAction = playerInput.actions["Attack"];
+            attackAction.performed += context => attack = true;
+            attackAction.canceled += context => attack = false;
 
-        skill2Action = playerInput.actions["Skill 2"];
-        skill2Action.started += PressedSkill2;
-        skill2Action.canceled += ReleasedSkill2;
+            skill1Action = playerInput.actions["Skill 1"];
+            skill1Action.started += PressedSkill1;
+            skill1Action.canceled += ReleasedSkill1;
 
-        skill3Action = playerInput.actions["Skill 3"];
-        skill3Action.started += PressedSkill3;
-        skill3Action.canceled += ReleasedSkill3;
+            skill2Action = playerInput.actions["Skill 2"];
+            skill2Action.started += PressedSkill2;
+            skill2Action.canceled += ReleasedSkill2;
 
-        healAction = playerInput.actions["Heal"];
-        healAction.started += Heal;
+            skill3Action = playerInput.actions["Skill 3"];
+            skill3Action.started += PressedSkill3;
+            skill3Action.canceled += ReleasedSkill3;
 
-        dodgeAction = playerInput.actions["Dodge"];
-        dodgeAction.started += UseDodge;
+            healAction = playerInput.actions["Heal"];
+            healAction.started += Heal;
 
-        character1Action = playerInput.actions["Character 1"];
-        character1Action.started += context => ChageClass(context, 0);
+            dodgeAction = playerInput.actions["Dodge"];
+            dodgeAction.started += UseDodge;
 
-        character2Action = playerInput.actions["Character 2"];
-        character2Action.started += context => ChageClass(context, 1);
+            character1Action = playerInput.actions["Character 1"];
+            character1Action.started += context => ChageClass(context, 0);
 
-        character3Action = playerInput.actions["Character 3"];
-        character3Action.started += context => ChageClass(context, 2);
+            character2Action = playerInput.actions["Character 2"];
+            character2Action.started += context => ChageClass(context, 1);
 
-        character4Action = playerInput.actions["Character 4"];
-        character4Action.started += context => ChageClass(context, 3);
+            character3Action = playerInput.actions["Character 3"];
+            character3Action.started += context => ChageClass(context, 2);
 
-        buffAction = playerInput.actions["Buff"];
-        buffAction.started += UseBuff;
+            character4Action = playerInput.actions["Character 4"];
+            character4Action.started += context => ChageClass(context, 3);
 
-        pauseAction = playerInput.actions["Pause"];
-        pauseAction.started += PauseMenu;
+            buffAction = playerInput.actions["Buff"];
+            buffAction.started += UseBuff;
 
-        /*victoryAction = playerInput.actions["Victory"];
-        victoryAction.started += Victory;
+            pauseAction = playerInput.actions["Pause"];
+            pauseAction.started += PauseMenu;
 
-        gameOverAction = playerInput.actions["Game Over"];
-        gameOverAction.started += GameOver;*/
+            /*victoryAction = playerInput.actions["Victory"];
+            victoryAction.started += Victory;
 
-        //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
+            gameOverAction = playerInput.actions["Game Over"];
+            gameOverAction.started += GameOver;*/
 
-        health = maxHealth;
+            //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
+
+            health = maxHealth;
+        }
     }
 
     private void OnEnable()

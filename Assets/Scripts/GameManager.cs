@@ -169,8 +169,8 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseDifficulty()
     {
-        GameManager.Instance.Room++;
-        GameManager.Instance.RoomsCleared++;
+        room++;
+        roomsCleared++;
         difficultyMultiplier += 0.025f;
         difficulty *= difficultyMultiplier;
     }

@@ -7,12 +7,13 @@ using UnityEngine;
 public class GameController : MonoBehaviourPunCallbacks
 {
     //Instancia (singleton)
-    public static GameController instance;
+    public static GameController Instance;
 
     public bool isGameEnd = false;
     public string playerPrefab;
+    public string roomGenerationPrefab;
 
-    public Transform[] spawnPositions;
+    public Quaternion spawnPosition;
     public PlayerControllerNet[] players;
 
     [SerializeField]private int playerInGame;
@@ -21,7 +22,8 @@ public class GameController : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        instance = this;
+        spawnPosition = Quaternion.identity;
+        Instance = this;
     }
 
     void Start()
@@ -42,7 +44,8 @@ public class GameController : MonoBehaviourPunCallbacks
 
     void SpawnPlayers() 
     {
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefab, spawnPositions[0].position, Quaternion.identity);
+        //GameObject playerObj = PhotonNetwork.Instantiate(playerPrefab, spawnPositions[0].position, Quaternion.identity);
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity); 
         
         //forma larga
         //playerObj.GetComponent<PlayerController>().photonView.RPC("Init", RpcTarget.All, PhotonNetwork.LocalPlayer);

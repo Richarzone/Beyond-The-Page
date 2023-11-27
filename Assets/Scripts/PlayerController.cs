@@ -99,6 +99,12 @@ public class PlayerController : MonoBehaviour
     private Vector3 targetPosition;
 
     [SerializeField] private GameObject arrow;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip[] DashAudios;
+    [SerializeField] private AudioClip[] AttackAudios;
+    
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -291,6 +297,7 @@ public class PlayerController : MonoBehaviour
     #region Dodge
     private void UseDodge(InputAction.CallbackContext context)
     {
+        audioSource.PlayOneShot(DashAudios[currentClass]);
         StartCoroutine(Dodge());
         currentCharacterClass.DodgeInput(dodgeDuration);
     }
@@ -663,5 +670,11 @@ public class PlayerController : MonoBehaviour
         GameCanvas.SetActive(true);
         //Time.timeScale = 1;
         isPaused = false;
+    }
+
+
+    public void AudioOnBasicAttack()
+    {
+        audioSource.PlayOneShot(AttackAudios[currentClass]);
     }
 }

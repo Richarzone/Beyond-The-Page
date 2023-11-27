@@ -8,7 +8,7 @@ public class ObjectGenerator : MonoBehaviour
 
     [SerializeField] ImgSet imgSet;
     [SerializeField] GameObject imgPrefab;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +17,7 @@ public class ObjectGenerator : MonoBehaviour
 
     void DecodeArray()
     {
-        imgSet = JsonUtility.FromJson<ImgSet>(FileHandler.Instance.ReadFile());
+        imgSet = JsonUtility.FromJson<ImgSet>(Resources.Load<TextAsset>("EnemyCard").text);
         foreach(ImgObj img in imgSet.imgArray)
         {
             GameObject newImgObj;

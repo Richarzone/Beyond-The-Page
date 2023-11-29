@@ -12,7 +12,7 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private Button GameOverBackToMainBtn;
 
     private AudioSource Bowomp;
-
+    [SerializeField] private AudioClip AudioClick;
     private void Start()
     {
         Bowomp = GetComponent<AudioSource>();
@@ -20,6 +20,7 @@ public class GameOverController : MonoBehaviour
     }
     public void PressBackToMain()
     {
+        Bowomp.PlayOneShot(AudioClick);
         SceneManager.LoadScene("Main Menu");
     }
 

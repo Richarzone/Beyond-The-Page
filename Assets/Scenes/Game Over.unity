@@ -605,6 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameOverBackToMainBtn: {fileID: 0}
+  AudioClick: {fileID: 8300000, guid: 528ad752fb7a84d409aef565a29bef48, type: 3}
 --- !u!4 &1406521188
 Transform:
   m_ObjectHideFlags: 0

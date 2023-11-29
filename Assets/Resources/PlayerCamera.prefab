@@ -218,9 +218,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8896955734292117302}
     - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: clickAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 528ad752fb7a84d409aef565a29bef48, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: virtualCamera
       value: 
       objectReference: {fileID: 711648079085954494}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: gamePauseAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: e8d0788002152714d9df9a404626bde6, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: dashAudios.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: DashAudios.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: b044a5b6397f1ff4d9ca3a08e4632366, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: dashAudios.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: db681cceeb1286c4a819648591ec15ea, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: dashAudios.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: b044a5b6397f1ff4d9ca3a08e4632366, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: dashAudios.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: db681cceeb1286c4a819648591ec15ea, type: 3}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: dashAudios.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: b3b5cda2f46b6a94b9428185745ee5ec, type: 3}
     - target: {fileID: 8257383118300757611, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: m_RootOrder
       value: 1

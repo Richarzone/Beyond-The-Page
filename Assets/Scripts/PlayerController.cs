@@ -111,8 +111,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject arrow;
 
     [Header("SFX")]
-    [SerializeField] private AudioClip[] DashAudios;
-    [SerializeField] private AudioClip[] AttackAudios;
+    [SerializeField] private AudioClip[] dashAudios;
+    [SerializeField] private AudioClip gamePauseAudio;
+    [SerializeField] private AudioClip clickAudio;
+
     private bool isPlaying = false;
 
 
@@ -299,7 +301,7 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         rb.AddForce(new Vector3(movement.x, 0f, movement.y) * movementSpeed - rb.velocity, ForceMode.VelocityChange);
-        if (!isDodging && !currentCharacterClass.IsDashing)
+        if (!isPlaying)
         {
 
             if (rb.velocity != Vector3.zero)
@@ -307,13 +309,12 @@ public class PlayerController : MonoBehaviour
                 if (!audioSource.loop)
                 {
                     audioSource.loop = true;
-                    isPlaying = true;
                     audioSource.Play();
                 }
             }
             else
             {
-                if (audioSource.loop && isPlaying == true)
+                if (audioSource.loop)
                 {
                     audioSource.loop = false;
                     audioSource.Stop();
@@ -340,7 +341,8 @@ public class PlayerController : MonoBehaviour
     #region Dodge
     private void UseDodge(InputAction.CallbackContext context)
     {
-        audioSource.PlayOneShot(DashAudios[currentClass]);
+        StartCoroutine(PlayAndWaitDash());
+
         StartCoroutine(Dodge());
         currentCharacterClass.DodgeInput(dodgeDuration);
     }
@@ -708,6 +710,7 @@ public class PlayerController : MonoBehaviour
     #region Pause Menu
     public void MainMenu()
     {
+        audioSource.PlayOneShot(clickAudio);
         SceneManager.LoadSceneAsync(MainMenuSceneIndex);
         //Time.timeScale = 1;
         isPaused = false;
@@ -716,6 +719,7 @@ public class PlayerController : MonoBehaviour
 
     public void PauseMenu(InputAction.CallbackContext context)
     {
+        audioSource.PlayOneShot(gamePauseAudio);
         PauseCanvas.SetActive(true);
         GameCanvas.SetActive(false);
         //Time.timeScale = 0;
@@ -724,21 +728,24 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
+        audioSource.PlayOneShot(clickAudio);
         PauseCanvas.SetActive(false);
         GameCanvas.SetActive(true);
         //Time.timeScale = 1;
         isPaused = false;
     }
-
-    public void AudioOnBasicAttack()
-    {
-        audioSource.PlayOneShot(AttackAudios[currentClass]);
-    }
     #endregion
 
-    public void PlayClip()
+
+    private IEnumerator PlayAndWaitDash()
     {
-        audioSource.PlayOneShot(AttackAudios[currentClass]);
+        isPlaying = true;
+        audioSource.PlayOneShot(dashAudios[currentClass]);
+        yield return new WaitForSeconds(dashAudios[currentClass].length);
+        isPlaying = false;
     }
+
+
+
 
 }

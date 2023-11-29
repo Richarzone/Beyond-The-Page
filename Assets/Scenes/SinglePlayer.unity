@@ -600,6 +600,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -8.601933
       objectReference: {fileID: 0}
+    - target: {fileID: 1008390558081743697, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
+      propertyPath: MaxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008390558081743697, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1693282150809491943, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
       propertyPath: sceneViewId
       value: 2

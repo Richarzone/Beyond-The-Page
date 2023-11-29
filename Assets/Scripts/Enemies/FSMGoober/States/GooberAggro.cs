@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class GooberAggro : GooberBaseState
 {
@@ -42,14 +43,16 @@ public class GooberAggro : GooberBaseState
         if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= unit.AttackRadius)
         {
             unit.CancelInvoke("MovementAudio");
-            unit.TransitionToState(unit.AttackState);
+            unit.TransitionToState("attack");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "attack");
         }
 
         if (unit.CanBeKnocked)
         {
             unit.CancelInvoke("MovementAudio");
             unit.Agent.ResetPath();
-            unit.TransitionToState(unit.KnockedState);
+            unit.TransitionToState("knocked");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
 
     }

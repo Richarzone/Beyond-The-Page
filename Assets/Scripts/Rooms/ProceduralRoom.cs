@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,10 +80,10 @@ public class ProceduralRoom : MonoBehaviour
     Colliders colliders;
 
     [Header("Enemy Prefabs")]
-    [SerializeField] private GameObject musketeer;
-    [SerializeField] private GameObject goober;
-    [SerializeField] private GameObject gubGub;
-    [SerializeField] private GameObject devil;
+    public string musketeer;
+    public string goober;
+    public string gubGub;
+    public string devil;
 
     private RoomSize smallRoom = new RoomSize(30, 50);
     private RoomSize mediumRoom = new RoomSize(50, 50);
@@ -432,37 +433,40 @@ public class ProceduralRoom : MonoBehaviour
                 spawnedObstacle = true;
             }
             //else if(chance <= 50f && enemyCredits!=0)
-            chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 65f && enemyCredits != 0 && !spawnedObstacle)
+            if (PhotonNetwork.IsMasterClient)
             {
-                chance = UnityEngine.Random.Range(0f, GameManager.Instance.Difficulty);
-                if ((chance > 90f && chance <= 100f) && enemyCredits % 4 == 0)
+                chance = UnityEngine.Random.Range(0f, 100f);
+                if (chance <= 65f && enemyCredits != 0 && !spawnedObstacle)
                 {
-                    GameObject devilObject = Instantiate(devil, parent.transform);
-                    devilObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
-                    enemyCredits -= 4;
-                    enemyAmount++;
-                }
-                else if ((chance > 70f && chance <= 90f) && enemyCredits % 3 == 0)
-                {
-                    GameObject musketeerObject = Instantiate(musketeer, parent.transform);
-                    musketeerObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
-                    enemyCredits -= 3;
-                    enemyAmount++;
-                }
-                else if ((chance > 40f && chance <= 70f) && enemyCredits % 2 == 0)
-                {
-                    GameObject gubgubObject = Instantiate(gubGub, parent.transform);
-                    gubgubObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
-                    enemyCredits -= 2;
-                    enemyAmount++;
-                }
-                else if (chance <= 40f && enemyCredits != 0)
-                {
-                    GameObject gooberObject = Instantiate(goober, parent.transform);
-                    gooberObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
-                    enemyCredits -= 1;
-                    enemyAmount++;
+                    chance = UnityEngine.Random.Range(0f, GameManager.Instance.Difficulty);
+                    if ((chance > 90f && chance <= 100f) && enemyCredits % 4 == 0)
+                    {
+                        GameObject devilObject = PhotonNetwork.Instantiate(devil, Vector3.zero, Quaternion.identity);
+                        devilObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
+                        enemyCredits -= 4;
+                        enemyAmount++;
+                    }
+                    else if ((chance > 70f && chance <= 90f) && enemyCredits % 3 == 0)
+                    {
+                        GameObject musketeerObject = PhotonNetwork.Instantiate(musketeer, Vector3.zero, Quaternion.identity);
+                        musketeerObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
+                        enemyCredits -= 3;
+                        enemyAmount++;
+                    }
+                    else if ((chance > 40f && chance <= 70f) && enemyCredits % 2 == 0)
+                    {
+                        GameObject gubgubObject = PhotonNetwork.Instantiate(gubGub, Vector3.zero, Quaternion.identity);
+                        gubgubObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
+                        enemyCredits -= 2;
+                        enemyAmount++;
+                    }
+                    else if (chance <= 40f && enemyCredits != 0)
+                    {
+                        GameObject gooberObject = PhotonNetwork.Instantiate(goober, Vector3.zero, Quaternion.identity);
+                        gooberObject.transform.position = new Vector3(innerTiles[i].pos.x, 0, innerTiles[i].pos.z);
+                        enemyCredits -= 1;
+                        enemyAmount++;
+                    }
                 }
             }
             spawnedObstacle = false;

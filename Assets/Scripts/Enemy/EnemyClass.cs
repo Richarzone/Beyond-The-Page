@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 
-public class EnemyClass : MonoBehaviour
+public class EnemyClass : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float health;
     [SerializeField] private bool infiniteHealth;
@@ -38,7 +39,7 @@ public class EnemyClass : MonoBehaviour
     [SerializeField] private float hitboxRange;
     [SerializeField] private bool hit;
 
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
 
     private bool canBeStuned;
     public bool CanBeStuned
@@ -88,6 +89,7 @@ public class EnemyClass : MonoBehaviour
         if (!infiniteHealth)
         {
             currentHealth -= trueDamage;
+            photonView.RPC("SyncHealth", RpcTarget.All, currentHealth);
         }
 
         // Spawn damage effect
@@ -115,14 +117,29 @@ public class EnemyClass : MonoBehaviour
             if (parent != null)
             {
                 //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-                Destroy(parent, deathTime);
+                Debug.Log("KILL HIM");
+                photonView.RPC("SyncDestroy", RpcTarget.All, parent, deathTime);
             }
             else
             {
-                //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-                Destroy(gameObject, deathTime);
+                //Destroy(damageAnimPivot.g"ameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                
+                photonView.RPC("SyncDestroy", RpcTarget.All, gameObject, deathTime);
             }
         }
+    }
+
+    [PunRPC]
+    public void SyncHealth(float newHealth)
+    {
+        currentHealth = newHealth;
+    }
+
+    [PunRPC]
+    public void SyncDestroy(GameObject gameObject, float deathTime)
+    {
+        Debug.Log("Mister Electric, KILL HIM");
+        Destroy(gameObject, deathTime);
     }
 
     private GameObject DamageAnimationInstance(float applyDamage, float damageValue)

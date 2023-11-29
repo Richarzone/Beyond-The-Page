@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 555149806962274113}
   - component: {fileID: 555149806962274110}
   - component: {fileID: -7397300435453023820}
+  - component: {fileID: 7290955123008083784}
   m_Layer: 0
   m_Name: Wall Generation Script
   m_TagString: Untagged
@@ -71,11 +72,10 @@ MonoBehaviour:
   floorSize:
     x: 5
     y: 5
-  musketeer: {fileID: 2711245258587204487, guid: 104661602e25ac9428630f6ac0232b4c, type: 3}
-  goober: {fileID: 3041454049353039741, guid: 68c790e778c5040019ce81976df15f46, type: 3}
-  gubGub: {fileID: 8746375182837539010, guid: 337ebab72e7b6440ab4bdb736535fdbf, type: 3}
-  devil: {fileID: 2955317403141104006, guid: fa65207493d744a18830e7944116a4fc, type: 3}
-  materialTest: {fileID: 2100000, guid: 1e8df80000e6bb54c86b8766fba0e2c0, type: 2}
+  musketeer: Musketeer
+  goober: Goober
+  gubGub: GubGub
+  devil: Devil
 --- !u!54 &-7397300435453023820
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -92,6 +92,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7290955123008083784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555149806962274112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3434251955690976171
 GameObject:
   m_ObjectHideFlags: 0

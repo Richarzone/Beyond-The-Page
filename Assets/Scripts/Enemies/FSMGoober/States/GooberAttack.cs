@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class GooberAttack : GooberBaseState
@@ -24,7 +25,8 @@ public class GooberAttack : GooberBaseState
 
     public override void OnDisable(GooberUnit unit)
     {
-        unit.TransitionToState(unit.AggroState);
+        unit.TransitionToState("aggro");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 
     public override void OnTriggerEnter(GooberUnit unit, Collider collider)
@@ -35,7 +37,8 @@ public class GooberAttack : GooberBaseState
     {
         if (unit.CanBeKnocked)
         {
-            unit.TransitionToState(unit.KnockedState);
+            unit.TransitionToState("knocked");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
     }
 
@@ -43,6 +46,7 @@ public class GooberAttack : GooberBaseState
     {
         yield return new WaitForSeconds(length);
 
-        unit.TransitionToState(unit.AggroState);
+        unit.TransitionToState("aggro");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 }

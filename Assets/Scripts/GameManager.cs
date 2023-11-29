@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int attempts = 3;
 
     public int seed;
-    public int nextSeed;
     public int Attempts
     {
         get { return attempts; }
@@ -182,7 +181,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             seed = System.DateTime.Now.Millisecond;
-            nextSeed = seed + 10;
             photonView.RPC("CreateRoom", RpcTarget.All, seed);
         }
     }

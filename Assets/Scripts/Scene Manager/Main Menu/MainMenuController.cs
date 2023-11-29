@@ -44,8 +44,11 @@ public class MainMenuController : MonoBehaviour
     public SpriteState sprStateFelix = new SpriteState();
     public SpriteState sprStateSophie = new SpriteState();*/
 
+    private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         /*Cursor.visible = false;
         startButtonAnimator = startButton.GetComponent<Animator>();*/
         //felixButton.spriteState = sprStateFelix;
@@ -58,29 +61,34 @@ public class MainMenuController : MonoBehaviour
 
     public void PressMultiplayer()
     {
+        audioSource.Play();
         //sceneManager.LoadNextScene();
         SceneManager.LoadScene("Net Lobby Scene");
     }
 
     public void PressSinglePlayer()
     {
+        audioSource.Play();
         startScreen.SetActive(false);
         characterSelectScreen.SetActive(true);
     }
 
     public void PressBestiary()
     {
+        audioSource.Play();
         startScreen.SetActive(false);
         bestiaryScreen.SetActive(true);
     }
 
     public void PressExit()
     {
+        audioSource.Play();
         Application.Quit();
     }
 
     public void PressPlay()
     {
+        audioSource.Play();
         //StartCoroutine(GameStart());
         //sceneManager.LoadNextScene();
         if (felixSelected == false && sophieSelected == false)
@@ -114,6 +122,7 @@ public class MainMenuController : MonoBehaviour
 
     public void PressBackCharacterSelect()
     {
+        audioSource.Play();
         startScreen.SetActive(true);
         characterSelectScreen.SetActive(false);
 
@@ -123,12 +132,14 @@ public class MainMenuController : MonoBehaviour
 
     public void PressBackBestiary()
     {
+        audioSource.Play();
         startScreen.SetActive(true);
         bestiaryScreen.SetActive(false);
     }
 
     public void FelixButton()
     {
+        audioSource.Play();
         felixSelected = true;
         sophieSelected = false;
         
@@ -139,6 +150,7 @@ public class MainMenuController : MonoBehaviour
 
     public void SophieButton()
     {
+        audioSource.Play();
         felixSelected = false;
         sophieSelected = true;
 

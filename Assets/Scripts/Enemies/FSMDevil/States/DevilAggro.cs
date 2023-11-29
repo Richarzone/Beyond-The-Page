@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,8 @@ public class DevilAggro : DevilBaseState
         if (unit.Colliders.Length != 0)
         {
             unit.Agent.isStopped = true;
-            unit.TransitionToState(unit.Attack1State);
+            // unit.TransitionToState("attak1");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "attack1");
         }
 
         if (unit.DevilZone.Colliders.Length == 0)
@@ -48,12 +50,14 @@ public class DevilAggro : DevilBaseState
     {
         if (unit.transform.eulerAngles.y > 90f && unit.transform.eulerAngles.y < 270f)
         {
-            unit.TransitionToDirection(unit.FRightState);
+            // unit.TransitionToState("fright");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
 
         }
         else
         {
-            unit.TransitionToDirection(unit.FLeftState);
+            // unit.TransitionToState("fleft");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
         }
     }
 }

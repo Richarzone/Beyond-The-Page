@@ -26,7 +26,7 @@ public class GooberPatrol : GooberBaseState
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
                 unit.StopCoroutine(coroutine);
-                unit.TransitionToState("idle");
+                // unit.TransitionToState("idle");
                 unit.photonView.RPC("TransitionToState", RpcTarget.All, "idle");
             }
         }
@@ -36,7 +36,7 @@ public class GooberPatrol : GooberBaseState
             if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
             {
                 unit.StopCoroutine(coroutine);
-                unit.TransitionToState("idle");
+                // unit.TransitionToState("idle");
                 unit.photonView.RPC("TransitionToState", RpcTarget.All, "idle");
             }
         }
@@ -44,7 +44,7 @@ public class GooberPatrol : GooberBaseState
         if (unit.Player != null)
         {
             unit.StopCoroutine(coroutine);
-            unit.TransitionToState("aggro");
+            // unit.TransitionToState("aggro");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
         }
         else if (unit.StartingHealth != unit.CurrentHealth)
@@ -56,7 +56,7 @@ public class GooberPatrol : GooberBaseState
         {
             unit.Agent.ResetPath();
             unit.StopCoroutine(coroutine);
-            unit.TransitionToState("knocked");
+            // unit.TransitionToState("knocked");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
     }

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,8 @@ public class MusketeerKnocked : MusketeerBaseState
                 unit.Rbody.isKinematic = true;
                 unit.Agent.enabled = true;
                 unit.EnemyClass.CanBeKnocked = false;
-                unit.TransitionToState(unit.AggroState);
+                // unit.TransitionToState("aggro");
+                unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
             }
             else if (unit.Rbody.velocity.y < 0)
             {
@@ -56,6 +58,7 @@ public class MusketeerKnocked : MusketeerBaseState
         unit.Agent.enabled = true;
         unit.EnemyClass.CanBeKnocked = false;
         unit.EnemyClass.CanBeStuned = false;
-        unit.TransitionToState(unit.AggroState);
+        // unit.TransitionToState("aggro");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 }

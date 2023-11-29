@@ -109,24 +109,30 @@ public class EnemyClass : MonoBehaviourPunCallbacks
         if (currentHealth <= 0)
         {
             //damageAnimPivot.SetParent(null);
-            GameManager.Instance.EnemyAmount--;
-            enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
-            enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
-            enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
+            StartCoroutine(DespawnEnemy(deathTime));
 
+            /*
             if (parent != null)
             {
-                //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-                Debug.Log("KILL HIM");
-                photonView.RPC("SyncDestroy", RpcTarget.All, parent, deathTime);
+                // Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                // Destroy(parent, deathTime);
+
+
             }
             else
             {
-                //Destroy(damageAnimPivot.g"ameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
-                
-                photonView.RPC("SyncDestroy", RpcTarget.All, gameObject, deathTime);
+                // Destroy(damageAnimPivot.g"ameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
+                // Destroy(gameObject, deathTime);
             }
+            */
         }
+    }
+
+    IEnumerator DespawnEnemy(float deathTime)
+    {
+        photonView.RPC("DeathAnim", RpcTarget.All);
+        yield return new WaitForSeconds(deathTime);
+        photonView.RPC("SyncDestroy", RpcTarget.All);
     }
 
     [PunRPC]
@@ -136,10 +142,18 @@ public class EnemyClass : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void SyncDestroy(GameObject gameObject, float deathTime)
+    public void DeathAnim()
     {
-        Debug.Log("Mister Electric, KILL HIM");
-        Destroy(gameObject, deathTime);
+        GameManager.Instance.EnemyAmount--;
+        enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
+        enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
+        enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
+    }
+
+    [PunRPC]
+    public void SyncDestroy()
+    {
+        PhotonNetwork.Destroy(photonView);
     }
 
     private GameObject DamageAnimationInstance(float applyDamage, float damageValue)
@@ -252,4 +266,6 @@ public class EnemyClass : MonoBehaviourPunCallbacks
     {
         return currentHealth;
     }
+
+    
 }

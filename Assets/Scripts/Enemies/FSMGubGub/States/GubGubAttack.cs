@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
@@ -23,7 +24,8 @@ public class GubGubAttack : GubGubBaseState
 
     public override void OnDisable(GubGubUnit unit)
     {
-        unit.TransitionToState(unit.AggroState);
+        // unit.TransitionToState("aggro");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggrp");
     }
 
     public override void OnTriggerEnter(GubGubUnit unit, Collider collider)
@@ -34,7 +36,8 @@ public class GubGubAttack : GubGubBaseState
     {
         if (unit.CanBeKnocked)
         {
-            unit.TransitionToState(unit.KnockedState);
+            // unit.TransitionToState("knocked");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
     }
 
@@ -42,6 +45,7 @@ public class GubGubAttack : GubGubBaseState
     {
         yield return new WaitForSeconds(length);
 
-        unit.TransitionToState(unit.AggroState);
+        // unit.TransitionToState("aggro");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 }

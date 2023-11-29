@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,12 +18,14 @@ public class GubGubIdle : GubGubBaseState
         timer += Time.deltaTime;
         if (timer >= Random.Range(1f, unit.WanderTimer + 1f))
         {
-            unit.TransitionToState(unit.PatrolState);
+            // unit.TransitionToState("patrol");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "patrol");
         }
 
         if(unit.Player != null)
         {
-            unit.TransitionToState(unit.AggroState);
+            // unit.TransitionToState("aggro");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggrp");
         }
         else if(unit.StartingHealth != unit.CurrentHealth)
         {

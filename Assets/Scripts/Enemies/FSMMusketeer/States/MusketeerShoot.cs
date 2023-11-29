@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -125,6 +126,7 @@ public class MusketeerShoot : MusketeerBaseState
     {
         yield return new WaitForSeconds(length);
         unit.TransitionToState(unit.AimState);
-        unit.SphereRadius = unit.FleeRadius;
+        // unit.TransitionToState("flee");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "flee");
     }
 }

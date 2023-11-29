@@ -25,7 +25,7 @@ public class GooberAttack : GooberBaseState
 
     public override void OnDisable(GooberUnit unit)
     {
-        unit.TransitionToState("aggro");
+        // unit.TransitionToState("aggro");
         unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 
@@ -37,7 +37,7 @@ public class GooberAttack : GooberBaseState
     {
         if (unit.CanBeKnocked)
         {
-            unit.TransitionToState("knocked");
+            // unit.TransitionToState("knocked");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
     }
@@ -46,7 +46,7 @@ public class GooberAttack : GooberBaseState
     {
         yield return new WaitForSeconds(length);
 
-        unit.TransitionToState("aggro");
+        // unit.TransitionToState("aggro");
         unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 }

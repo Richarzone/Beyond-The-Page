@@ -147,7 +147,7 @@ public class GooberUnit : MonoBehaviourPun
         audioPlayer = GetComponent<AudioSource>();
         sphereRadius = detectionRadius;
         enemyClass = GetComponent<EnemyClass>();
-        TransitionToState("idle");
+        // TransitionToState("idle");
         photonView.RPC("TransitionToState", RpcTarget.All, "idle");
     }
 

@@ -526,10 +526,12 @@ public class ProceduralRoom : MonoBehaviour
         if (GameManager.Instance.EnemyAmount == 0)
         {
             doorInstance.GetComponent<BoxCollider>().enabled = true;
-            if (seedGenerated)
+            if (PhotonNetwork.IsMasterClient && !seedGenerated)
             {
-                GameManager.Instance.seed = System.DateTime.Now.Millisecond;
-                seedGenerated = false;
+                GameManager.Instance.GenerateSeed();
+                seedGenerated = true;
+                //GameManager.Instance.seed = System.DateTime.Now.Millisecond;
+                //seedGenerated = false;
             }
         }
 

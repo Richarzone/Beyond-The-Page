@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -5,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MusketeerUnit : MonoBehaviour
+public class MusketeerUnit : MonoBehaviourPun
 {
     [Header("Sprite components")] 
     [SerializeField] private Animator animator;
@@ -206,8 +207,10 @@ public class MusketeerUnit : MonoBehaviour
         patrolIndex = 0;
         billboardMusketeer = billboard.GetComponent<BillboardMusketeer>();
         //agent.autoBraking = false;
-        TransitionToState(IdleState);
-        TransitionToDirection(FRightState);
+        // TransitionToState(IdleState);
+        photonView.RPC("TransitionToState", RpcTarget.All, "idle");
+        // TransitionToDirection(FRightState);
+        photonView.RPC("TransitionToState", RpcTarget.All, "fright");
     }
 
     private void Start()
@@ -258,6 +261,68 @@ public class MusketeerUnit : MonoBehaviour
     {
         currentState = musketeerState;
         currentState.EnterState(this);
+    }
+
+    [PunRPC]
+    public void TransitionToState(string gooberState)
+    {
+        switch (gooberState)
+        {
+            case "idle":
+                currentState = IdleState;
+                currentState.EnterState(this);
+                break;
+
+            case "patrol":
+                currentState = PatrolState;
+                currentState.EnterState(this);
+                break;
+
+            case "aggro":
+                currentState = AggroState;
+                currentState.EnterState(this);
+                break;
+
+            case "aim":
+                currentState = AimState;
+                currentState.EnterState(this);
+                break;
+
+            case "shoot":
+                currentState = ShootState;
+                currentState.EnterState(this);
+                break;
+
+            case "flee":
+                currentState = FleeState;
+                currentState.EnterState(this);
+                break;
+
+            case "fright":
+                currentState = FRightState;
+                currentState.EnterState(this);
+                break;
+
+            case "bleft":
+                currentState = BLeftState;
+                currentState.EnterState(this);
+                break;
+
+            case "fleft":
+                currentState = FLeftState;
+                currentState.EnterState(this);
+                break;
+
+            case "bright":
+                currentState = BRightState;
+                currentState.EnterState(this);
+                break;
+
+            case "knocked":
+                currentState = KnockedState;
+                currentState.EnterState(this);
+                break;
+        }
     }
 
     internal void TransitionToDirection(MusketeerBaseState musketeerDirection)

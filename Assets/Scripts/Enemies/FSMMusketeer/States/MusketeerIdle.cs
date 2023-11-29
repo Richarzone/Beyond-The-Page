@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,8 @@ public class MusketeerIdle : MusketeerBaseState
         timer += Time.deltaTime;
         if (timer >= unit.WaitTime)
         {
-            unit.TransitionToState(unit.PatrolState);
+            // unit.TransitionToState("patrol");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "patrol");
         }
 
         
@@ -29,7 +31,8 @@ public class MusketeerIdle : MusketeerBaseState
         {
             unit.Agent.isStopped = true;
             unit.SphereRadius = unit.FleeRadius;
-            unit.TransitionToState(unit.AimState);
+            // unit.TransitionToState("aim");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
         }
         else if (unit.StartingHealth != unit.CurrentHealth)
         {

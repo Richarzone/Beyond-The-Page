@@ -18,13 +18,13 @@ public class GooberIdle : GooberBaseState
         timer += Time.deltaTime;
         if (timer >= Random.Range(1f, unit.WanderTimer + 1f)) 
         {
-            unit.TransitionToState("patrol");
+            // unit.TransitionToState("patrol");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "patrol");
         }
 
         if(unit.Player != null)
         {
-            unit.TransitionToState("aggro");
+            // unit.TransitionToState("aggro");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
         }
         else if (unit.StartingHealth != unit.CurrentHealth)

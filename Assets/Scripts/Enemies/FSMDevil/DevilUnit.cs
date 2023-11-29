@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.UI.CanvasScaler;
 
-public class DevilUnit : MonoBehaviour
+public class DevilUnit : MonoBehaviourPun
 {
     [Header("Sprite Components")]
     [SerializeField] private Animator animator;
@@ -107,7 +108,8 @@ public class DevilUnit : MonoBehaviour
     {
         devilZone = AggroArea.GetComponent<DevilZone>();
         devilZone.Radius = detectionRadius;
-        TransitionToState(IdleState);
+        // TransitionToState("patrol");
+        photonView.RPC("TransitionToState", RpcTarget.All, "patrol");
     }
 
     void FixedUpdate()
@@ -150,6 +152,58 @@ public class DevilUnit : MonoBehaviour
     {
         currentDirection = devilDirection;
         currentDirection.EnterState(this);
+    }
+
+    [PunRPC]
+    public void TransitionToState(string gooberState)
+    {
+        switch (gooberState)
+        {
+            case "idle":
+                currentState = IdleState;
+                currentState.EnterState(this);
+                break;
+
+            case "aggro":
+                currentState = AggroState;
+                currentState.EnterState(this);
+                break;
+
+            case "attack1":
+                currentState = Attack1State;
+                currentState.EnterState(this);
+                break;
+
+            case "attack2":
+                currentState = Attack2State;
+                currentState.EnterState(this);
+                break;
+
+            case "return":
+                currentState = ReturnState;
+                currentState.EnterState(this);
+                break;
+
+            case "fright":
+                currentState = FRightState;
+                currentState.EnterState(this);
+                break;
+
+            case "bleft":
+                currentState = BLeftState;
+                currentState.EnterState(this);
+                break;
+
+            case "fleft":
+                currentState = FLeftState;
+                currentState.EnterState(this);
+                break;
+
+            case "bright":
+                currentState = BRightState;
+                currentState.EnterState(this);
+                break;
+        }
     }
 
     public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Attack1 = 2, Attack2 = 3, Death = 4 }

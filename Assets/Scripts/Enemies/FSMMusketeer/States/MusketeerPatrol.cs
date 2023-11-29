@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class MusketeerPatrol : MusketeerBaseState
 {
@@ -24,7 +25,8 @@ public class MusketeerPatrol : MusketeerBaseState
         if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= 0.1f)
         {
             unit.PatrolIndex++;
-            unit.TransitionToState(unit.IdleState);
+            // unit.TransitionToState("patrol");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "patrol");
 
         }
 
@@ -37,7 +39,8 @@ public class MusketeerPatrol : MusketeerBaseState
         {
             unit.Agent.isStopped = true;
             unit.SphereRadius = unit.FleeRadius;
-            unit.TransitionToState(unit.AimState);
+            // unit.TransitionToState("aim");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
 
         }
         else if (unit.StartingHealth != unit.CurrentHealth)
@@ -54,19 +57,23 @@ public class MusketeerPatrol : MusketeerBaseState
     {
         if (unit.patrolPoints[unit.PatrolIndex].x < unit.transform.position.x)
         {
-            unit.TransitionToDirection(unit.FLeftState);
+            // unit.TransitionToState("fleft");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
         }
         else if (unit.patrolPoints[unit.PatrolIndex].x > unit.transform.position.x)
         {
-            unit.TransitionToDirection(unit.FRightState);
+            // unit.TransitionToState("fright");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
         }
         else if (unit.patrolPoints[unit.PatrolIndex].z > unit.transform.position.z)
         {
-            unit.TransitionToDirection(unit.BLeftState);
+            // unit.TransitionToState("bleft");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bleft");
         }
         else if (unit.patrolPoints[unit.PatrolIndex].z < unit.transform.position.z)
         {
-            unit.TransitionToDirection(unit.FRightState);
+            // unit.TransitionToState("fright");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
         }
     }
 }

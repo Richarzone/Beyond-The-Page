@@ -50,7 +50,7 @@ public class GooberKnocked : GooberBaseState
                 unit.Rbody.isKinematic = true;
                 unit.Agent.enabled = true;
                 unit.EnemyClass.CanBeKnocked = false;
-                unit.TransitionToState("aggro");
+                // unit.TransitionToState("aggro");
                 unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
             }
             else if (unit.Rbody.velocity.y < 0)
@@ -76,7 +76,7 @@ public class GooberKnocked : GooberBaseState
         unit.Agent.enabled = true;
         unit.EnemyClass.CanBeKnocked = false;
         unit.EnemyClass.CanBeStuned = false;
-        unit.TransitionToState("aggro");
+        // unit.TransitionToState("aggro");
         unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 }

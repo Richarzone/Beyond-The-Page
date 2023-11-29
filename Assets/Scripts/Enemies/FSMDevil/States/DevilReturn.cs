@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,8 @@ public class DevilReturn : DevilBaseState
             unit.transform.rotation = Quaternion.identity;
             if (unit.transform.localRotation == Quaternion.identity)
             {
-                unit.TransitionToState(unit.IdleState);
+                // unit.TransitionToState("idle");
+                unit.photonView.RPC("TransitionToState", RpcTarget.All, "idle");
             }
         }
     }
@@ -34,7 +36,8 @@ public class DevilReturn : DevilBaseState
         {
             unit.Player = unit.DevilZone.Player;
             unit.DevilZone.transform.position = unit.Player.position;
-            unit.TransitionToState(unit.AggroState);
+            // unit.TransitionToState("aggro");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
         }
     }
 
@@ -55,11 +58,13 @@ public class DevilReturn : DevilBaseState
     {
         if (unit.transform.eulerAngles.y > 90f && unit.transform.eulerAngles.y < 270f)
         {
-            unit.TransitionToDirection(unit.FRightState);
+            // unit.TransitionToState("fright");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
         }
         else
         {
-            unit.TransitionToDirection(unit.FLeftState);
+            // unit.TransitionToState("fleft");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
         }
     }
 }

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,16 +21,20 @@ public class DevilIdle : DevilBaseState
             switch (Random.Range(0, 4))
             {
                 case 0:
-                    unit.TransitionToDirection(unit.FRightState);
+                    // unit.TransitionToState("fright");
+                    unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
                     break;
                 case 1:
-                    unit.TransitionToDirection(unit.FLeftState);
+                    // unit.TransitionToState("fleft");
+                    unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
                     break;
                 case 2:
-                    unit.TransitionToDirection(unit.BRightState);
+                    // unit.TransitionToState("bright");
+                    unit.photonView.RPC("TransitionToState", RpcTarget.All, "bright");
                     break;
                 case 3:
-                    unit.TransitionToDirection(unit.BLeftState);
+                    // unit.TransitionToState("bleft");
+                    unit.photonView.RPC("TransitionToState", RpcTarget.All, "bleft");
                     break;
             }
             timer = 0f;
@@ -43,7 +48,8 @@ public class DevilIdle : DevilBaseState
             unit.DevilZone.Radius = unit.DetectionRadius;
             unit.Player = unit.DevilZone.Player;
             unit.DevilZone.transform.position = unit.Player.position;
-            unit.TransitionToState(unit.AggroState);
+            // unit.TransitionToState("aggro");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggrp");
         }
     }
 

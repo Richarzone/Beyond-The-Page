@@ -191,6 +191,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instantiate(roomGeneration, transform);
     }
 
+    public void GenerateSeed()
+    {
+        photonView.RPC("GenerateSeedNet", RpcTarget.All, System.DateTime.Now.Millisecond);
+    }
+
+    [PunRPC]
+    public void GenerateSeedNet(int newSeed)
+    {
+        seed = newSeed;
+        Debug.Log("GENERATING SEED...");
+    }
+
     public void ResetHealth()
     {
         health = 10;

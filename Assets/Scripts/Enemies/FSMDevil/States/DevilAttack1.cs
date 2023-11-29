@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,6 +63,7 @@ public class DevilAttack1 : DevilBaseState
     IEnumerator WaitForAnimationOfAttack(DevilUnit unit, float length)
     {
         yield return new WaitForSeconds(length);
-        unit.TransitionToState(unit.AggroState);
+        // unit.TransitionToState("aggro");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
     }
 }

@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GubGubUnit : MonoBehaviour
+public class GubGubUnit : MonoBehaviourPun
 {
     [Header("Object components")]
     [SerializeField] private Animator animator;
@@ -145,7 +146,8 @@ public class GubGubUnit : MonoBehaviour
         audioPlayer = GetComponent<AudioSource>();
         sphereRadius = detectionRadius;
         enemyClass = GetComponent<EnemyClass>();
-        TransitionToState(IdleState);
+        // TransitionToState("idle");
+        photonView.RPC("TransitionToState", RpcTarget.All, "idle");
     }
 
     private void Start()
@@ -189,6 +191,38 @@ public class GubGubUnit : MonoBehaviour
     {
         currentState = gooberState;
         currentState.EnterState(this);
+    }
+
+    [PunRPC]
+    public void TransitionToState(string gooberState)
+    {
+        switch (gooberState)
+        {
+            case "idle":
+                currentState = IdleState;
+                currentState.EnterState(this);
+                break;
+
+            case "patrol":
+                currentState = PatrolState;
+                currentState.EnterState(this);
+                break;
+
+            case "aggro":
+                currentState = AggroState;
+                currentState.EnterState(this);
+                break;
+
+            case "attack":
+                currentState = AttackState;
+                currentState.EnterState(this);
+                break;
+
+            case "knocked":
+                currentState = KnockedState;
+                currentState.EnterState(this);
+                break;
+        }
     }
 
     public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Attack = 2, Death = 3 }

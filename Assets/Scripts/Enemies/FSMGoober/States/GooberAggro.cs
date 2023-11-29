@@ -43,7 +43,7 @@ public class GooberAggro : GooberBaseState
         if (Vector3.Distance(unit.transform.position, unit.Agent.destination) <= unit.AttackRadius)
         {
             unit.CancelInvoke("MovementAudio");
-            unit.TransitionToState("attack");
+            // unit.TransitionToState("attack");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "attack");
         }
 
@@ -51,7 +51,7 @@ public class GooberAggro : GooberBaseState
         {
             unit.CancelInvoke("MovementAudio");
             unit.Agent.ResetPath();
-            unit.TransitionToState("knocked");
+            // unit.TransitionToState("knocked");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
 

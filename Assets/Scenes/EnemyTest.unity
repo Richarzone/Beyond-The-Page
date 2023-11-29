@@ -165,7 +165,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.001
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -448,10 +448,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6328326494719140182, guid: 2c94b47685a864e688a37f919d3f9e9f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c94b47685a864e688a37f919d3f9e9f, type: 3}
 --- !u!1 &1288371945
@@ -711,7 +707,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameEnd: 0
   playerPrefab: PlayerCamera
-  roomGenerationPrefab: GameManager
   spawnPosition: {x: 0, y: 0, z: 0, w: 0}
   players: []
   playerInGame: 0

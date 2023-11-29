@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class MusketeerAim : MusketeerBaseState
@@ -25,7 +26,8 @@ public class MusketeerAim : MusketeerBaseState
         if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.PursueRadius)
         {
             unit.StopCoroutine(coroutine);
-            unit.TransitionToState(unit.AggroState);
+            // unit.TransitionToState("aggro");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
             unit.SphereRadius = unit.AttackRadius;
         }
 
@@ -37,7 +39,8 @@ public class MusketeerAim : MusketeerBaseState
         {
             unit.SphereRadius = 0;
             unit.StopCoroutine(coroutine);
-            unit.TransitionToState(unit.FleeState);
+            // unit.TransitionToState("flee");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "flee");
         }
 
         //if (unit.CanBeKnocked)
@@ -65,31 +68,36 @@ public class MusketeerAim : MusketeerBaseState
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
             unit.AimHelper = true;
-            unit.TransitionToDirection(unit.FLeftState);
+            // unit.TransitionToState("fleft");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
         }
         else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
             unit.AimHelper = false;
-            unit.TransitionToDirection(unit.FRightState);
+            // unit.TransitionToState("fright");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
             unit.AimHelper = true;
-            unit.TransitionToDirection(unit.BLeftState);
+            // unit.TransitionToState("bleft");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bleft");
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
             unit.AimHelper = false;
-            unit.TransitionToDirection(unit.BRightState);
+            // unit.TransitionToState("bright");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bright");
         }
     }
 
     IEnumerator WaitForAimingTime(MusketeerUnit unit, float aimTime)
     {
         yield return new WaitForSeconds(aimTime);
-        unit.TransitionToState(unit.ShootState);
+        // unit.TransitionToState("shoot");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "shoot");
     }
 }

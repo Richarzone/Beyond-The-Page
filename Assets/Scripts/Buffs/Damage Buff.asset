@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c6fb6842490a442a27371bdec7ac39, type: 3}
+  m_Name: Damage Buff
+  m_EditorClassIdentifier: 
+  buffType: 0
+  buffPrefab: {fileID: 5818933867006463594, guid: 8f96ca01fcde0e842a47b5ffecf0c94e, type: 3}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  soundEffect: {fileID: 8300000, guid: 984369ec8f91ffa4eb572f81ff28aaf9, type: 3}
+  buffVFX: {fileID: 3796458319076017859, guid: a1305379661b33246a4d6d0de1410e78, type: 3}
+  buffSprite: {fileID: 21300000, guid: 8de85c95af020d740bad37edaea4912c, type: 3}
+  effectPercentage: 0.25
+  effectDuration: 20

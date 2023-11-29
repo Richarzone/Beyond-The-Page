@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c6fb6842490a442a27371bdec7ac39, type: 3}
+  m_Name: Speed Buff
+  m_EditorClassIdentifier: 
+  buffType: 2
+  buffPrefab: {fileID: 9164843880181130465, guid: f1cf2750db4fbfb48848b530b6b67dda, type: 3}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  soundEffect: {fileID: 8300000, guid: f46ea19252e36bb45b1d9460fe197563, type: 3}
+  buffVFX: {fileID: 9219767992070790949, guid: 2ab07980b0de1fd438e2d1bef0608317, type: 3}
+  buffSprite: {fileID: 21300000, guid: 0b992371a7ed21644bd0196a47d4f514, type: 3}
+  effectPercentage: 0.25
+  effectDuration: 20

@@ -81,12 +81,15 @@ public class PlayerController : MonoBehaviour
     private bool isDodging;
     
     [Header("Buff")]
-    [SerializeField] private BuffClass currentBuff;
+    [SerializeField] private BuffSO currentBuff;
     [SerializeField] private Transform buffVFXpivot;
 
     [Header("UI Change Image Class")]
     [SerializeField] public Texture[] changeClass;
     [SerializeField] public RawImage selectedClass;
+
+    [Header("UI Buff")]
+    [SerializeField] private Image buffImage;
 
     [Header("UI Pause Menu")]
     [SerializeField] public GameObject GameCanvas;
@@ -226,6 +229,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.Health = health;
+
         foreach (GameObject characterClass in characterClasses)
         {
             characterClass.SetActive(false);
@@ -418,6 +422,8 @@ public class PlayerController : MonoBehaviour
 
     private void ResetAllCooldowns()
     {
+        currentCharacterClass.GetAbilityManager().StopAllCoroutines();
+
         foreach (AbilityClass ability in currentCharacterClass.GetAbilities())
         {
             ability.ResetCooldown();   
@@ -433,35 +439,54 @@ public class PlayerController : MonoBehaviour
         skill3Action.Enable();
     }
 
-    private IEnumerator UseBuffCoroutine(BuffClass buff)
+    private IEnumerator UseBuffCoroutine(BuffSO buff)
     {
-        audioSource.PlayOneShot(buff.GetSoundEffect());
+        audioSource.PlayOneShot(buff.soundEffect);
 
-        currentCharacterClass.GetAbilityManager().StopAllCoroutines();
-        GameObject buffVFXInstance = Instantiate(currentBuff.GetBuffVFX(), buffVFXpivot.position, Quaternion.identity);
+        GameObject buffVFXInstance = Instantiate(currentBuff.buffVFX, buffVFXpivot.position, Quaternion.identity);
         buffVFXInstance.transform.parent = buffVFXpivot;
         Destroy(buffVFXInstance, 5f);
 
-        switch (buff.GetBuffType())
+        UseBuffUI();
+
+        switch (buff.buffType)
         {
-            case BuffClass.BuffType.Damage:
-                damageMultiplier += buff.GetEffectPercentage();
-                yield return new WaitForSeconds(buff.GetEffectDuration());
-                damageMultiplier -= buff.GetEffectPercentage();
+            case BuffSO.BuffType.Damage:
+                damageMultiplier += buff.effectPercentage;
+                yield return new WaitForSeconds(buff.effectDuration);
+                damageMultiplier -= buff.effectPercentage;
                 break;
-            case BuffClass.BuffType.Cooldown:
+            case BuffSO.BuffType.Cooldown:
                 ResetAllCooldowns();
                 break;
-            case BuffClass.BuffType.Speed:
-                attackSpeedMultiplier += buff.GetEffectPercentage();
-                yield return new WaitForSeconds(buff.GetEffectDuration());
-                attackSpeedMultiplier -= buff.GetEffectPercentage();
+            case BuffSO.BuffType.Speed:
+                attackSpeedMultiplier += buff.effectPercentage;
+                yield return new WaitForSeconds(buff.effectDuration);
+                attackSpeedMultiplier -= buff.effectPercentage;
                 break;
         }
+    }
+
+    private void UseBuffUI()
+    {
+        Color color = new Color();
+        color.a = 0;
+        buffImage.color = color;
+        buffImage.sprite = null;
+    }
+
+    private void GrabBuffUI(Sprite buffSprite)
+    {
+        Color color = new Color();
+        color.a = 1;
+        color = Color.white;
+        buffImage.color = color;
+        buffImage.sprite = buffSprite;
     }
     #endregion
 
     #region Class Events
+    // Change to RPC
     private void ChageClass(InputAction.CallbackContext context, int character)
     {
         if (!currentCharacterClass.BlockClassChange)
@@ -645,25 +670,19 @@ public class PlayerController : MonoBehaviour
         return currentCharacterClass;
     }
 
-    public void SetCurrentBuff(BuffClass value)
+    public BuffSO GetCurrentBuff()
+    {
+        return currentBuff;
+    }
+
+    public void SetCurrentBuff(BuffSO value)
     {
         currentBuff = value;
+        GrabBuffUI(value.buffSprite);
     }
     #endregion
 
-    /*private void Victory(InputAction.CallbackContext context)
-    {
-        sceneManager.LoadVictoryScene();
-    }
-
-    private void GameOver(InputAction.CallbackContext context)
-    {
-        sceneManager.LoadGameOverScene();
-    }*/
-
-
-    //Pause menu logic
-
+    #region Pause Menu
     public void MainMenu()
     {
         SceneManager.LoadSceneAsync(MainMenuSceneIndex);
@@ -688,9 +707,9 @@ public class PlayerController : MonoBehaviour
         isPaused = false;
     }
 
-
     public void AudioOnBasicAttack()
     {
         audioSource.PlayOneShot(AttackAudios[currentClass]);
     }
+    #endregion
 }

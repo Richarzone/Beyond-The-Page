@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c6fb6842490a442a27371bdec7ac39, type: 3}
+  m_Name: Cooldown Buff
+  m_EditorClassIdentifier: 
+  buffType: 1
+  buffPrefab: {fileID: 4576769284622932758, guid: 4c25389a5c96d9f4c91ad6c1c97e0b0c, type: 3}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  soundEffect: {fileID: 8300000, guid: c3d686ffc9fbe394591a726f0edb0005, type: 3}
+  buffVFX: {fileID: 5279845244662071897, guid: fdd94c99ec997584dbf286195e6eee10, type: 3}
+  buffSprite: {fileID: 21300000, guid: ec0929733f8d2f04c82be98a5a670fd0, type: 3}
+  effectPercentage: 0
+  effectDuration: 0

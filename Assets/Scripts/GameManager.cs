@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         get { return attempts; }
         set { attempts = value; }
     }
-    
+
     private bool allPlayersAlive;
 
     private int roomsCleared = 0;
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // Instantiate(roomGeneration, transform);
-        
+
         attempts = 3;
         health = 10;
 
@@ -122,17 +122,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // Instantiate(roomGeneration, transform);
-        // FindObjectOfType<ProceduralRoom>().generateRoom(0);
         Debug.Log("Generating room...");
+        seed = System.DateTime.Now.Millisecond;
         NewRoom();
     }
 
     private void Update()
     {
         Mathf.Clamp(difficulty, 0, 100);
-        
-        if(attempts == 0)
+
+        if (attempts == 0)
         {
             SceneManager.LoadScene("Game Over");
         }
@@ -175,12 +174,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    
+
     public void NewRoom()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            seed = System.DateTime.Now.Millisecond;
+            //seed = System.DateTime.Now.Millisecond;
             photonView.RPC("CreateRoom", RpcTarget.All, seed);
         }
     }

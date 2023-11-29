@@ -93,6 +93,8 @@ public class ProceduralRoom : MonoBehaviour
     private int enemyCredits;
     private int enemyAmount;
     private bool spawnedObstacle;
+    private int nextSeed;
+    private bool seedGenerated = true;
 
     void createWalls()
     {
@@ -524,6 +526,11 @@ public class ProceduralRoom : MonoBehaviour
         if (GameManager.Instance.EnemyAmount == 0)
         {
             doorInstance.GetComponent<BoxCollider>().enabled = true;
+            if (seedGenerated)
+            {
+                GameManager.Instance.seed = System.DateTime.Now.Millisecond;
+                seedGenerated = false;
+            }
         }
 
         if (GameManager.Instance.Health <= 0)
@@ -544,6 +551,7 @@ public class ProceduralRoom : MonoBehaviour
         {
             GameManager.Instance.IncreaseDifficulty();
             generateRoom(GameManager.Instance.seed);
+            seedGenerated = true;
             
         }
     }

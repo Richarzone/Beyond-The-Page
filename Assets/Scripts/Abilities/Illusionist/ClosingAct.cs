@@ -29,6 +29,13 @@ public partial class ClosingAct : AbilityClass
     private Vector3 targetPosition;
     private float currentDamage;
 
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip clip;
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public override void UseAbility()
     {
         if (activeSkill && !blockSkill && !characterClass.BlockAbilities)
@@ -68,6 +75,7 @@ public partial class ClosingAct : AbilityClass
             yield return null;
         }
 
+        audioSource.PlayOneShot(clip);
         characterClass.GetAnimator().SetTrigger("Closing Act");
 
         characterClass.BlockRotation = true;

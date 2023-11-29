@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class IllusionistClass : CharacterClass
 {
+    AudioSource audioSource;
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void Update()
     {
         // Attacks
@@ -26,6 +32,7 @@ public class IllusionistClass : CharacterClass
     {
         if (timeBetweenAttacks <= 0f)
         {
+            audioSource.Play();
             animator.SetTrigger("Attack");
             timeBetweenAttacks = 1 / (attackSpeed * AttackSpeed());
         }

@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class KnightClass : CharacterClass
 {
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void Update()
     {
         // Check the input for basic attack attack
@@ -25,6 +32,7 @@ public class KnightClass : CharacterClass
     {
         if (timeBetweenAttacks <= 0f)
         {
+            audioSource.Play();
             animator.SetTrigger("Attack");
             timeBetweenAttacks = 1 / (attackSpeed * AttackSpeed());
         }

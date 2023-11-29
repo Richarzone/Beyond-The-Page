@@ -113,7 +113,9 @@ public class PlayerController : MonoBehaviour
     [Header("SFX")]
     [SerializeField] private AudioClip[] DashAudios;
     [SerializeField] private AudioClip[] AttackAudios;
-    
+    private bool isPlaying = false;
+
+
 
     private void Awake()
     {
@@ -297,6 +299,27 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         rb.AddForce(new Vector3(movement.x, 0f, movement.y) * movementSpeed - rb.velocity, ForceMode.VelocityChange);
+        if (!isDodging && !currentCharacterClass.IsDashing)
+        {
+
+            if (rb.velocity != Vector3.zero)
+            {
+                if (!audioSource.loop)
+                {
+                    audioSource.loop = true;
+                    isPlaying = true;
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                if (audioSource.loop && isPlaying == true)
+                {
+                    audioSource.loop = false;
+                    audioSource.Stop();
+                }
+            }
+        }
     }
 
     private void Rotation()
@@ -712,4 +735,10 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(AttackAudios[currentClass]);
     }
     #endregion
+
+    public void PlayClip()
+    {
+        audioSource.PlayOneShot(AttackAudios[currentClass]);
+    }
+
 }

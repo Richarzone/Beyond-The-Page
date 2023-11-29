@@ -11,7 +11,6 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public bool isGameEnd = false;
     public string playerPrefab;
-    public string roomGenerationPrefab;
 
     public Quaternion spawnPosition;
     public PlayerControllerNet[] players;
@@ -44,6 +43,7 @@ public class GameController : MonoBehaviourPunCallbacks
 
     void SpawnPlayers() 
     {
+        Debug.Log("Spawn player");
         //GameObject playerObj = PhotonNetwork.Instantiate(playerPrefab, spawnPositions[0].position, Quaternion.identity);
         GameObject playerObj = PhotonNetwork.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity); 
         
@@ -53,8 +53,6 @@ public class GameController : MonoBehaviourPunCallbacks
         //uso de variable para facil lectura
         PlayerControllerNet playScript = playerObj.GetComponent<PlayerControllerNet>();
         playScript.photonView.RPC("Init", RpcTarget.All, PhotonNetwork.LocalPlayer);
-
-
     }
 
     public void WinGame(int _playerId)

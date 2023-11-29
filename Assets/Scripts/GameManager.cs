@@ -1,14 +1,19 @@
+using Photon.Pun;
+using Photon.Pun.Demo.Cockpit.Forms;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static GameManager;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance { get; private set; }
 
     private int attempts = 3;
+
+    public int seed;
+    public int nextSeed;
     public int Attempts
     {
         get { return attempts; }
@@ -91,7 +96,10 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        Instantiate(roomGeneration, transform);
+        // Instantiate(roomGeneration, transform);
+        
+        attempts = 3;
+        health = 10;
 
         difficulty = (int)DifficultyEnum.baby;
         //Random.InitState(System.DateTime.Now.Millisecond);
@@ -109,16 +117,22 @@ public class GameManager : MonoBehaviour
                 enemyCredits = (int)MaxEnemyCreditsEnum.large;
                 break;
         }
+
+        // NewRoom();
     }
 
     private void Start()
     {
+        // Instantiate(roomGeneration, transform);
+        // FindObjectOfType<ProceduralRoom>().generateRoom(0);
+        Debug.Log("Generating room...");
+        NewRoom();
     }
 
     private void Update()
     {
         Mathf.Clamp(difficulty, 0, 100);
-
+        
         if(attempts == 0)
         {
             SceneManager.LoadScene("Game Over");
@@ -160,6 +174,24 @@ public class GameManager : MonoBehaviour
                 enemyCredits = (int)MaxEnemyCreditsEnum.large;
                 break;
         }
+    }
+
+    
+    public void NewRoom()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            seed = System.DateTime.Now.Millisecond;
+            nextSeed = seed + 10;
+            photonView.RPC("CreateRoom", RpcTarget.All, seed);
+        }
+    }
+
+    [PunRPC]
+    void CreateRoom(int newSeed)
+    {
+        seed = newSeed;
+        Instantiate(roomGeneration, transform);
     }
 
     public void ResetHealth()

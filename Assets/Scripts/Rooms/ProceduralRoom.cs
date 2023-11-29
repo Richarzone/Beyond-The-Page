@@ -33,7 +33,6 @@ public class ProceduralRoom : MonoBehaviour
     [SerializeField] private GameObject[] innerObstaclesPrefab;
     [SerializeField] private GameObject[] cornerObstaclesPrefab;
     [SerializeField] private GameObject[] wallObstaclesPrefab;
-    //[SerializeField] private GameObject[] spawnPositions;
     [SerializeField] private GameObject spawnPosition;
     [SerializeField] private GameObject[] players;
     private GameObject parent;
@@ -476,12 +475,12 @@ public class ProceduralRoom : MonoBehaviour
         rooms[0] = smallRoom;
         rooms[1] = mediumRoom;
         rooms[2] = largeRoom;
-        players = GameObject.FindGameObjectsWithTag("Player");
-
-        generateRoom();
+        
+        generateRoom(GameManager.Instance.seed);
+        // GameManager.Instance.seed = GameManager.Instance.seed + System.DateTime.Now.Millisecond;
     }
 
-    public void generateRoom()
+    public void generateRoom(int seed)
     { 
         if(parent != null)
         {
@@ -489,7 +488,7 @@ public class ProceduralRoom : MonoBehaviour
         }
         parent = new GameObject("Generation");
         parent.transform.SetParent(transform);
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        UnityEngine.Random.InitState(seed);
         enemyAmount = 0;
         GameManager.Instance.SetRoomSize();
         roomSize = rooms[GameManager.Instance.RoomSize];
@@ -503,6 +502,8 @@ public class ProceduralRoom : MonoBehaviour
         renderFloorTiles();
 
         generateObstacles();
+        Debug.Log("Looking for players");
+        players = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < players.Length; i++)
         {
             players[i].transform.position = spawnPosition.transform.GetChild(i).position;
@@ -538,7 +539,7 @@ public class ProceduralRoom : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameManager.Instance.IncreaseDifficulty();
-            generateRoom();
+            generateRoom(GameManager.Instance.seed);
             
         }
     }

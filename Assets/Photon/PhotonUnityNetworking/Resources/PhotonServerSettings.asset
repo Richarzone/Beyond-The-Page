@@ -45,6 +45,7 @@ MonoBehaviour:
   - LoadScene
   - UpdatePlayerInfo
   - UpdatePlayerList
+  - CreateRoom
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

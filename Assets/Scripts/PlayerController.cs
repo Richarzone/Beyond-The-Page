@@ -17,7 +17,11 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider playerCollider;
     private AudioSource audioSource;
 
+    [Header("PhotonMultiplayer")]
+    [SerializeField] GameObject virtualCamera;
+    [SerializeField] GameObject uICanvas;
     private PhotonView view;
+    
 
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
@@ -111,13 +115,17 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         view = GetComponent<PhotonView>();
+        playerInput = GetComponent<PlayerInput>();
+        rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
+
+        health = maxHealth;
 
         if (view.IsMine)
         {
-            playerInput = GetComponent<PlayerInput>();
-            rb = GetComponent<Rigidbody>();
-            playerCollider = GetComponent<CapsuleCollider>();
-            audioSource = GetComponent<AudioSource>();
+            virtualCamera.SetActive(true);
+            uICanvas.SetActive(true);
 
             moveAction = playerInput.actions["Movement"];
             moveAction.performed += context => movement = context.ReadValue<Vector2>();
@@ -173,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
             //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
 
-            health = maxHealth;
+            
         }
     }
 

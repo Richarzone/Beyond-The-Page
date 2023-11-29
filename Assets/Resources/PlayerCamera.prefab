@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &711648079085959744
 Transform:
   m_ObjectHideFlags: 0
@@ -201,6 +201,14 @@ PrefabInstance:
       propertyPath: arrow
       value: 
       objectReference: {fileID: 5766331873415093739}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: uICanvas
+      value: 
+      objectReference: {fileID: 8896955734292117302}
+    - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: virtualCamera
+      value: 
+      objectReference: {fileID: 711648079085954494}
     - target: {fileID: 8257383118300757611, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -257,11 +265,20 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8257383118592787972, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
 --- !u!4 &8896955734047280985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8257383118300757611, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+  m_PrefabInstance: {fileID: 711648079016423730}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8896955734292117302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8257383118592787972, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
   m_PrefabInstance: {fileID: 711648079016423730}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &5766331873415093739 stripped

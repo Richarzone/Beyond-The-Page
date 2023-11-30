@@ -210,7 +210,7 @@ public class MusketeerUnit : MonoBehaviourPun
         // TransitionToState(IdleState);
         photonView.RPC("TransitionToState", RpcTarget.All, "idle");
         // TransitionToDirection(FRightState);
-        photonView.RPC("TransitionToState", RpcTarget.All, "fright");
+        photonView.RPC("TransitionToDirection", RpcTarget.All, "fright");
     }
 
     private void Start()
@@ -298,26 +298,6 @@ public class MusketeerUnit : MonoBehaviourPun
                 currentState.EnterState(this);
                 break;
 
-            case "fright":
-                currentState = FRightState;
-                currentState.EnterState(this);
-                break;
-
-            case "bleft":
-                currentState = BLeftState;
-                currentState.EnterState(this);
-                break;
-
-            case "fleft":
-                currentState = FLeftState;
-                currentState.EnterState(this);
-                break;
-
-            case "bright":
-                currentState = BRightState;
-                currentState.EnterState(this);
-                break;
-
             case "knocked":
                 currentState = KnockedState;
                 currentState.EnterState(this);
@@ -329,6 +309,33 @@ public class MusketeerUnit : MonoBehaviourPun
     {
         currentDirection = musketeerDirection;
         currentDirection.EnterState(this);
+    }
+
+    [PunRPC]
+    public void TransitionToDirection(string directionState)
+    {
+        switch (directionState)
+        {
+            case "fright":
+                currentDirection = FRightState;
+                currentDirection.EnterState(this);
+                break;
+
+            case "bleft":
+                currentDirection = BLeftState;
+                currentDirection.EnterState(this);
+                break;
+
+            case "fleft":
+                currentDirection = FLeftState;
+                currentDirection.EnterState(this);
+                break;
+
+            case "bright":
+                currentDirection = BRightState;
+                currentDirection.EnterState(this);
+                break;
+        }
     }
 
     public enum AnimatorTriggerStates { Idle = 0, Walk = 1, Aim = 2, ShootReload = 3, Death = 4}
@@ -463,4 +470,9 @@ public class MusketeerUnit : MonoBehaviourPun
         startingTime = endTime;
     }
 
+    [PunRPC]
+    public void StopCorroutineNet(IEnumerator corroutine)
+    {
+        StopCoroutine(corroutine);
+    }
 }

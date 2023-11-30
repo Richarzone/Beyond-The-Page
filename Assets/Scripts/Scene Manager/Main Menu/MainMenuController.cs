@@ -99,7 +99,7 @@ public class MainMenuController : MonoBehaviour
         {
             playButton.gameObject.SetActive(true);
             //SceneManager.LoadScene("Game View");
-            SceneManager.LoadScene("EnemyTest");
+            SceneManager.LoadScene("SinglePlayer");
         }
     }
 

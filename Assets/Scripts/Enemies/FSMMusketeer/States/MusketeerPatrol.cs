@@ -26,7 +26,7 @@ public class MusketeerPatrol : MusketeerBaseState
         {
             unit.PatrolIndex++;
             // unit.TransitionToState("patrol");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "patrol");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "idle");
 
         }
 
@@ -58,22 +58,22 @@ public class MusketeerPatrol : MusketeerBaseState
         if (unit.patrolPoints[unit.PatrolIndex].x < unit.transform.position.x)
         {
             // unit.TransitionToState("fleft");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fleft");
         }
         else if (unit.patrolPoints[unit.PatrolIndex].x > unit.transform.position.x)
         {
             // unit.TransitionToState("fright");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fright");
         }
         else if (unit.patrolPoints[unit.PatrolIndex].z > unit.transform.position.z)
         {
             // unit.TransitionToState("bleft");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bleft");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bleft");
         }
         else if (unit.patrolPoints[unit.PatrolIndex].z < unit.transform.position.z)
         {
             // unit.TransitionToState("fright");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fright");
         }
     }
 }

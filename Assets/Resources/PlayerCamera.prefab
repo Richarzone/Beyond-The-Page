@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &711648079085959744
 Transform:
   m_ObjectHideFlags: 0
@@ -194,8 +194,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 711648078785950825}
     m_Modifications:
     - target: {fileID: 296901086119004771, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 296901086119004771, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: MaxDistance
-      value: 15
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 296901086119004771, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2206753978805299413, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: sceneViewId
@@ -203,12 +211,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2206753978805299413, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: ObservedComponents.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2206753978805299413, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: ObservedComponents.Array.data[1]
       value: 
       objectReference: {fileID: 7313024704819656728}
+    - target: {fileID: 8110323627309537846, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: cb5ea1d2aa83fb64ba1352115feff3cd, type: 3}
     - target: {fileID: 8257383118300757608, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: arrow
       value: 
@@ -311,7 +323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8257383118592787972, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7f4496eef1706b49baf26572432a84f, type: 3}
@@ -350,7 +362,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cb5ea1d2aa83fb64ba1352115feff3cd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: eec3551eb0c5af94988e574758c1a731, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

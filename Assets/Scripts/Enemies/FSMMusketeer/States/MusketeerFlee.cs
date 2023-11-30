@@ -35,7 +35,8 @@ public class MusketeerFlee : MusketeerBaseState
             fleeDirection = -(unit.Player.position - unit.transform.position).normalized * 10f;
             if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.AttackRadius)
             {
-                unit.TransitionToState(unit.AimState);
+                //unit.TransitionToState(unit.AimState);
+                unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
                 unit.SphereRadius = unit.FleeRadius;
                 unit.Agent.isStopped = true;
             }
@@ -60,22 +61,22 @@ public class MusketeerFlee : MusketeerBaseState
         if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
         {
             // unit.TransitionToState("fleft");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fleft");
         }
         else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
             // unit.TransitionToState("fright");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fright");
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
             // unit.TransitionToState("bleft");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bleft");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bleft");
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
             // unit.TransitionToState("bright");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bright");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bright");
         }
     }
 }

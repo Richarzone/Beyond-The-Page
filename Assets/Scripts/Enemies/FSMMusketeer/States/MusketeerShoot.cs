@@ -50,7 +50,8 @@ public class MusketeerShoot : MusketeerBaseState
             if (unit.CanBeKnocked)
             {
                 unit.Agent.ResetPath();
-                unit.TransitionToState(unit.KnockedState);
+                //unit.TransitionToState(unit.KnockedState);
+                unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
             }
         }
 
@@ -84,7 +85,8 @@ public class MusketeerShoot : MusketeerBaseState
         if (unit.transform.eulerAngles.y < 270f && unit.transform.eulerAngles.y > 180f)
         {
 
-            unit.TransitionToDirection(unit.FLeftState);
+            //unit.TransitionToDirection(unit.FLeftState);
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fleft");
             lookPosSprite = unit.Player.position - unit.SpriteTransform.position;
             lookPosSprite.y = 0;
             lookOnLookSprite = Quaternion.LookRotation(lookPosSprite) * Quaternion.Euler(new Vector3(0.0f, 90f, 0.0f));
@@ -92,7 +94,8 @@ public class MusketeerShoot : MusketeerBaseState
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
-            unit.TransitionToDirection(unit.BLeftState);
+            //unit.TransitionToDirection(unit.BLeftState);
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bleft");
             lookPosSprite = unit.Player.position - unit.SpriteTransform.position;
             lookPosSprite.y = 0;
             lookOnLookSprite = Quaternion.LookRotation(lookPosSprite) * Quaternion.Euler(new Vector3(0.0f, 90f, 0.0f));
@@ -105,7 +108,8 @@ public class MusketeerShoot : MusketeerBaseState
     {
         if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
-            unit.TransitionToDirection(unit.FRightState);
+            //unit.TransitionToDirection(unit.FRightState);
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fright");
             lookPosSprite = unit.Player.position - unit.SpriteTransform.position;
             lookPosSprite.y = 0;
             lookOnLookSprite = Quaternion.LookRotation(lookPosSprite) * Quaternion.Euler(new Vector3(0.0f, -90f, 0.0f));
@@ -113,7 +117,8 @@ public class MusketeerShoot : MusketeerBaseState
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
-            unit.TransitionToDirection(unit.BRightState);
+            //unit.TransitionToDirection(unit.BRightState);
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bright");
             lookPosSprite = unit.Player.position - unit.SpriteTransform.position;
             lookPosSprite.y = 0;
             lookOnLookSprite = Quaternion.LookRotation(lookPosSprite) * Quaternion.Euler(new Vector3(0.0f, -90f, 0.0f));
@@ -125,8 +130,7 @@ public class MusketeerShoot : MusketeerBaseState
     IEnumerator WaitForAim(MusketeerUnit unit, float length)
     {
         yield return new WaitForSeconds(length);
-        unit.TransitionToState(unit.AimState);
-        // unit.TransitionToState("flee");
-        unit.photonView.RPC("TransitionToState", RpcTarget.All, "flee");
+        //unit.TransitionToState(unit.AimState);
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
     }
 }

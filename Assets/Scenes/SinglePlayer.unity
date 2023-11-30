@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571336, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -588,49 +588,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 711648079085954494, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 711648079085959744, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 12.288482
-      objectReference: {fileID: 0}
-    - target: {fileID: 711648079085959744, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.601933
-      objectReference: {fileID: 0}
-    - target: {fileID: 1008390558081743697, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: MaxDistance
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1008390558081743697, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1693282150809491943, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: sceneViewId
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3391427664150168694, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: eec3551eb0c5af94988e574758c1a731, type: 3}
-    - target: {fileID: 8505730506720707101, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
       propertyPath: sceneViewId
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 8749896449164241668, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: clip
-      value: 
-      objectReference: {fileID: 8300000, guid: cb5ea1d2aa83fb64ba1352115feff3cd, type: 3}
-    - target: {fileID: 8896955734292117302, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8896955734869436120, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.05
+    - target: {fileID: 8505730506720707101, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}
+      propertyPath: sceneViewId
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c0a0f41a52c2458f9e65d2e8d05efea, type: 3}

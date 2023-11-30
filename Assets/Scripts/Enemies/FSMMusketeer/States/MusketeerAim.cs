@@ -26,6 +26,7 @@ public class MusketeerAim : MusketeerBaseState
         if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.PursueRadius)
         {
             unit.StopCoroutine(coroutine);
+            //unit.photonView.RPC("StopCoroutineNet", RpcTarget.All, coroutine);
             // unit.TransitionToState("aggro");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
             unit.SphereRadius = unit.AttackRadius;
@@ -39,6 +40,7 @@ public class MusketeerAim : MusketeerBaseState
         {
             unit.SphereRadius = 0;
             unit.StopCoroutine(coroutine);
+            //unit.photonView.RPC("StopCoroutineNet", RpcTarget.All, coroutine);
             // unit.TransitionToState("flee");
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "flee");
         }
@@ -46,9 +48,11 @@ public class MusketeerAim : MusketeerBaseState
         if (unit.CanBeKnocked)
         {
             unit.StopCoroutine(coroutine);
+            //unit.photonView.RPC("StopCoroutineNet", RpcTarget.All, coroutine);
             unit.Agent.isStopped = true;
             unit.Agent.ResetPath();
-            unit.TransitionToState(unit.KnockedState);
+            //unit.TransitionToState(unit.KnockedState);
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
         }
 
     }
@@ -70,28 +74,28 @@ public class MusketeerAim : MusketeerBaseState
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
             unit.AimHelper = true;
             // unit.TransitionToState("fleft");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fleft");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fleft");
         }
         else if (unit.transform.eulerAngles.y < 180f && unit.transform.eulerAngles.y > 90f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
             unit.AimHelper = false;
             // unit.TransitionToState("fright");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "fright");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "fright");
         }
         else if (unit.transform.eulerAngles.y < 360f && unit.transform.eulerAngles.y > 270f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, 90f, 0.0f);
             unit.AimHelper = true;
             // unit.TransitionToState("bleft");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bleft");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bleft");
         }
         else if (unit.transform.eulerAngles.y < 90 && unit.transform.eulerAngles.y > 0f)
         {
             unit.SpriteTransform.eulerAngles += new Vector3(0.0f, -90f, 0.0f);
             unit.AimHelper = false;
             // unit.TransitionToState("bright");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "bright");
+            unit.photonView.RPC("TransitionToDirection", RpcTarget.All, "bright");
         }
     }
 

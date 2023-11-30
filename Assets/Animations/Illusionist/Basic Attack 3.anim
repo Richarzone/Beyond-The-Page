@@ -1914,18 +1914,18 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.05
-        value: {x: -0.00338, y: -0.00488, z: 0.00417}
-        inSlope: {x: 0, y: -0.051749993, z: -0.09644999}
-        outSlope: {x: 0, y: -0.051749993, z: -0.09644999}
+        value: {x: -0.00199, y: -0.00578, z: 0.0028}
+        inSlope: {x: 0, y: -0.054600015, z: -0.11264999}
+        outSlope: {x: 0, y: -0.054600015, z: -0.11264999}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.06666667
-        value: {x: -0.00261, y: -0.00597, z: 0.00112}
-        inSlope: {x: 0.082499996, y: -0.050100002, z: -0.12929998}
-        outSlope: {x: 0.082499996, y: -0.050100002, z: -0.12929998}
+        value: {x: -0.00107, y: -0.00669, z: 0.00004}
+        inSlope: {x: 0.040799998, y: 0, z: -0.021599988}
+        outSlope: {x: 0.040799998, y: 0, z: -0.021599988}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -1933,8 +1933,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.083333336
         value: {x: -0.00063, y: -0.00655, z: -0.00014}
-        inSlope: {x: 0, y: 0, z: -0.051229488}
-        outSlope: {x: 0, y: 0, z: -0.051229488}
+        inSlope: {x: 0, y: 0.0022966412, z: -0.010799999}
+        outSlope: {x: 0, y: 0.0022966412, z: -0.010799999}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
@@ -2007,7 +2007,44 @@ AnimationClip:
       m_RotationOrder: 4
     path: Illusionist Visual/IllusionistFelixAnim/Armature/R.Arm/R.Hand/Knife Pivot
   m_ScaleCurves: []
-  m_FloatCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.05
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.21666667
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Knife Hit Box
+    classID: 64
+    script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
@@ -2134,6 +2171,13 @@ AnimationClip:
       script: {fileID: 0}
       typeID: 4
       customType: 4
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 3077306078
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 64
+      customType: 0
       isPPtrCurve: 0
     pptrCurveMapping: []
   m_AnimationClipSettings:
@@ -5618,7 +5662,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.05
-        value: -0.00338
+        value: -0.00199
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -5627,9 +5671,9 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.06666667
-        value: -0.00261
-        inSlope: 0.082499996
-        outSlope: 0.082499996
+        value: -0.00107
+        inSlope: 0.040799998
+        outSlope: 0.040799998
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -5727,18 +5771,18 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.05
-        value: -0.00488
-        inSlope: -0.051749993
-        outSlope: -0.051749993
+        value: -0.00578
+        inSlope: -0.054600015
+        outSlope: -0.054600015
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.06666667
-        value: -0.00597
-        inSlope: -0.050100002
-        outSlope: -0.050100002
+        value: -0.00669
+        inSlope: 0
+        outSlope: 0
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -5746,8 +5790,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.083333336
         value: -0.00655
-        inSlope: 0
-        outSlope: 0
+        inSlope: 0.0022966412
+        outSlope: 0.0022966412
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -5836,18 +5880,18 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.05
-        value: 0.00417
-        inSlope: -0.09644999
-        outSlope: -0.09644999
+        value: 0.0028
+        inSlope: -0.11264999
+        outSlope: -0.11264999
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.06666667
-        value: 0.00112
-        inSlope: -0.12929998
-        outSlope: -0.12929998
+        value: 0.00004
+        inSlope: -0.021599988
+        outSlope: -0.021599988
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -5855,8 +5899,8 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.083333336
         value: -0.00014
-        inSlope: -0.051229488
-        outSlope: -0.051229488
+        inSlope: -0.010799999
+        outSlope: -0.010799999
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
@@ -8993,6 +9037,43 @@ AnimationClip:
     attribute: m_LocalRotation.w
     path: Illusionist Visual/IllusionistFelixAnim/Armature/R.Leg
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.05
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.21666667
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Knife Hit Box
+    classID: 64
     script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:

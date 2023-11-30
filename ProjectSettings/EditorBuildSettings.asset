@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Net Lobby Scene.unity
     guid: fee2e363263c27647ba779c926cf1a58
+  - enabled: 1
+    path: Assets/Scenes/SinglePlayer.unity
+    guid: 0cb7ad2590f2441c18b2ddfc6c3fefd6
   m_configObjects: {}

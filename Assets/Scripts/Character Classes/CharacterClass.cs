@@ -289,7 +289,5 @@ public class CharacterClass : MonoBehaviour
     {
         blockClassChange = true;
     }
-
-    
     #endregion
 }

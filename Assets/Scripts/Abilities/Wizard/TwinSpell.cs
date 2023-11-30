@@ -35,6 +35,7 @@ public partial class TwinSpell : AbilityClass
         if (characterClass.GetAbilityManager().LastUsedSkill == null || characterClass.GetAbilityManager().LastUsedSkill == this)
         {
             blockSkill = true;
+            characterClass.GetAnimator().SetTrigger("Twin Spell");
 
             ParticleSystem vfxTwinSpellInstance = Instantiate(twinSpellVFX, characterClass.GetVFXPivot().position, twinSpellVFX.transform.rotation);
             vfxTwinSpellInstance.transform.parent = characterClass.GetVFXPivot();
@@ -44,6 +45,8 @@ public partial class TwinSpell : AbilityClass
             {
                 characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
             }
+
+            characterClass.GetAnimator().SetTrigger("Twin Spell Exit");
 
             yield return new WaitForSeconds(nullTwinSpellBuffer);
 
@@ -57,6 +60,7 @@ public partial class TwinSpell : AbilityClass
         else
         {
             blockSkill = true;
+            characterClass.GetAnimator().SetTrigger("Twin Spell");
 
             characterClass.GetAbilityManager().AbilityCoroutineManager(characterClass.GetAbilityManager().LastUsedSkill.TwinSpellCoroutine(characterClass, this));
 
@@ -69,6 +73,8 @@ public partial class TwinSpell : AbilityClass
             {
                 yield return null;
             }
+
+            characterClass.GetAnimator().SetTrigger("Twin Spell Exit");
 
             if (characterClass.GetAbilityManager().BlockAbilitySlots())
             {

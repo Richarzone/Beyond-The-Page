@@ -57,6 +57,8 @@ public class RollingThunder : AbilityClass
             yield return null;
         }
 
+        characterClass.GetAnimator().SetTrigger("Rolling Thunder");
+
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
         {
             characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);

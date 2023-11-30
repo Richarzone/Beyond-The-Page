@@ -38,5 +38,13 @@ public class KnightClass : CharacterClass
         }
     }
 
-    // Add dodge
+    protected override IEnumerator Dodge(float dodgeDuration)
+    {
+        blockClassChange = true;
+        animator.SetTrigger("Dash");
+
+        yield return new WaitForSeconds(dodgeDuration);
+
+        blockClassChange = false;
+    }
 }

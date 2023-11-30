@@ -42,6 +42,8 @@ public class CardVolley : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         blockSkill = true;
+        characterClass.GetAnimator().SetTrigger("Card Volley");
+
         float currentLowest;
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
@@ -52,6 +54,7 @@ public class CardVolley : AbilityClass
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * cardVolleyRange) * 2;
         abilityRangeIndicator.enabled = true;
 
+        characterClass.BlockAttack = true;
         characterClass.BlockClassChange = true;
         characterClass.BlockAbilities = true;
 
@@ -104,11 +107,13 @@ public class CardVolley : AbilityClass
 
         target = null;
 
+        characterClass.GetAnimator().SetTrigger("Card Volley Exit");
         cardVolleyVFXInstance.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         Destroy(cardVolleyVFXInstance.gameObject, cardVolleyVFXInstance.main.duration + cardVolleyVFXInstance.main.startLifetime.constant);
-
+        
         abilityRangeIndicator.enabled = false;
 
+        characterClass.BlockAttack = false;
         characterClass.BlockClassChange = false;
         characterClass.BlockAbilities = false;
 
@@ -137,6 +142,7 @@ public class CardVolley : AbilityClass
         abilityRangeIndicator.gameObject.transform.localScale = (Vector3.one * cardVolleyRange) * 2;
         abilityRangeIndicator.enabled = true;
 
+        character.BlockAttack = true;
         character.BlockClassChange = true;
         character.BlockAbilities = true;
 
@@ -188,6 +194,7 @@ public class CardVolley : AbilityClass
 
         abilityRangeIndicator.enabled = false;
 
+        character.BlockAttack = false;
         character.BlockClassChange = false;
         character.BlockAbilities = false;
 

@@ -9,6 +9,7 @@ public class HatTrick : AbilityClass
 
     [Header("Hat Trick")]
     [SerializeField] private GameObject hatPrefab;
+    [SerializeField] private GameObject characterHat;
     [SerializeField] private ParticleSystem hatTrickTeleportVFX;
     [SerializeField] private float thunderDamage;
     [SerializeField] private float hatVelocity;
@@ -38,6 +39,7 @@ public class HatTrick : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         blockSkill = true;
+        characterClass.GetAnimator().SetTrigger("Hat Trick");
 
         abilityCanvas.enabled = true;
         abilityCanvas.transform.localScale = new Vector3(abilityWidth, 0, hatRange);
@@ -59,6 +61,9 @@ public class HatTrick : AbilityClass
 
             yield return null;
         }
+
+        characterHat.SetActive(false);
+        characterClass.GetAnimator().SetTrigger("Hat Trick Exit");
 
         SetDirection();
         InstantiateProjectile(hatPrefab, firePivot, hatVelocity, direction, thunderDamage);
@@ -90,6 +95,8 @@ public class HatTrick : AbilityClass
 
             yield return null;
         }
+
+        characterHat.SetActive(true);
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
         {

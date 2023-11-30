@@ -61,6 +61,8 @@ public class Molotov : AbilityClass
             yield return null;
         }
 
+        characterClass.GetAnimator().SetTrigger("Molotov");
+
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
         {
             characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);

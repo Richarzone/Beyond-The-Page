@@ -37,4 +37,13 @@ public class IllusionistClass : CharacterClass
             timeBetweenAttacks = 1 / (attackSpeed * AttackSpeed());
         }
     }
+
+    protected override IEnumerator Dodge(float dodgeDuration)
+    {
+        blockClassChange = true;
+
+        yield return new WaitForSeconds(dodgeDuration);
+
+        blockClassChange = false;
+    }
 }

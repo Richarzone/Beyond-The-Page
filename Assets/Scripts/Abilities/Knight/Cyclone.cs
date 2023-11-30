@@ -55,7 +55,7 @@ public class Cyclone : AbilityClass
         characterClass.BlockDodge = true;
 
         abilityRangeIndicator.enabled = false;
-        characterClass.GetAnimator().SetTrigger("Swirl");
+        characterClass.GetAnimator().SetTrigger("Cyclone");
 
         Cursor.visible = true;
 

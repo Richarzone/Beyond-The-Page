@@ -60,7 +60,9 @@ public class SparklingPowder : AbilityClass
 
             yield return null;
         }
-        
+
+        characterClass.GetAnimator().SetTrigger("Stun");
+
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
         {
             characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);

@@ -23,19 +23,20 @@ public class Concoction : AbilityClass
     private IEnumerator AbilityCoroutine()
     {
         blockSkill = true;
+        characterClass.GetAnimator().SetTrigger("Concoction");
 
         if (characterClass.GetAbilityManager().BlockAbilitySlots())
         {
             characterClass.GetAbilityManager().GetPlayerController().LockSkill(skillButton);
         }
 
-        GameObject twinSpellInstance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
+        GameObject instance = Instantiate(concoctionPrefab, characterClass.GetVFXPivot().position, concoctionPrefab.transform.rotation);
 
-        ConcoctionBuff buffEfect = twinSpellInstance.GetComponent<ConcoctionBuff>();
+        ConcoctionBuff buffEfect = instance.GetComponent<ConcoctionBuff>();
         buffEfect.SetDamageValue(damageBuffMultiplier);
         buffEfect.SetBuffDuration(buffDuration);
 
-        twinSpellInstance.transform.parent = characterClass.GetVFXPivot();
+        instance.transform.parent = characterClass.GetVFXPivot();
 
         characterClass.GetAbilityManager().LastUsedSkill = this;
 

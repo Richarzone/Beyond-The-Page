@@ -310,6 +310,7 @@ MonoBehaviour:
   attackDamage: 5
   hitboxRange: 1
   hit: 0
+  currentHealth: 0
   isGrounded: 0
 --- !u!1 &2955317403250982390
 GameObject:

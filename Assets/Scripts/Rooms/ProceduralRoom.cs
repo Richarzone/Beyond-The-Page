@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ProceduralRoom : MonoBehaviour
+public class ProceduralRoom : MonoBehaviourPunCallbacks
 {
     private List<Colliders> wallListN;
     private List<Colliders> wallListNB;
@@ -31,9 +31,15 @@ public class ProceduralRoom : MonoBehaviour
 
     private GameObject doorInstance;
 
-    [SerializeField] private GameObject[] innerObstaclesPrefab;
-    [SerializeField] private GameObject[] cornerObstaclesPrefab;
-    [SerializeField] private GameObject[] wallObstaclesPrefab;
+    [Header("Obstacle Prefabs")]
+    [SerializeField] public string[] innerObstaclesPrefab;
+    [SerializeField] public string[] cornerObstaclesPrefab;
+    [SerializeField] public string[] wallObstaclesPrefab;
+
+    //[SerializeField] private GameObject[] innerObstaclesPrefab;
+    //[SerializeField] private GameObject[] cornerObstaclesPrefab;
+    //[SerializeField] private GameObject[] wallObstaclesPrefab;
+
     [SerializeField] private GameObject spawnPosition;
     [SerializeField] private GameObject[] players;
     private GameObject parent;
@@ -354,89 +360,95 @@ public class ProceduralRoom : MonoBehaviour
 
     void generateObstacles()
     {
-        for (int i = 0; i < cornerTiles.Count; i++)
+        if (PhotonNetwork.IsMasterClient)
         {
-            GameObject prefab = cornerObstaclesPrefab[UnityEngine.Random.Range(0, cornerObstaclesPrefab.Length)];
-            GameObject obstacle = Instantiate(prefab, parent.transform);
-            obstacle.transform.position = cornerTiles[i].pos;
-            obstacle.transform.rotation = Quaternion.Euler(0, 0, 0);
-            obstacle.transform.localScale = Vector3.one;
-        }
-
-        for (int i = 0; i < upperTiles.Count; i++)
-        {
-            float chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 50f)
+            for (int i = 0; i < cornerTiles.Count; i++)
             {
-                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
-                GameObject obstacle = Instantiate(prefab, parent.transform);
-                obstacle.transform.position = upperTiles[i].pos;
-                obstacle.transform.rotation = Quaternion.Euler(0, -90, 0);
-                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
-            }
-        }
-
-        for (int i = 0; i < leftTiles.Count; i++)
-        {
-            float chance = UnityEngine.Random.Range(0f, 100f);
-            if (i == (int)spawnPos)
-            {
-                //spawnPositions[0].transform.position = lowerTiles[i].pos;
-                //spawnPosition.transform.position = leftTiles[i].pos;
-                Debug.Log("Set spawn position in coord: " + i);
-            }
-            else if (chance <= 50f)
-            {
-                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
-                GameObject obstacle = Instantiate(prefab, parent.transform);
-                obstacle.transform.position = leftTiles[i].pos;
-                obstacle.transform.rotation = Quaternion.Euler(0, 180, 0);
-                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
-            }
-        }
-
-        for (int i = 0; i < lowerTiles.Count; i++)
-        {
-            float chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 50f)
-            {
-                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
-                GameObject obstacle = Instantiate(prefab, parent.transform);
-                obstacle.transform.position = lowerTiles[i].pos;
-                obstacle.transform.rotation = Quaternion.Euler(0, 90, 0);
-                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
-
-            }
-        }
-
-        for (int i = 0; i < rightTiles.Count; i++)
-        {
-            float chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 50f)
-            {
-                GameObject prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
-                GameObject obstacle = Instantiate(prefab, parent.transform);
-                obstacle.transform.position = rightTiles[i].pos;
+                string prefab = cornerObstaclesPrefab[UnityEngine.Random.Range(0, cornerObstaclesPrefab.Length)];
+                GameObject obstacle = PhotonNetwork.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                obstacle.transform.SetParent(parent.transform);
+                obstacle.transform.position = cornerTiles[i].pos;
                 obstacle.transform.rotation = Quaternion.Euler(0, 0, 0);
-                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+                obstacle.transform.localScale = Vector3.one;
             }
-        }
 
-        for (int i = 0; i < innerTiles.Count; i++)
-        {
-            float chance = UnityEngine.Random.Range(0f, 100f);
-            if (chance <= 40f)
+            for (int i = 0; i < upperTiles.Count; i++)
             {
-                GameObject prefab = innerObstaclesPrefab[UnityEngine.Random.Range(0, innerObstaclesPrefab.Length)];
-                GameObject obstacle = Instantiate(prefab, parent.transform);
-                obstacle.transform.position = innerTiles[i].pos;
-                obstacle.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360f), 0);
-                obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
-                spawnedObstacle = true;
+                float chance = UnityEngine.Random.Range(0f, 100f);
+                if (chance <= 50f)
+                {
+                    string prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                    GameObject obstacle = PhotonNetwork.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                    obstacle.transform.SetParent(parent.transform);
+                    obstacle.transform.position = upperTiles[i].pos;
+                    obstacle.transform.rotation = Quaternion.Euler(0, -90, 0);
+                    obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+                }
             }
-            //else if(chance <= 50f && enemyCredits!=0)
-            if (PhotonNetwork.IsMasterClient)
+
+            for (int i = 0; i < leftTiles.Count; i++)
             {
+                float chance = UnityEngine.Random.Range(0f, 100f);
+                if (i == (int)spawnPos)
+                {
+                    //spawnPositions[0].transform.position = lowerTiles[i].pos;
+                    //spawnPosition.transform.position = leftTiles[i].pos;
+                    Debug.Log("Set spawn position in coord: " + i);
+                }
+                else if (chance <= 50f)
+                {
+                    string prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                    GameObject obstacle = PhotonNetwork.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                    obstacle.transform.SetParent(parent.transform);
+                    obstacle.transform.position = leftTiles[i].pos;
+                    obstacle.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+                }
+            }
+
+            for (int i = 0; i < lowerTiles.Count; i++)
+            {
+                float chance = UnityEngine.Random.Range(0f, 100f);
+                if (chance <= 50f)
+                {
+                    string prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                    GameObject obstacle = PhotonNetwork.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                    obstacle.transform.SetParent(parent.transform);
+                    obstacle.transform.position = lowerTiles[i].pos;
+                    obstacle.transform.rotation = Quaternion.Euler(0, 90, 0);
+                    obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+
+                }
+            }
+
+            for (int i = 0; i < rightTiles.Count; i++)
+            {
+                float chance = UnityEngine.Random.Range(0f, 100f);
+                if (chance <= 50f)
+                {
+                    string prefab = wallObstaclesPrefab[UnityEngine.Random.Range(0, wallObstaclesPrefab.Length)];
+                    GameObject obstacle = PhotonNetwork.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                    obstacle.transform.SetParent(parent.transform);
+                    obstacle.transform.position = rightTiles[i].pos;
+                    obstacle.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+                }
+            }
+
+            for (int i = 0; i < innerTiles.Count; i++)
+            {
+                float chance = UnityEngine.Random.Range(0f, 100f);
+                if (chance <= 40f)
+                {
+                    string prefab = innerObstaclesPrefab[UnityEngine.Random.Range(0, innerObstaclesPrefab.Length)];
+                    GameObject obstacle = PhotonNetwork.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+                    obstacle.transform.SetParent(parent.transform);
+                    obstacle.transform.position = innerTiles[i].pos;
+                    obstacle.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360f), 0);
+                    obstacle.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.3f, 0.6f);
+                    spawnedObstacle = true;
+                }
+                //else if(chance <= 50f && enemyCredits!=0)
                 chance = UnityEngine.Random.Range(0f, 100f);
                 if (chance <= 65f && enemyCredits != 0 && !spawnedObstacle)
                 {
@@ -470,33 +482,48 @@ public class ProceduralRoom : MonoBehaviour
                         enemyAmount++;
                     }
                 }
+                spawnedObstacle = false;
             }
-            spawnedObstacle = false;
+            SetEnemies(enemyAmount);
         }
-        GameManager.Instance.EnemyAmount = enemyAmount;
+        
+
     }
+
+    public void SetEnemies(int _enemyAmount)
+    {
+        GameManager.Instance.SetEnemies(_enemyAmount);
+    } 
 
     private void Start()
     {
         rooms[0] = smallRoom;
         rooms[1] = mediumRoom;
         rooms[2] = largeRoom;
-        
+
         generateRoom(GameManager.Instance.seed);
         // GameManager.Instance.seed = GameManager.Instance.seed + System.DateTime.Now.Millisecond;
     }
 
+    [PunRPC]
     public void generateRoom(int seed)
-    { 
-        if(parent != null)
-        {
-            Destroy(parent);
-        }
+    {
+        Debug.Log("GENERATING ROOM...");
+
+        //if (parent != null)
+        //{
+        //    Destroy(parent);
+        //}
         parent = new GameObject("Generation");
         parent.transform.SetParent(transform);
         UnityEngine.Random.InitState(seed);
         enemyAmount = 0;
-        GameManager.Instance.SetRoomSize();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameManager.Instance.SetRoomSize();
+        }
+
         roomSize = rooms[GameManager.Instance.RoomSize];
         enemyCredits = GameManager.Instance.EnemyCredits;
         createWalls();
@@ -508,11 +535,15 @@ public class ProceduralRoom : MonoBehaviour
         renderFloorTiles();
 
         generateObstacles();
-        Debug.Log("Looking for players");
         players = GameObject.FindGameObjectsWithTag("Player");
+        SetSpawn();
+    }
+
+    public void SetSpawn()
+    {
         for (int i = 0; i < players.Length; i++)
         {
-            Debug.Log("SPAWNPOINTS: "+ spawnPosition.transform.GetChild(i).localPosition);
+            Debug.Log("SPAWNPOINTS: " + spawnPosition.transform.GetChild(i).localPosition);
             players[i].transform.position = spawnPosition.transform.GetChild(i).position;
         }
     }
@@ -529,7 +560,8 @@ public class ProceduralRoom : MonoBehaviour
             doorInstance.GetComponent<BoxCollider>().enabled = true;
             if (PhotonNetwork.IsMasterClient && !seedGenerated)
             {
-                GameManager.Instance.GenerateSeed();
+                GenerateSeed();
+                //GameManager.Instance.GenerateSeed();
                 seedGenerated = true;
                 //GameManager.Instance.seed = System.DateTime.Now.Millisecond;
                 //seedGenerated = false;
@@ -553,10 +585,24 @@ public class ProceduralRoom : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameManager.Instance.IncreaseDifficulty();
+            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+            if (obstacles.Length > 0)
+            {
+                foreach (GameObject obstacle in obstacles)
+                {
+                    Destroy(obstacle);
+                }
+            }
             generateRoom(GameManager.Instance.seed);
+            //photonView.RPC("generateRoom", RpcTarget.All, GameManager.Instance.seed);
             seedGenerated = false;
-            
+
         }
+    }
+
+    public void GenerateSeed()
+    {
+        GameManager.Instance.GenerateSeed();
     }
 
 }

@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83fa3d152b5437c4a807f5fb87eb3f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: 0
   roomGeneration: {fileID: 555149806962274112, guid: 47fccd8bb71980f4cae1a92e90a33109, type: 3}
+  roomName: 
   difficulty: 40
   enemyAmount: 0
   health: 0

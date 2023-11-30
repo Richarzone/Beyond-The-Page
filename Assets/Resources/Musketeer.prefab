@@ -349,6 +349,7 @@ MonoBehaviour:
   attackDamage: 1
   hitboxRange: 0
   hit: 0
+  currentHealth: 0
   isGrounded: 0
 --- !u!95 &2711245258587204492
 Animator:

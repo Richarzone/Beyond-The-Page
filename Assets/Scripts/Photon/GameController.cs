@@ -11,8 +11,9 @@ public class GameController : MonoBehaviourPunCallbacks
 
     public bool isGameEnd = false;
     public string playerPrefab;
+    public GameObject playerObj;
 
-    public PlayerControllerNet[] players;
+    public GameObject[] players;
 
     [SerializeField]private int playerInGame;
 
@@ -25,12 +26,16 @@ public class GameController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        players = new PlayerControllerNet[PhotonNetwork.PlayerList.Length];
+        players = new GameObject[PhotonNetwork.PlayerList.Length];
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    InGame();
+        //}
         photonView.RPC("InGame", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
-    void InGame()
+    public void InGame()
     {
         playerInGame++;
         if (playerInGame == PhotonNetwork.PlayerList.Length) 
@@ -42,14 +47,11 @@ public class GameController : MonoBehaviourPunCallbacks
     void SpawnPlayers() 
     {
         Debug.Log("Spawn player");
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity); 
-        
+        playerObj = PhotonNetwork.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        //players[PhotonNetwork.LocalPlayer.ActorNumber - 1] = playerObj.transform.GetChild(1).gameObject;
+
         //forma larga
         //playerObj.GetComponent<PlayerController>().photonView.RPC("Init", RpcTarget.All, PhotonNetwork.LocalPlayer);
-
-        //uso de variable para facil lectura
-        //PlayerControllerNet playScript = playerObj.GetComponent<PlayerControllerNet>();
-        //playScript.photonView.RPC("Init", RpcTarget.All, PhotonNetwork.LocalPlayer);
     }
 
     void GoBackToMenu()

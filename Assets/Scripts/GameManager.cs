@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private float difficultyMultiplier = 1;
     [Header("Room Generation")]
     [SerializeField] private GameObject roomGeneration;
+    [SerializeField] private string roomName;
+    private GameObject roomObject;
 
     //[Header("Enemy Prefabs")]
     //[SerializeField] private GameObject musketeer;
@@ -102,20 +104,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         difficulty = (int)DifficultyEnum.baby;
         //Random.InitState(System.DateTime.Now.Millisecond);
-        roomSize = Random.Range(0, 3);
 
-        switch (roomSize)
-        {
-            case (int)RoomSizeEnum.small:
-                enemyCredits = (int)MaxEnemyCreditsEnum.small;
-                break;
-            case (int)RoomSizeEnum.medium:
-                enemyCredits = (int)MaxEnemyCreditsEnum.medium;
-                break;
-            case (int)RoomSizeEnum.large:
-                enemyCredits = (int)MaxEnemyCreditsEnum.large;
-                break;
-        }
+        roomName = roomGeneration.name;
 
         // NewRoom();
     }
@@ -172,6 +162,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 enemyCredits = (int)MaxEnemyCreditsEnum.large;
                 break;
         }
+
+        photonView.RPC("SetRoomSize", RpcTarget.All, roomSize);
     }
 
 
@@ -179,17 +171,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            //seed = System.DateTime.Now.Millisecond;
-            photonView.RPC("CreateRoom", RpcTarget.All, seed);
+            //photonView.RPC("CreateRoom", RpcTarget.All, seed);
+            CreateRoom(seed);
         }
     }
 
     [PunRPC]
+    public void SetRoomSize(int _roomSize)
+    {
+        roomSize = _roomSize;
+    }
+
     void CreateRoom(int newSeed)
     {
         seed = newSeed;
         Debug.Log("INSTANCE PROCEDURAL ROOM");
-        Instantiate(roomGeneration, transform);
+        roomObject = PhotonNetwork.Instantiate(roomName,new Vector3(0f,1f,0f), Quaternion.identity);
+        //room.transform.SetParent(transform);
     }
 
     public void GenerateSeed()
@@ -215,5 +213,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         roomsCleared++;
         difficultyMultiplier += 0.025f;
         difficulty *= difficultyMultiplier;
+    }
+
+    public void SetEnemies(int enemies)
+    {
+
+        photonView.RPC("SetEnemiesNet", RpcTarget.All, enemies);
+    }
+
+    [PunRPC]
+    public void SetEnemiesNet(int enemies)
+    {
+
+        enemyAmount = enemies;
     }
 }

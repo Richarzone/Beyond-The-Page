@@ -43,12 +43,13 @@ public class MusketeerAim : MusketeerBaseState
             unit.photonView.RPC("TransitionToState", RpcTarget.All, "flee");
         }
 
-        //if (unit.CanBeKnocked)
-        //{
-        //    unit.StopCoroutine(coroutine);
-        //    unit.Agent.ResetPath();
-        //    unit.TransitionToState(unit.KnockedState);
-        //}
+        if (unit.CanBeKnocked)
+        {
+            unit.StopCoroutine(coroutine);
+            unit.Agent.isStopped = true;
+            unit.Agent.ResetPath();
+            unit.TransitionToState(unit.KnockedState);
+        }
 
     }
 

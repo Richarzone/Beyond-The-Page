@@ -94,7 +94,7 @@ public class ProceduralRoom : MonoBehaviour
     private int enemyAmount;
     private bool spawnedObstacle;
     private int nextSeed;
-    private bool seedGenerated = true;
+    private bool seedGenerated = false;
 
     void createWalls()
     {
@@ -512,6 +512,7 @@ public class ProceduralRoom : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < players.Length; i++)
         {
+            Debug.Log("SPAWNPOINTS: "+ spawnPosition.transform.GetChild(i).localPosition);
             players[i].transform.position = spawnPosition.transform.GetChild(i).position;
         }
     }
@@ -553,7 +554,7 @@ public class ProceduralRoom : MonoBehaviour
         {
             GameManager.Instance.IncreaseDifficulty();
             generateRoom(GameManager.Instance.seed);
-            seedGenerated = true;
+            seedGenerated = false;
             
         }
     }

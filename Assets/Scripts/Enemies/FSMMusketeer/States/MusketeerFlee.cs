@@ -22,25 +22,29 @@ public class MusketeerFlee : MusketeerBaseState
 
     public override void Update(MusketeerUnit unit)
     {
-        fleeDirection = -(unit.Player.position - unit.transform.position).normalized * 10f;
-        if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.AttackRadius)
+        if (unit.CanBeKnocked)
         {
+            unit.Agent.ResetPath();
             // unit.TransitionToState("aim");
-            unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
+            unit.photonView.RPC("TransitionToState", RpcTarget.All, "knocked");
             unit.SphereRadius = unit.FleeRadius;
             unit.Agent.isStopped = true;
         }
         else
         {
-            unit.Agent.SetDestination(fleeDirection);
-            ChangeDirection(unit);
+            fleeDirection = -(unit.Player.position - unit.transform.position).normalized * 10f;
+            if (Vector3.Distance(unit.transform.position, unit.Player.position) >= unit.AttackRadius)
+            {
+                unit.TransitionToState(unit.AimState);
+                unit.SphereRadius = unit.FleeRadius;
+                unit.Agent.isStopped = true;
+            }
+            else
+            {
+                unit.Agent.SetDestination(fleeDirection);
+                ChangeDirection(unit);
+            }
         }
-
-        //if (unit.CanBeKnocked)
-        //{
-        //    unit.Agent.ResetPath();
-        //    unit.TransitionToState(unit.KnockedState);
-        //}
     }
 
     public override void OnCollisionEnter(MusketeerUnit unit, Collision collision)

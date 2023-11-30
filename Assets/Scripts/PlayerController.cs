@@ -272,6 +272,7 @@ public class PlayerController : MonoBehaviour
         {
             arrow.SetActive(true);
             arrow.transform.LookAt(GameManager.Instance.DoorPosition, Vector3.up);
+            arrow.transform.position = new Vector3(0, arrow.transform.position.y, 0);
         }
         else
         {

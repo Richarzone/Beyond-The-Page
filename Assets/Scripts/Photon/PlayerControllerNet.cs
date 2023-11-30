@@ -20,7 +20,8 @@ public class PlayerControllerNet : MonoBehaviourPunCallbacks
     {
         photonPlayer = player;// Asiganar el player actual
         id = player.ActorNumber;//Guardar el id del player
-        GameController.Instance.players[id - 1] = this;// Asiganarlo a las lista de player dentro del game controller
+        Debug.Log("Actor number" + id);
+        GameController.Instance.players[id] = this;// Asiganarlo a las lista de player dentro del game controller
 
         if (!photonView.IsMine) // Verificar si el movimiento es del usuario actual
         {

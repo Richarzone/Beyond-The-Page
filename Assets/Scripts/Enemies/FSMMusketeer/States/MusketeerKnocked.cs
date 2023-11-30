@@ -9,6 +9,7 @@ public class MusketeerKnocked : MusketeerBaseState
     private bool stuned;
     public override void EnterState(MusketeerUnit unit)
     {
+        Debug.Log("stunned");
         falling = false;
         stuned = false;
         unit.Agent.ResetPath();
@@ -32,8 +33,8 @@ public class MusketeerKnocked : MusketeerBaseState
                 unit.Rbody.isKinematic = true;
                 unit.Agent.enabled = true;
                 unit.EnemyClass.CanBeKnocked = false;
-                // unit.TransitionToState("aggro");
-                unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
+                // unit.TransitionToState("aim");
+                unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
             }
             else if (unit.Rbody.velocity.y < 0)
             {
@@ -58,7 +59,7 @@ public class MusketeerKnocked : MusketeerBaseState
         unit.Agent.enabled = true;
         unit.EnemyClass.CanBeKnocked = false;
         unit.EnemyClass.CanBeStuned = false;
-        // unit.TransitionToState("aggro");
-        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aggro");
+        // unit.TransitionToState("aim");
+        unit.photonView.RPC("TransitionToState", RpcTarget.All, "aim");
     }
 }

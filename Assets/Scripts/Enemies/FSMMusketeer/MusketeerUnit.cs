@@ -237,7 +237,7 @@ public class MusketeerUnit : MonoBehaviourPun
     {
         currentHealth = enemyClass.CurrentHealth;
         canBeKnocked = enemyClass.CanBeKnocked;
-        //canBeStuned = enemyClass.CanBeStuned;
+        canBeStuned = enemyClass.CanBeStuned;
         force = enemyClass.Force;
         currentState.Update(this);
     }

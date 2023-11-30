@@ -188,6 +188,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void CreateRoom(int newSeed)
     {
         seed = newSeed;
+        Debug.Log("INSTANCE PROCEDURAL ROOM");
         Instantiate(roomGeneration, transform);
     }
 

@@ -132,6 +132,8 @@ public class PlayerController : MonoBehaviour
         if (view.IsMine)
         {
             //virtualCamera.SetActive(true);
+            virtualCamera.GetComponent<CinemachineVirtualCamera>().m_Follow = transform;
+            virtualCamera.GetComponent<CinemachineVirtualCamera>().m_LookAt = transform;
             uICanvas.SetActive(true);
 
             moveAction = playerInput.actions["Movement"];

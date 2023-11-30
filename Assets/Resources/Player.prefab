@@ -2443,13 +2443,10 @@ MonoBehaviour:
   isPaused: 0
   MainMenuSceneIndex: 0
   sceneManager: {fileID: 0}
-  arrow: {fileID: 919132149155446097, guid: 0ff7424e92ee15240bfe52891aaf244a, type: 3}
-  DashAudios:
-  - {fileID: 8300000, guid: db681cceeb1286c4a819648591ec15ea, type: 3}
-  - {fileID: 8300000, guid: b044a5b6397f1ff4d9ca3a08e4632366, type: 3}
-  - {fileID: 8300000, guid: db681cceeb1286c4a819648591ec15ea, type: 3}
-  - {fileID: 8300000, guid: 09adc51238e099849b079e260789500e, type: 3}
-  AttackAudios: []
+  arrow: {fileID: 6477979883350240473}
+  dashAudios: []
+  gamePauseAudio: {fileID: 0}
+  clickAudio: {fileID: 0}
 --- !u!54 &8257383118300757609
 Rigidbody:
   m_ObjectHideFlags: 0

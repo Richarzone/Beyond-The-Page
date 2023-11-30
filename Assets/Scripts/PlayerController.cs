@@ -271,8 +271,10 @@ public class PlayerController : MonoBehaviour
         if(GameManager.Instance.EnemyAmount == 0)
         {
             arrow.SetActive(true);
-            arrow.transform.LookAt(GameManager.Instance.DoorPosition, Vector3.up);
-            arrow.transform.position = new Vector3(0, arrow.transform.position.y, 0);
+            Vector3 rotation = Quaternion.LookRotation(GameManager.Instance.DoorPosition.position - arrow.transform.position, Vector3.up).eulerAngles;
+            rotation.x = 0f;
+
+            arrow.transform.rotation = Quaternion.Euler(rotation);
         }
         else
         {

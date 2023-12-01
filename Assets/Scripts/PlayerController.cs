@@ -18,11 +18,11 @@ public class PlayerController : MonoBehaviour
     private AudioSource audioSource;
 
     [Header("PhotonMultiplayer")]
-    [SerializeField] GameObject virtualCamera;
-    [SerializeField] GameObject uICanvas;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private GameObject virtualCamera;
+    [SerializeField] private GameObject uICanvas;
     private PhotonView view;
     
-
     [Header("Input")]
     [SerializeField] private PlayerInput playerInput;
     private InputAction moveAction = new InputAction();
@@ -131,9 +131,9 @@ public class PlayerController : MonoBehaviour
 
         if (view.IsMine)
         {
-            //virtualCamera.SetActive(true);
-            virtualCamera.GetComponent<CinemachineVirtualCamera>().m_Follow = transform;
-            virtualCamera.GetComponent<CinemachineVirtualCamera>().m_LookAt = transform;
+            virtualCamera.SetActive(true);
+            //virtualCamera.GetComponent<CinemachineVirtualCamera>().m_Follow = transform;
+            //virtualCamera.GetComponent<CinemachineVirtualCamera>().m_LookAt = transform;
             uICanvas.SetActive(true);
 
             moveAction = playerInput.actions["Movement"];
@@ -189,8 +189,6 @@ public class PlayerController : MonoBehaviour
             gameOverAction.started += GameOver;*/
 
             //classMenu.GetComponent<RadialMenu>().SetNumberOfSlices(characterClasses.Count);
-
-            
         }
     }
 
@@ -330,7 +328,7 @@ public class PlayerController : MonoBehaviour
 
     private void Rotation()
     {
-        Ray ray = Camera.main.ScreenPointToRay(aim);
+        Ray ray = playerCamera.ScreenPointToRay(aim);
 
         if (Physics.Raycast(ray, out RaycastHit raycastHit, Mathf.Infinity))
         {

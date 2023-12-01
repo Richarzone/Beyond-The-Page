@@ -10,7 +10,7 @@ using Photon.Pun;
 
 // TODO: ------ MAKE GETTERS/SETTERS FOR HEALING CATEGORY ------
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     // References
     private Rigidbody rb;

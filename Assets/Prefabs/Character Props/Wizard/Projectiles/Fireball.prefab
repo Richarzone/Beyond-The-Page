@@ -158,14 +158,14 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 15
+  MaxDistance: 20.79
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -182,6 +182,15 @@ AudioSource:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.70516217
+      value: 0.9863285
+      inSlope: -0.1510377
+      outSlope: -0.1510377
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3673656
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1

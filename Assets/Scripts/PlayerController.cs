@@ -99,8 +99,8 @@ public class PlayerController : MonoBehaviourPun
 
     [SerializeField] private SceneLoaderManager sceneManager;
 
-    private float damageMultiplier;
-    private float attackSpeedMultiplier;
+    [SerializeField] private float damageMultiplier;
+    [SerializeField] private float attackSpeedMultiplier;
     private float cooldownReductionMultiplier;
 
     /*[Header("UI")]
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] private AudioClip clickAudio;
 
     private bool isPlaying = false;
-
+    private IEnumerator buffCoroutine;
 
 
     private void Awake()
@@ -445,7 +445,8 @@ public class PlayerController : MonoBehaviourPun
     {
         if (currentBuff != null)
         {
-            StartCoroutine(UseBuffCoroutine(currentBuff));
+            buffCoroutine = UseBuffCoroutine(currentBuff);
+            StartCoroutine(buffCoroutine);
             currentBuff = null;
         }
     }
@@ -620,6 +621,11 @@ public class PlayerController : MonoBehaviourPun
             //Destroy(damageAnimPivot.gameObject, damageInstance.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length);
             //Destroy(gameObject);
             health = maxHealth;
+            usosChicharrones = 3;
+            chicharronSpot.SetChicharron();
+            StopCoroutine(buffCoroutine);
+            damageMultiplier = 0f;
+            attackSpeedMultiplier = 1f;
             //GameManager.Instance.Health = health;
         }
     }

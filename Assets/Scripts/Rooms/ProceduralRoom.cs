@@ -134,7 +134,7 @@ public class ProceduralRoom : MonoBehaviourPunCallbacks
                 Debug.Log("Set spawn in coord: " + i);
                 colliders.rot = Quaternion.identity;
                 doorEnterList.Add(colliders);
-                spawnPosition.transform.position = new Vector3(t.x, t.y, t.z + 4f);
+                spawnPosition.transform.position = new Vector3(t.x, t.y+0.5f, t.z + 4f);
             }
             else if (rand <= 1)
             {
@@ -515,6 +515,7 @@ public class ProceduralRoom : MonoBehaviourPunCallbacks
         //    Destroy(parent);
         //}
         parent = new GameObject("Generation");
+
         parent.transform.SetParent(transform);
         UnityEngine.Random.InitState(seed);
         enemyAmount = 0;

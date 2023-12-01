@@ -41,6 +41,8 @@ public class EnemyClass : MonoBehaviourPunCallbacks
 
     [SerializeField] private float currentHealth;
 
+    [SerializeField] private GameObject[] buffList;
+
     private bool canBeStuned;
     public bool CanBeStuned
     {
@@ -73,8 +75,15 @@ public class EnemyClass : MonoBehaviourPunCallbacks
     public bool isGrounded;
     private int hexLevel;
 
+    private bool isDead;
+    public bool IsDead
+    {
+        get { return isDead; }
+    }
+
     private void Awake()
     {
+        isDead = false;
         currentHealth = health;
         damageMultiplyer = 0f;
 
@@ -130,7 +139,10 @@ public class EnemyClass : MonoBehaviourPunCallbacks
 
     IEnumerator DespawnEnemy(float deathTime)
     {
+        isDead = true;
         photonView.RPC("DeathAnim", RpcTarget.All);
+        //photonView.RPC("DropBuff", RpcTarget.All);
+        DropBuff();
         yield return new WaitForSeconds(deathTime);
         photonView.RPC("SyncDestroy", RpcTarget.All);
     }
@@ -148,6 +160,16 @@ public class EnemyClass : MonoBehaviourPunCallbacks
         enemyAnimator.GetComponent<NavMeshAgent>().isStopped = true;
         enemyAnimator.GetComponent<CapsuleCollider>().enabled = false;
         enemyAnimator.GetComponent<Animator>().SetTrigger("Death");
+    }
+
+    public void DropBuff()
+    {
+        //PhotonNetwork.Instantiate()
+        int chance = Random.Range(1, 11);
+        if(chance == 1)
+        {
+            Instantiate(buffList[Random.Range(0, 3)], transform.position, Quaternion.identity);
+        }
     }
 
     [PunRPC]

@@ -86,7 +86,7 @@ public class CardVolley : AbilityClass
                     }
                 }
             }
-            else
+            else if(!target.GetComponent<EnemyClass>().IsDead)
             {
                 float distance = Vector3.Distance(transform.position, target.position);
 
@@ -98,6 +98,10 @@ public class CardVolley : AbilityClass
                 {
                     target = null;
                 }
+            }
+            else
+            {
+                target = null;
             }
 
             currentDuration -= Time.deltaTime;
